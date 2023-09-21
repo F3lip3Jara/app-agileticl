@@ -1,0 +1,68 @@
+[
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I1",
+     "maqDes": "I1"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I2",
+     "maqDes": "I2"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I3",
+     "maqDes": "I3"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I4",
+     "maqDes": "I4"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I5",
+     "maqDes": "I5"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I6",
+     "maqDes": "I6"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I7",
+     "maqDes": "I7"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I8",
+     "maqDes": "I8"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I9",
+     "maqDes": "I9"
+    },
+    {
+     "empId": "1",
+     "idEta": "7",
+     "maqCod": "I10",
+     "maqDes": "I10"
+    },
+    {
+     "empId": "1",
+     "idEta": "3",
+     "maqCod": "M8",
+     "maqDes": "MEZCLADORA INYECCION M8"
+    }
+   ]

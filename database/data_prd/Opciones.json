@@ -1,0 +1,29 @@
+[
+  {"idOpt":"1","empId":"1","optDes":"Usuario.","optLink":"seguridad/usuarios","optSub":"N","created_at":"2023-06-04 16:01:27","updated_at":"2023-06-04 16:01:27"},
+  {"idOpt":"2","empId":"1","optDes":"Roles.","optLink":"seguridad/roles","optSub":"N","created_at":"2023-06-04 16:01:27","updated_at":"2023-06-04 16:01:27"},
+  {"idOpt":"3","empId":"1","optDes":"Modulos","optLink":"seguridad/modulos","optSub":"N","created_at":"2023-06-04 16:01:27","updated_at":"2023-06-04 16:01:27"},
+  {"idOpt":"4","empId":"1","optDes":"Roles-Modulos","optLink":"seguridad/roles_modulos","optSub":"N","created_at":"2023-06-04 16:01:27","updated_at":"2023-06-04 16:01:27"},
+  {"idOpt":"5","empId":"1","optDes":"Roles-Opciones","optLink":"seguridad","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"6","empId":"1","optDes":"Opciones","optLink":"seguridad/opciones","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"7","empId":"1","optDes":"Sub-Opciones","optLink":"seguridad/sub_opciones","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"8","empId":"1","optDes":"Etapas.","optLink":"seguridad/etapas","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"9","empId":"1","optDes":"Log de Sistema.","optLink":"seguridad/log","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"10","empId":"1","optDes":"Correlativo bins.","optLink":"parametros/correlativos","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"11","empId":"1","optDes":"Calendario Jul.","optLink":"parametros/cal_juliano","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"12","empId":"1","optDes":"Empresa.","optLink":"parametros/empresa","optSub":"N","created_at":"2023-06-04 16:01:28","updated_at":"2023-06-04 16:01:28"},
+  {"idOpt":"13","empId":"1","optDes":"Gerencia.","optLink":"parametros/gerencia","optSub":"N","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"14","empId":"1","optDes":"Geolocalización.","optLink":"seguridad/opciones","optSub":"S","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"15","empId":"1","optDes":"Moneda.","optLink":"parametros/moneda","optSub":"N","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"16","empId":"1","optDes":"Motivo.","optLink":"parametros/motivo","optSub":"N","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"17","empId":"1","optDes":"Proveedor","optLink":"parametros/proveedor","optSub":"N","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"18","empId":"1","optDes":"Material.","optLink":"parametros","optSub":"S","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"19","empId":"1","optDes":"Maquina.","optLink":"parametros/maquina","optSub":"N","created_at":"2023-06-04 16:01:29","updated_at":"2023-06-04 16:01:29"},
+  {"idOpt":"20","empId":"1","optDes":"Mezcla.","optLink":"produccion/mezcla","optSub":"N","created_at":"2023-06-04 16:01:30","updated_at":"2023-06-04 16:01:30"},
+  {"idOpt":"21","empId":"1","optDes":"Extrusión.","optLink":"produccion/extrusion","optSub":"N","created_at":"2023-06-04 16:01:30","updated_at":"2023-06-04 16:01:30"},
+  {"idOpt":"22","empId":"1","optDes":"O. Producción.","optLink":"produccion/ordenProduccion","optSub":"N","created_at":"2023-06-04 16:01:30","updated_at":"2023-06-04 16:01:30"},
+  {"idOpt":"23","empId":"1","optDes":"O. Trabajo.","optLink":"produccion/ordenTrabajo","optSub":"N","created_at":"2023-06-04 16:01:30","updated_at":"2023-06-04 16:01:30"},
+  {"idOpt":"24","empId":"1","optDes":"Tareas.","optLink":"","optSub":"S","created_at":"2023-06-04 16:01:30","updated_at":"2023-06-04 16:01:30"},
+  {"idOpt":"25","empId":"1","optDes":"Notificaciones.","optLink":"seguridad/notificaciones","optSub":"N","created_at":null,"updated_at":null}
+  ]
+ 
+  

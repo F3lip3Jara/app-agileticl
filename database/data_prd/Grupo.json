@@ -1,0 +1,130 @@
+[
+ {
+  "GrpCod": "AF",
+  "GrdDes": "ACTIVOS FIJOS"
+ },
+ {
+  "GrpCod": "AM",
+  "GrdDes": "ANÁLISIS DE MIGRACIÓN"
+ },
+ {
+  "GrpCod": "AS",
+  "GrdDes": "ARTÍCULOS DE SEGURIDAD"
+ },
+ {
+  "GrpCod": "EQ",
+  "GrdDes": "EQUIPO"
+ },
+ {
+  "GrpCod": "IN",
+  "GrdDes": "INSUMOS"
+ },
+ {
+  "GrpCod": "ME",
+  "GrdDes": "MATERIALES EMBALAJE"
+ },
+ {
+  "GrpCod": "MP",
+  "GrdDes": "MATERIA PRIMA"
+ },
+ {
+  "GrpCod": "PL",
+  "GrdDes": "MANTENCION PLANTA"
+ },
+ {
+  "GrpCod": "PLBLS",
+  "GrdDes": "PL BOLSAS"
+ },
+ {
+  "GrpCod": "PLLAMINAS",
+  "GrdDes": "PL LAMINAS"
+ },
+ {
+  "GrpCod": "PLMAN",
+  "GrdDes": "MANTENCION MAQUINARIA"
+ },
+ {
+  "GrpCod": "PLMP",
+  "GrdDes": "PL MATERIA PRIMA"
+ },
+ {
+  "GrpCod": "PLPIG",
+  "GrdDes": "PL PIGMENTOS Y ADITIVOS"
+ },
+ {
+  "GrpCod": "PLPP",
+  "GrdDes": "PL PRODUCTOS EN PROCESO"
+ },
+ {
+  "GrpCod": "PLREPPLAST",
+  "GrdDes": "PL REPUESTO PLASTIFRU"
+ },
+ {
+  "GrpCod": "PLROLLOS",
+  "GrdDes": "PL ROLLOS"
+ },
+ {
+  "GrpCod": "PLSCRAP AD",
+  "GrdDes": "PL SCRAP ALTA DENSIDAD"
+ },
+ {
+  "GrpCod": "PLSCRAP BD",
+  "GrdDes": "PL SCRAP BAJA DENSIDAD"
+ },
+ {
+  "GrpCod": "PLSCRAP DU",
+  "GrdDes": "PL SCRAP DUREZA"
+ },
+ {
+  "GrpCod": "PLSCRAP ME",
+  "GrdDes": "PL SCRAP MEZCLA"
+ },
+ {
+  "GrpCod": "PLSCRAP TR",
+  "GrdDes": "PL SCRAP TROQUEL"
+ },
+ {
+  "GrpCod": "PLSOLVE",
+  "GrdDes": "PL SOLVENTES"
+ },
+ {
+  "GrpCod": "PLTINTAS",
+  "GrdDes": "PL TINTAS"
+ },
+ {
+  "GrpCod": "PLTRASPA",
+  "GrdDes": "PL TRASPASO MIGUEL LORCA"
+ },
+ {
+  "GrpCod": "PP",
+  "GrdDes": "PRODUCTO EN PROCESO"
+ },
+ {
+  "GrpCod": "PT",
+  "GrdDes": "PRODUCTOS TERMINADOS"
+ },
+ {
+  "GrpCod": "SERV",
+  "GrdDes": "SERVICIO DE TRANSPORTE"
+ },
+ {
+  "GrpCod": "SERV2",
+  "GrdDes": "SERVICIO ASESORÍA"
+ },
+ {
+  "GrpCod": "ServAud",
+  "GrdDes": "SERVICIO AUDITORÍA"
+ },
+ {
+  "GrpCod": "SM",
+  "GrdDes": "SERVICIO MAQUILA"
+ },
+ {
+  "GrpCod": "VEN",
+  "GrdDes": "VENTILADOR"
+ },
+ {
+  "GrpCod": 999,
+  "GrdDes": "SIN GRUPO"
+ }
+]
