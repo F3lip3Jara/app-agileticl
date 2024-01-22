@@ -90,6 +90,8 @@ return [
     | commands, like migrations and queue commands, are always ignored.
     |
     */
+  
+    
 
     'only_paths' => [
         // 'api/*'

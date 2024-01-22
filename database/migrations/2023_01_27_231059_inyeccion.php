@@ -13,14 +13,14 @@ class Inyeccion extends Migration
      */
     public function up()
     {
-        Schema::create('inyeccion', function (Blueprint $table) {
-            $table->bigIncrements('idIny');
+        Schema::create('prod_inyeccion', function (Blueprint $table) {
+            $table->bigIncrements('inyId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idOrdt')->unsigned();
-            $table->foreign('idOrdt')->references('idOrdt')->on('ord_trabajo');
-            $table->bigInteger('idOrdtd')->unsigned();
-            $table->foreign('idOrdtd')->references('idOrdtd')->on('ord_trabajo_det');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('ordtId')->unsigned();
+            $table->foreign('ordtId')->references('ordtId')->on('prod_ord_trabajo');
+            $table->bigInteger('ordtdId')->unsigned();
+            $table->foreign('ordtdId')->references('ordtdId')->on('prod_ord_trabajo_det');
             $table->string('inyUso');          
             $table->string('inyEst');
             $table->string('inyEstCtl');
@@ -43,12 +43,12 @@ class Inyeccion extends Migration
             $table->timestamps();
         });
 
-        Schema::create('inyeccion_det', function (Blueprint $table) {
-            $table->bigIncrements('idInyd');
+        Schema::create('prod_inyeccion_det', function (Blueprint $table) {
+            $table->bigIncrements('inydId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idIny')->unsigned();
-            $table->foreign('idIny')->references('idIny')->on('inyeccion');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('inyId')->unsigned();
+            $table->foreign('inyId')->references('inyId')->on('prod_inyeccion');           
             $table->string('inydEst');
             $table->string('inydHorIni');
             $table->string('inydHorFin')->nullable();
@@ -75,12 +75,12 @@ class Inyeccion extends Migration
             $table->timestamps();
         });
 
-        Schema::create('inyeccion_det_peso', function (Blueprint $table) {
-            $table->bigIncrements('idInyp');
+        Schema::create('prod_inyeccion_det_peso', function (Blueprint $table) {
+            $table->bigIncrements('inypId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idIny')->unsigned();
-            $table->foreign('idIny')->references('idIny')->on('inyeccion');  
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('inyId')->unsigned();
+            $table->foreign('inyId')->references('inyId')->on('prod_inyeccion');  
             $table->string('inypUso');
             $table->string('inypRol');            
             $table->string('inyptip');  
@@ -88,24 +88,24 @@ class Inyeccion extends Migration
             $table->timestamps();
         });
 
-        Schema::create('inyeccion_arch', function (Blueprint $table) {
-            $table->bigIncrements('idInyarch');
+        Schema::create('prod_inyeccion_arch', function (Blueprint $table) {
+            $table->bigIncrements('inyarchId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idIny')->unsigned();
-            $table->foreign('idIny')->references('idIny')->on('inyeccion');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('inyId')->unsigned();
+            $table->foreign('inyId')->references('inyId')->on('prod_inyeccion');           
             $table->string('inyarlink');        
             $table->timestamps();
         });
 
-        Schema::create('inyeccion_pallet', function (Blueprint $table) {
-            $table->bigIncrements('idInypa');
+        Schema::create('prod_inyeccion_pallet', function (Blueprint $table) {
+            $table->bigIncrements('inypaId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idIny')->unsigned();
-            $table->foreign('idIny')->references('idIny')->on('inyeccion');
-            $table->bigInteger('idInyd')->unsigned();
-            $table->foreign('idInyd')->references('idInyd')->on('inyeccion_det');                 
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('inyId')->unsigned();
+            $table->foreign('inyId')->references('inyId')->on('prod_inyeccion');
+            $table->bigInteger('inydId')->unsigned();
+            $table->foreign('inydId')->references('inydId')->on('prod_inyeccion_det');                 
             $table->integer('inypaCor');        
             $table->timestamps();
         });

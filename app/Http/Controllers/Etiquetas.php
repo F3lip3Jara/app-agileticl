@@ -13,17 +13,7 @@ class Etiquetas extends Controller
 
 
     public function imprimir(){
-
-        
-
-
         try {
-         
-
-                
-
-
-
 
         } catch(Exception $e) {
             return "Couldn't print to this printer: " . $e -> getMessage() . "\n";

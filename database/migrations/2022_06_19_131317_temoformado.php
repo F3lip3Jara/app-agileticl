@@ -13,14 +13,14 @@ class Temoformado extends Migration
      */
     public function up()
     {
-        Schema::create('termoformado', function (Blueprint $table) {
-            $table->bigIncrements('idTer');
+        Schema::create('prod_termoformado', function (Blueprint $table) {
+            $table->bigIncrements('terId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idOrdt')->unsigned();
-            $table->foreign('idOrdt')->references('idOrdt')->on('ord_trabajo');
-            $table->bigInteger('idOrdtd')->unsigned();
-            $table->foreign('idOrdtd')->references('idOrdtd')->on('ord_trabajo_det');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('ordtId')->unsigned();
+            $table->foreign('ordtId')->references('ordtId')->on('prod_ord_trabajo');
+            $table->bigInteger('ordtdId')->unsigned();
+            $table->foreign('ordtdId')->references('ordtdId')->on('prod_ord_trabajo_det');
             $table->string('terUso');          
             $table->string('terEst');
             $table->string('terEstCtl');
@@ -40,12 +40,12 @@ class Temoformado extends Migration
             $table->timestamps();
         });
 
-        Schema::create('termoformado_det', function (Blueprint $table) {
-            $table->bigIncrements('idTerd');
+        Schema::create('prod_termoformado_det', function (Blueprint $table) {
+            $table->bigIncrements('terdId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idTer')->unsigned();
-            $table->foreign('idTer')->references('idTer')->on('termoformado');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('terId')->unsigned();
+            $table->foreign('terId')->references('terId')->on('prod_termoformado');           
             $table->string('terdEst');
             $table->string('terdHorIni');
             $table->string('terdHorFin')->nullable();
@@ -70,11 +70,11 @@ class Temoformado extends Migration
         });
 
         Schema::create('termoformado_det_peso', function (Blueprint $table) {
-            $table->bigIncrements('idTerp');
+            $table->bigIncrements('terpId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idTer')->unsigned();
-            $table->foreign('idTer')->references('idTer')->on('termoformado');  
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('terId')->unsigned();
+            $table->foreign('terId')->references('terId')->on('prod_termoformado');  
             $table->string('terpUso');
             $table->string('terpRol');            
             $table->string('terptip');  
@@ -82,24 +82,24 @@ class Temoformado extends Migration
             $table->timestamps();
         });
 
-        Schema::create('termoformado_arch', function (Blueprint $table) {
-            $table->bigIncrements('idTerarch');
+        Schema::create('prod_termoformado_arch', function (Blueprint $table) {
+            $table->bigIncrements('terarchId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idTer')->unsigned();
-            $table->foreign('idTer')->references('idTer')->on('termoformado');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('terId')->unsigned();
+            $table->foreign('terId')->references('terId')->on('prod_termoformado');           
             $table->string('terarlink');        
             $table->timestamps();
         });
 
         Schema::create('termoformado_pallet', function (Blueprint $table) {
-            $table->bigIncrements('idTerpa');
+            $table->bigIncrements('terpaId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idTer')->unsigned();
-            $table->foreign('idTer')->references('idTer')->on('termoformado');
-            $table->bigInteger('idTerd')->unsigned();
-            $table->foreign('idTerd')->references('idTerd')->on('termoformado_det');                 
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('terId')->unsigned();
+            $table->foreign('terId')->references('terId')->on('prod_termoformado');
+            $table->bigInteger('terdId')->unsigned();
+            $table->foreign('terdId')->references('terdId')->on('prod_termoformado_det');                 
             $table->integer('terpaCor');        
             $table->timestamps();
         });

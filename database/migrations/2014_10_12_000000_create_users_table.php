@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->char('reinicio')->nullable();
             $table->string('imgName')->nullable();
             $table->string('token')->nullable();
-            $table->bigInteger('idRol')->unsigned();
-            $table->bigInteger('useridRol')->unsigned()->nullable();
+            $table->bigInteger('rolId')->unsigned();       
+            $table->bigInteger('empId')->unsigned()->nullable();        
             $table->timestamps();
         });
     }

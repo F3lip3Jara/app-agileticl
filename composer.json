@@ -7,12 +7,15 @@
     "require": {
         "php": "^8.1",
         "beyondcode/laravel-websockets": "^1.14",
+        "freshwork/chilean-bundle": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.8",
-        "pusher/pusher-php-server": "^7.2"
+        "laravel/ui": "^4.3",
+        "pusher/pusher-php-server": "^7.2",
+        "transbank/transbank-sdk": "~2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

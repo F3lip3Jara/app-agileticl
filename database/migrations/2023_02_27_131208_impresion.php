@@ -13,14 +13,14 @@ class Impresion extends Migration
      */
     public function up()
     {
-        Schema::create('impresion', function (Blueprint $table) {
-            $table->bigIncrements('idImp');
+        Schema::create('prod_impresion', function (Blueprint $table) {
+            $table->bigIncrements('impId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idOrdt')->unsigned();
-            $table->foreign('idOrdt')->references('idOrdt')->on('ord_trabajo');
-            $table->bigInteger('idOrdtd')->unsigned();
-            $table->foreign('idOrdtd')->references('idOrdtd')->on('ord_trabajo_det');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('ordtId')->unsigned();
+            $table->foreign('ordtId')->references('ordtId')->on('prod_ord_trabajo');
+            $table->bigInteger('ordtdId')->unsigned();
+            $table->foreign('ordtdId')->references('ordtdId')->on('prod_ord_trabajo_det');
             $table->string('impUso');          
             $table->string('impEst');
             $table->string('impEstCtl');
@@ -40,12 +40,12 @@ class Impresion extends Migration
             $table->timestamps();
         });
 
-        Schema::create('impresion_det', function (Blueprint $table) {
-            $table->bigIncrements('idImpd');
+        Schema::create('prod_impresion_det', function (Blueprint $table) {
+            $table->bigIncrements('impdId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idImp')->unsigned();
-            $table->foreign('idImp')->references('idImp')->on('impresion');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('impId')->unsigned();
+            $table->foreign('impId')->references('impId')->on('prod_impresion');
             $table->string('impdHorIni');
             $table->string('impdHorFin')->nullable();
             $table->integer('impdPesoCaja')->nullable(); 
@@ -60,12 +60,12 @@ class Impresion extends Migration
         });
 
 
-        Schema::create('impresion_det_peso', function (Blueprint $table) {
-            $table->bigIncrements('idImpp');
+        Schema::create('prod_impresion_det_peso', function (Blueprint $table) {
+            $table->bigIncrements('imppId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idImp')->unsigned();
-            $table->foreign('idImp')->references('idImp')->on('impresion');  
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('impId')->unsigned();
+            $table->foreign('impId')->references('impId')->on('prod_impresion');  
             $table->string('imppUso');
             $table->string('imppRol');            
             $table->string('imppTip');  
@@ -73,12 +73,12 @@ class Impresion extends Migration
             $table->timestamps();
         });
 
-        Schema::create('impresion_tinta', function (Blueprint $table) {
-            $table->bigIncrements('idImpt');
+        Schema::create('prod_impresion_tinta', function (Blueprint $table) {
+            $table->bigIncrements('imptId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idImp')->unsigned();
-            $table->foreign('idImp')->references('idImp')->on('impresion');                       
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('impId')->unsigned();
+            $table->foreign('impId')->references('impId')->on('prod_impresion');                       
             $table->string('imptPrd')->nullable();
             $table->string('imptPrdLote');
             $table->timestamps();

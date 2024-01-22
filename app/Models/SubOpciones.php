@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Config;
 class SubOpciones extends Model
 {
     use HasFactory;
-    protected $table    ='roles_opt_sub';
+    protected $table    ='segu_subopciones';
     protected $fillable = [
-        'idOptSub',
-        'idOpt',
+        'optSubId',
+        'optId',
         'empId',
         'optSDes',
         'optSLink'

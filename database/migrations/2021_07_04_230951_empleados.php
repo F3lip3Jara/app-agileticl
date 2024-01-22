@@ -13,14 +13,24 @@ class Empleados extends Migration
      */
     public function up()
     {
-        Schema::create('empleados', function (Blueprint $table) {
-            $table->bigIncrements('idEmplo');
-            $table->bigInteger('id')->unsigned();
+        Schema::create('parm_gerencia', function (Blueprint $table) {
+            $table->bigIncrements('gerId');
+            $table->string('gerDes');
+            $table->bigInteger('empId')->unsigned();
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->timestamps();
+        });
+
+        Schema::create('parm_empleados', function (Blueprint $table) {
+            $table->bigIncrements('emploId');            
             $table->string('emploNom');
             $table->string('emploApe');
             $table->string('emploFecNac')->nullable();
             $table->longText('emploAvatar')->nullable();
-            $table->foreign('id')->references('id')->on('users');
+            $table->bigInteger('empId')->unsigned();
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('gerId')->unsigned()->nullable();            
+            $table->bigInteger('id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

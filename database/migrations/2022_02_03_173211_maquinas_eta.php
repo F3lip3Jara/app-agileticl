@@ -13,15 +13,16 @@ class MaquinasEta extends Migration
      */
     public function up()
     {
-        Schema::create('maquinas', function (Blueprint $table) {
-            $table->bigIncrements('idMaq');
+        Schema::create('parm_maquinas', function (Blueprint $table) {
+            $table->bigIncrements('maqId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idEta')->unsigned();
-            $table->foreign('idEta')->references('idEta')->on('etapasUser');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('etaId')->unsigned();
+            $table->foreign('etaId')->references('etaId')->on('parm_etapa');
             $table->string('maqCod');
             $table->string('maqTip')->nullable();// Esto no va
             $table->string('maqDes');
+            $table->unique(['empId','maqId']);
             $table->timestamps();
         });
     }

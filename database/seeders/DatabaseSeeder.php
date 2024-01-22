@@ -2,31 +2,34 @@
 
 namespace Database\Seeders;
 
+use App\Models\Seguridad\Acciones;
 use Faker\Factory as Faker;
-use App\Models\BinCol;
-use App\Models\Ciudad;
-use App\Models\Color;
-use App\Models\Comuna;
-use App\Models\Roles;
+use App\Models\Parametros\BinCol;
+use App\Models\Parametros\Ciudad;
+use App\Models\Parametros\Color;
+use App\Models\Parametros\Comuna;
+use App\Models\Seguridad\Roles;
 use App\Models\User;
-use App\Models\Empresa;
-use App\Models\Etapa;
-use App\Models\EtapaDes;
-use App\Models\Grupo;
-use App\Models\Maquinas;
-use App\Models\Module;
-use App\Models\ModuleOpt;
-use App\Models\Moneda;
-use App\Models\MovRechazo;
-use App\Models\Opciones;
-use App\Models\Pais;
-use App\Models\Producto;
-use App\Models\Proveedor;
-use App\Models\Region;
-use App\Models\RolesModule;
-use App\Models\SubGrupo;
+use App\Models\Seguridad\Empresa;
+use App\Models\Seguridad\EmpresaOpciones;
+use App\Models\Parametros\Etapa;
+
+use App\Models\Parametros\Grupo;
+use App\Models\Parametros\Maquinas;
+use App\Models\Seguridad\Module;
+use App\Models\Seguridad\ModuleOpt;
+use App\Models\Seguridad\ModuleRol;
+use App\Models\Parametros\Moneda;
+use App\Models\Parametros\MovRechazo;
+use App\Models\Seguridad\Opciones;
+use App\Models\Parametros\Pais;
+use App\Models\Parametros\Producto;
+use App\Models\Parametros\Proveedor;
+use App\Models\Parametros\Region;
+use App\Models\Seguridad\RolesModule;
+use App\Models\Parametros\SubGrupo;
 use App\Models\SubOpciones;
-use App\Models\UnidadMed;
+use App\Models\Parametros\UnidadMed;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -41,143 +44,94 @@ class DatabaseSeeder extends Seeder
     {
         Empresa::create([
             'empId'  => 1,
-            'empDes'  =>'MARPLE PLASTIC SOLUTION GROUP S.A.',
-            'empDir'  =>'Santa Marta N°1051 Maipú - Santiago',
+            'empDes'  =>'Agileticl EIRL',
+            'empDir'  =>'Av Altamirano 1419',
             'empRut'  =>'76.350.147-7',
-            'empGiro' =>'Fabricación y Comercialización de Artículos de Plástico',
-            'empFono' => '(02) 25308702'
+            'empGiro' =>'Desarrollo software',
+            'empFono' => '+569997551015'
           ]);
 
 
         $faker = Faker::create();
         
-        Etapa::create(['etaDes' => 'SEGURIDAD' ,
-                'etaProd'=> 'N']);
-
-        Etapa::create(['etaDes' => 'PARAMETROS' ,
-                'etaProd'=> 'N']);
-
-        Etapa::create(['etaDes' => 'MEZCLA' ,
-                'etaProd'=> 'S']);
-
-        Etapa::create(['etaDes' => 'EXTRUSIÓN' ,
-                'etaProd'=> 'S']);
-
-        Etapa::create(['etaDes' => 'TERMOFORMADO' ,
-                'etaProd'=> 'S']);
-    
-        Etapa::create(['etaDes' => 'ENVASADO' ,
-                'etaProd'=> 'S']);
-
-        Etapa::create(['etaDes' => 'INYECCIÓN' ,
-                'etaProd'=> 'S']);
-
-        Etapa::create(['etaDes' => 'IMPRESIÓN' ,
-                'etaProd'=> 'S']);
-                
-        Roles::create([
-            'idRol' => 3,
-            'rolDes' =>'JEFE PRODUCCIÓN'
-        ]);
-
-        Roles::create([
-            'idRol' => 4,
-            'rolDes' =>'CALIDAD'
-        ]);
-        
-        Roles::create([
-            'idRol' => 5,
-            'rolDes' =>'OPERADOR'
-        ]);
-        
-    
-        //ETAPAS_DES
-            $json = file_get_contents("database/data_prd/Etapas.json");
-            $data = json_decode($json);
-            foreach ($data as $obj) {
-                EtapaDes::create(array(
-                    'idEta'     => $obj->idEta,
-                    'etaDesDes' => $obj->etaDesDes,
-                    'etaDesDel' => $obj->etaDesDel                
-                ));
-            }
-    
        
+        Etapa::create([
+                'empId'  =>1,
+                'etaDes' => 'MEZCLA' ,
+                'etaProd'=> 'S']);
+
+        Etapa::create([
+                'empId'  =>1,
+                'etaDes' => 'EXTRUSIÓN' ,
+                'etaProd'=> 'S']);
+
+        Etapa::create([
+                'empId'  =>1,
+                'etaDes' => 'TERMOFORMADO' ,
+                'etaProd'=> 'S']);
+    
+        Etapa::create([
+                'empId'  =>1,
+                'etaDes' => 'ENVASADO' ,
+                'etaProd'=> 'S']);
+
+        Etapa::create([
+                'empId'  =>1,
+                'etaDes' => 'INYECCIÓN' ,
+                'etaProd'=> 'S']);
+
+        Etapa::create([
+                'empId'  =>1,
+                'etaDes' => 'IMPRESIÓN' ,
+                'etaProd'=> 'S']);
+
+
         Roles::create([
-          'idRol' => 1,
-          'rolDes' =>'SUPER'
-        ]);
-        
-        Roles::create([
-            'idRol' => 2,
-            'rolDes' =>'ADMINISTRADOR'
+          'rolId' => 1,
+          'rolDes' =>'SUPER',
+          'empId'  => 1
         ]);
         
        
         User::create([
-            'name'       => 'SUPER',
-            'email'      => 'adm@contacto.cl',
-            'idRol'     => 1,
+            'name'      => 'SUPER',
+            'email'     => 'adm@contacto.cl',
+            'rolId'     => 1,
             'activado'  => 'A',
             'imgName'   => '',
             'token'     => '',
-            'password'  => bcrypt('admin')
+            'password'  => bcrypt('admin'),
+            'empId'     => 1
          ]);
-         User::create([
-            'name'       => 'ADMINISTRADOR',
-            'email'      => 'adm@contacto.cl',
-            'idRol'     => 2,
-            'activado'  => 'A',
-            'imgName'   => '',
-            'token'     => '',
-            'password'  => bcrypt('admin')
-        ]);
 
        
         Moneda::create([
             'monCod' => 'CLP',
             'monDes' => 'PESO CHILENO',
-            'empId'  =>1
+            'empId'  => 1
+        ]);
+
+     
+
+        Moneda::create([
+            'monCod'     => 'US',
+            'monDes'     => 'DOLAR',
+            'empId'      => 1,
+            'monIntVal'  => 'dolar',
+            'monIntArray'=> 'Dolares',
+            'monInt'     => 'S',
         ]);
 
         Moneda::create([
-            'monCod' => '\S',
-            'monDes' => 'SOLES PERUANO',
-            'empId'  =>1
+            'monCod'     => 'UF',
+            'monDes'     => 'UF',
+            'empId'      => 1,
+            'monIntVal'  => 'uf',
+            'monIntArray'=> 'UFs',
+            'monInt'     => 'S',
         ]);
 
        
-        BinCol::create([
-            'empId'   => 1,
-            'colbnum' => 400,
-            'idEta'   =>3,
-            'colbtip' =>'B'
-        ]);
-        
-        BinCol::create([
-            'empId'   => 1,
-            'colbnum' => 600,
-            'idEta'   =>5,
-            'colbtip' =>'B'
-        ]);
-        BinCol::create([
-            'empId'   => 1,
-            'colbnum' => 700,
-            'idEta'   =>5,
-            'colbtip' =>'P'
-        ]);
-
-        UnidadMed::create([
-            'empId' => 1,
-            'unDes' =>'KILOS',
-            'unCod' =>'KG'
-        ]);
-        
-        UnidadMed::create([
-            'empId' => 1,
-            'unDes' =>'GRAMOS',
-            'unCod' =>'GR'
-        ]);
 
         UnidadMed::create([
             'empId' => 1,
@@ -185,91 +139,111 @@ class DatabaseSeeder extends Seeder
             'unCod' =>'UN'
         ]);
 
-          //Menu Administrador
-          Module::create([
-            'empId' => 1,
-            'molDes' => 'Seguridad',
-            'molIcon'=>'cil-shield-alt'
-        ]);
-
-      
-  
-        Module::create([
-          'empId' =>1,
-          'empId' => 1,
-          'molDes' => 'Parámetros',
-          'molIcon'=>'cil-cog'
-      ]);
-  
-      Module::create([
-        'empId' =>1,
-        'empId' => 1,
-        'molDes' => 'Producción',
-        'molIcon'=>'cil-factory'
-      ]);
-      
-       RolesModule::create([
-        'empId'=>1,
-        'idRol'=>1,
-        'idMol'=>1
-        ]); 
-          
-        RolesModule::create([      
-            'empId'=>1,
-            'idRol'=>1,
-            'idMol'=>2
-        ]);  
-
-        RolesModule::create([      
-            'empId'=>1,
-            'idRol'=>1,
-            'idMol'=>3
-        ]); 
-
-        RolesModule::create([          
-                'empId'=>1,
-                'idRol'=>2,
-                'idMol'=>1
-        ]); 
-
-        RolesModule::create([          
-            'empId'=>1,
-            'idRol'=>2,
-            'idMol'=>2
-        ]);
-
-        RolesModule::create([          
-            'empId'=>1,
-            'idRol'=>2,
-            'idMol'=>3
-        ]); 
-
          //OPCIONES
          $json = file_get_contents("database/data_prd/Opciones.json");
          $data = json_decode($json);
          foreach ($data as $obj) {
-             Opciones::create(array(
-                 'empId'    => $obj->empId,
+             Opciones::create(array(                 
                  'optDes'   => $obj->optDes,
-                 'optSub'   => $obj->optSub, 
                  'optLink'  => $obj->optLink              
              ));
          }
+
+         //Acciones 
+         $json = file_get_contents("database/data_prd/Acciones.json");
+         $data = json_decode($json);
+         foreach ($data as $obj) {
+             Acciones::create(array(                 
+                 'accDes'     => $obj->accDes,
+                 'accUrl'     => $obj->accUrl,
+                 'accetaDes'  => $obj->accetaDes,
+                 'acceVig'    => $obj->acceVig,  
+                 'optId'      => $obj->optId,
+                 'accType'    => $obj->accType,
+                 'accMessage' => $obj->accMessage            
+             ));
+         }
+
     
         //Sub Opciones
-        $json = file_get_contents("database/data_prd/Sub_Opt.json");
+       /* $json = file_get_contents("database/data_prd/Sub_Opt.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
             SubOpciones::create(array(
-                'empId'     => $obj->empId,
-                'idOpt'     => $obj->idOpt,
+                'optId'     => $obj->idOpt,
                 'optSDes'   => $obj->optSDes, 
                 'optSLink'  => $obj->optSLink              
             ));
         }
+*/
+        
+        Module:: create([
+            'empId'  => 1,
+            'molDes' => 'Seguridad',
+            'molIcon'=> 'cilShieldAlt'
+
+        ]);
+
+        ModuleOpt:: create([
+            'molId' => 1,
+            'empId' => 1,            
+            'optId' => 2
+        ]);
+
+        ModuleOpt:: create([
+            'molId' => 1,
+            'empId' => 1,            
+            'optId' => 3
+        ]);
+
+        ModuleOpt:: create([
+            'molId' => 1,
+            'empId' => 1,            
+            'optId' => 4
+        ]);
+
+        ModuleOpt:: create([
+            'molId' => 1,
+            'empId' => 1,            
+            'optId' => 5
+        ]);
+
+        ModuleOpt::create([
+            'molId' => 1,
+            'empId' => 1,            
+            'optId' => 6
+        ]);
+
+      
+
+        EmpresaOpciones::create([
+            'empId' =>1,
+            'optId' =>2
+        ]);
+        EmpresaOpciones::create([
+            'empId' =>1,
+            'optId' =>3
+        ]);
+        EmpresaOpciones::create([
+            'empId' =>1,
+            'optId' =>4
+        ]);
+        EmpresaOpciones::create([
+            'empId' =>1,
+            'optId' =>5
+        ]);
+        EmpresaOpciones::create([
+            'empId' =>1,
+            'optId' =>6
+        ]);
+        ModuleRol::create([
+            'empId' => 1,
+            'molId' => 1,
+            'rolId' => 1
+        ]);
 
 
-        $json = file_get_contents("database/data_prd/Menu.json");
+  /*      $json = file_get_contents("database/data_prd/Menu.json");
         $data = json_decode($json);
     
         foreach ($data as $request) {
@@ -279,9 +253,9 @@ class DatabaseSeeder extends Seeder
                 'idMol'=>$request->idMol,
                 'idOpt'=>$request->idOpt
             ]); 
-        } 
+        }*/ 
 
-        $json = file_get_contents("database/data_prd/Maquina.json");
+    /*    $json = file_get_contents("database/data_prd/Maquina.json");
         $data = json_decode($json);
 
         foreach($data as $request){
@@ -299,10 +273,10 @@ class DatabaseSeeder extends Seeder
             MovRechazo::create([
                 'motDes' => $request->motDes,
                 'empId'  =>1,
-                'idEta'  => $request->idEta
+                'etaID'  => $request->idEta
             ]);
         }
-
+*/
       
 
       
@@ -334,14 +308,14 @@ class DatabaseSeeder extends Seeder
      $data = json_decode($json);
  
      foreach ($data as $obj) {
-         $idPai = Pais::select('idPai')->where('paiCod' , $obj->PaiCod)->get();
+         $idPai = Pais::select('paiId')->where('paiCod' , $obj->PaiCod)->get();
          $xidPai = 0;
          foreach($idPai as $item){
-                 $xidPai = $item->idPai;
+                 $xidPai = $item->paiId;
          }
          Region::create(array(
              'empId'  => 1,
-             'idPai'  => $xidPai, 
+             'paiId'  => $xidPai, 
              'regCod' => $obj->RegCod,
              'regDes' => $obj->RegDes
          ));
@@ -351,22 +325,23 @@ class DatabaseSeeder extends Seeder
        $data = json_decode($json);
    
        foreach ($data as $obj) {
-           $idPai = Region::select('pais.idPai', 'region.idReg')
-           ->join('pais', 'pais.idPai' , '=' , 'region.idPai')
+           $idPai = Region::select('parm_pais.paiId', 'parm_region.regId')
+           ->join('parm_pais', 'parm_pais.paiId' , '=' , 'parm_region.paiId')
            ->where('paiCod' , $obj->PaiCod )
            ->where('regCod' , $obj->RegCod )
            ->get();
 
            $xidPai = 0;
            $idReg = 0;
+
            foreach($idPai as $item){
-                   $xidPai = $item->idPai;
-                   $idReg  = $item->idReg;
+                   $xidPai = $item->paiId;
+                   $idReg  = $item->regId;
            }
            Ciudad::create(array(
                'empId'  => 1,
-               'idPai'  => $xidPai, 
-               'idReg'  => $idReg,
+               'paiId'  => $xidPai, 
+               'regId'  => $idReg,
                'ciuCod' => $obj->CiuCod,
                'ciuDes' => $obj->CiuDes
            ));
@@ -376,9 +351,9 @@ class DatabaseSeeder extends Seeder
          $data = json_decode($json);
      
          foreach ($data as $obj) {
-             $idPai = Ciudad::select('pais.idPai', 'region.idReg', 'ciudad.idCiu')
-             ->join('pais', 'pais.idPai' , '=' , 'ciudad.idPai')
-             ->join('region', 'region.idReg' , '=' , 'ciudad.idReg')           
+             $idPai = Ciudad::select('parm_pais.paiId', 'parm_region.regId', 'parm_ciudad.ciuId')
+             ->join('parm_pais', 'parm_pais.paiId' , '=' , 'parm_ciudad.paiId')
+             ->join('parm_region', 'parm_region.regId' , '=' , 'parm_ciudad.regId')           
              ->where('paiCod' , $obj->PaiCod )
              ->where('regCod' , $obj->RegCod )
              ->where('ciuCod' , $obj->CiuCod )
@@ -388,15 +363,15 @@ class DatabaseSeeder extends Seeder
              $idReg = 0;
              $idCiu = 0;
              foreach($idPai as $item){
-                     $xidPai = $item->idPai;
-                     $idReg  = $item->idReg;
-                     $idCiu  = $item->idCiu;
+                     $xidPai = $item->paiId;
+                     $idReg  = $item->regId;
+                     $idCiu  = $item->ciuId;
              }
              Comuna::create(array(
                  'empId'  => 1,
-                 'idPai'  => $xidPai, 
-                 'idReg'  => $idReg,
-                 'idCiu'  => $idCiu,
+                 'paiId'  => $xidPai, 
+                 'regId'  => $idReg,
+                 'ciuId'  => $idCiu,
                  'comCod' => $obj->ComCod,
                  'comDes' => $obj->ComDes
              ));
@@ -410,15 +385,15 @@ class DatabaseSeeder extends Seeder
       
           $comCod = strval($request->ComCod);
           $comCod = trim($comCod);
-          $datos = Comuna::select('idPai', 'idReg', 'idCiu', 'idCom')
+          $datos = Comuna::select('paiId', 'regId', 'ciuId', 'comId')
           ->where('comCod', $comCod )->get();
   
             
           foreach($datos as $item){
-              $idPai = $item->idPai;
-              $idReg = $item->idReg;           
-              $idCiu = $item->idCiu;
-              $idCom = $item->idCom;  
+              $idPai = $item->paiId;
+              $idReg = $item->regId;           
+              $idCiu = $item->ciuId;
+              $idCom = $item->comId;  
           }
           Proveedor::create([
               'empId'    => 1,
@@ -432,10 +407,10 @@ class DatabaseSeeder extends Seeder
               'prvMail'  => $request->PrvMail,
               'prvCli'   => $request->prvCli,
               'prvPrv'   => $request->prvPrv,
-              'idPai'    => $idPai,
-              'idReg'    => $idReg,
-              'idCom'    => $idCom,
-              'idCiu'    => $idCiu,
+              'paiId'    => $idPai,
+              'regId'    => $idReg,
+              'comId'    => $idCom,
+              'ciuId'    => $idCiu,
               'prvAct'   => 'S'
            ]);         
           }
@@ -459,14 +434,14 @@ class DatabaseSeeder extends Seeder
         foreach ($data as $request) {
             $xgrpCod = $request->GrpCod;
 
-            $datos = Grupo::select('idGrp')->where('grpCod', $xgrpCod )->get();   
+            $datos = Grupo::select('grpId')->where('grpCod', $xgrpCod )->get();   
             
             foreach($datos as $item){
-                $idGrp = $item->idGrp;
+                $idGrp = $item->grpId;
             }
 
             SubGrupo::create([
-                'idGrp'   => $idGrp,
+                'grpId'   => $idGrp,
                 'empId'   => 1,
                 'grpsCod' => $request->GrpScod,
                 'grpsDes' => $request->GrpSDes
@@ -493,32 +468,32 @@ class DatabaseSeeder extends Seeder
             $idCol    = 0;
             $idUn     = 0;
             
-            $moneda   = Moneda::select('idMon')->where('monCod', $request->monCod)->get();
+            $moneda   = Moneda::select('monId')->where('monCod', $request->monCod)->get();
             
             foreach($moneda as $itemx){
-                $idMon = $itemx->idMon;
+                $idMon = $itemx->monId;
             }
 
-            $grupos = SubGrupo::select('idGrp' , 'idSubGrp')->where('grpScod',$request->grpScod)->get();
+            $grupos = SubGrupo::select('grpId' , 'grpsId')->where('grpScod',$request->grpScod)->get();
           
             foreach($grupos as $item){
-                $idGrp    = $item->idGrp;
-                $idSubGrp = $item->idSubGrp;
+                $idGrp    = $item->grpId;
+                $idSubGrp = $item->grpsId;
             }
 
             $xcolcod = '';
             $xcolcod = strval($request->colCod);      
             
-            $colores = Color::select('idCol')->where('colCod',$xcolcod)->get();
+            $colores = Color::select('colId')->where('colCod',$xcolcod)->get();
             
             foreach($colores as $color){
-                $idCol = $color->idCol;        
+                $idCol = $color->colId;        
             }      
      
-            $unidad = UnidadMed::select('idUn')->where('unCod',$request->unCod)->get();
+            $unidad = UnidadMed::select('unId')->where('unCod',$request->unCod)->get();
 
             foreach($unidad as $item){
-                $idUn = $item->idUn;
+                $idUn = $item->unId;
             }
 
 

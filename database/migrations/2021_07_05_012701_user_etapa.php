@@ -13,12 +13,15 @@ class UserEtapa extends Migration
      */
     public function up()
     {
-        Schema::create('etapasUser', function (Blueprint $table) {
-            $table->bigIncrements('idEta');
+        Schema::create('parm_etapa', function (Blueprint $table) {
+            $table->bigIncrements('etaId');
             $table->string('etaDes');
-            $table->char('etaProd')->nullable();
+            $table->char('etaProd' , 1)->nullable();
+            $table->bigInteger('empId')->unsigned();
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->timestamps();
         });
+       
     }
 
     /**

@@ -13,14 +13,29 @@ class Moneda extends Migration
      */
     public function up()
     {
-        Schema::create('moneda', function (Blueprint $table) {
-            $table->bigIncrements('idMon');
+        Schema::create('parm_moneda', function (Blueprint $table) {
+            $table->bigIncrements('monId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');          
             $table->string('monCod');
             $table->string('monDes');
+            $table->string('monInt')->nullable();
+            $table->string('monIntVal')->nullable();
+            $table->string('monIntArray')->nullable();
+            $table->unique(['empId', 'monId']);
             $table->timestamps();
         });
+
+        Schema::create('parm_moneda_conversion', function (Blueprint $table) {
+            $table->bigIncrements('moncId');
+            $table->bigInteger('monId')->unsigned();
+            $table->foreign('monId')->references('monId')->on('parm_moneda');
+            $table->date('moncFecha')->nullable();
+            $table->double('moncValor')->nullable();
+            $table->timestamps();
+        });
+
+
     }
 
     /**

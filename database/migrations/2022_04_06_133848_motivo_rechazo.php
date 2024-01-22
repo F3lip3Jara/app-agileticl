@@ -13,12 +13,12 @@ class MotivoRechazo extends Migration
      */
     public function up()
     {
-        Schema::create('mot_rechazo', function (Blueprint $table) {
-            $table->bigIncrements('idMot');
+        Schema::create('parm_mot_rechazo', function (Blueprint $table) {
+            $table->bigIncrements('motId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idEta')->unsigned();
-            $table->foreign('idEta')->references('idEta')->on('etapasUser');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('etaId')->unsigned();
+            $table->foreign('etaId')->references('etaId')->on('parm_etapa');
             $table->string('motDes');
             $table->timestamps();
             

@@ -13,49 +13,72 @@ class OrdenVenta extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_pago', function (Blueprint $table) {
-            $table->bigIncrements('idTipPag');
+       Schema::create('parm_tipo_pago', function (Blueprint $table) {
+            $table->bigIncrements('tipPagId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');        
+            $table->foreign('empId')->references('empId')->on('parm_empresa');        
             $table->string('tipCod');
             $table->string('tipDes');
             $table->timestamps();
         });
 
-        Schema::create('ord_venta', function (Blueprint $table) {
-            $table->bigIncrements('idOrv');
+        Schema::create('vent_orden', function (Blueprint $table) {
+            $table->bigIncrements('orvId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idPrv')->unsigned();
-            $table->foreign('idPrv')->references('idPrv')->on('proveedor');
-            $table->string('orvNumRea');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('prvId')->unsigned();
+            $table->foreign('prvId')->references('prvId')->on('parm_proveedor');
+            $table->string('orvNumRea')->nullable();
             $table->string('orvFech')->nullable();
-            $table->string('orvUsrG');
+            $table->string('orvUsrG')->nullable();
             $table->string('orvObs')->nullable();
-            $table->integer('orvEst');
-            $table->integer('orvEstTrans');
-            $table->string('orvNumTrj');
-            $table->bigInteger('idTipPag')->unsigned();
-            $table->foreign('idTipPag')->references('idTipPag')->on('tipo_pago');  
-            $table->bigInteger('idMon')->unsigned();
-            $table->foreign('idMon')->references('idMon')->on('moneda');      
+            $table->string('orvEst')->nullable();
+            $table->string('orvEstTrans')->nullable();
+            $table->string('orvNumTrj')->nullable();  
+            $table->integer('orvCuota');        
+            $table->integer('orvPrecioTot');  
+            $table->integer('orvPrecioIva');   
+            $table->integer('orvPrecioPag');                 
+            $table->bigInteger('tipPagId')->unsigned();
+            $table->foreign('tipPagId')->references('tipPagId')->on('parm_tipo_pago');             
             $table->timestamps();
         });
 
-        Schema::create('ord_venta_det', function (Blueprint $table) {
-            $table->bigIncrements('idOrvd');
-            $table->bigInteger('idOrv')->unsigned();
-            $table->foreign('idOrv')->references('idOrv')->on('ord_venta');
+        Schema::create('vent_orden_det', function (Blueprint $table) {
+            $table->bigIncrements('orvdId');
+            $table->bigInteger('orvId')->unsigned();
+            $table->foreign('orvId')->references('orvId')->on('vent_orden');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('monId')->unsigned();
+            $table->foreign('monId')->references('monId')->on('parm_moneda'); 
             $table->string('orpvPrdCod');
             $table->string('orpvPrdDes');
+            $table->double('orpvPrdCost');
+            $table->double('orpvPrdNet');
             $table->integer('orpvCant');
-            $table->integer('orpvPrecio');
-            $table->string('orpdObs')->nullable();
+            $table->double('orpvPrecio');
+            $table->double('orpvDesc')->nullable();
+            $table->string('orpvObs')->nullable();          
             $table->timestamps();
         });
 
+        Schema::create('ord_venta_pag', function (Blueprint $table) {
+            $table->bigIncrements('orvCuota');
+            $table->bigInteger('orvId')->unsigned();
+            $table->foreign('orvId')->references('orvId')->on('vent_orden');
+            $table->bigInteger('empId')->unsigned();
+            $table->foreign('empId')->references('empId')->on('parm_empresa');     
+            $table->double('orvcCost');
+            $table->double('orvcNet');    
+            $table->double('orvcPrecio');
+            $table->double('orvcPag');
+            $table->double('orvcDesc')->nullable();
+            $table->string('orvcObs')->nullable();
+            $table->longText('orpvtoken')->nullable();
+            $table->string('orvcNumRea')->nullable();
+            $table->timestamps();
+        });
        
     }
 

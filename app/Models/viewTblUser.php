@@ -14,6 +14,8 @@ class viewTblUser extends Model
 
     protected $fillable = [
         'id',
+        'empId',
+        'rolId',
         'name',
         'email',
         'rolDes',
@@ -23,8 +25,8 @@ class viewTblUser extends Model
         'gerDes',
         'activado',
         'reinicio',
-        'created_at'
-
+        'created_at',
+        'gerId'
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))

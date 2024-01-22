@@ -14,9 +14,9 @@ class Sd extends Migration
     public function up()
     {
         Schema::create('sd_centro', function (Blueprint $table) {
-            $table->bigIncrements('idCentro');
+            $table->bigIncrements('centroId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->string('cenDes');
             $table->string('cenDir');
             $table->integer('cenCap');
@@ -24,11 +24,11 @@ class Sd extends Migration
         });
 
         Schema::create('sd_centro_alm', function (Blueprint $table) {
-            $table->bigIncrements('idAlm');
+            $table->bigIncrements('almId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idCentro')->unsigned();
-            $table->foreign('idCentro')->references('idCentro')->on('sd_centro');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('centroId')->unsigned();
+            $table->foreign('centroId')->references('centroId')->on('sd_centro');
             $table->string('almDes');
             $table->char('almTip');
             $table->integer('almCap');
@@ -38,13 +38,13 @@ class Sd extends Migration
 
 
         Schema::create('sd_sector', function (Blueprint $table) {
-            $table->bigIncrements('idSector');
+            $table->bigIncrements('sectorId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa'); 
-            $table->bigInteger('idCentro')->unsigned();
-            $table->foreign('idCentro')->references('idCentro')->on('sd_centro');  
-            $table->bigInteger('idAlm')->unsigned();
-            $table->foreign('idAlm')->references('idAlm')->on('sd_centro_alm');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa'); 
+            $table->bigInteger('centroId')->unsigned();
+            $table->foreign('centroId')->references('centroId')->on('sd_centro');  
+            $table->bigInteger('almId')->unsigned();
+            $table->foreign('almId')->references('almId')->on('sd_centro_alm');           
             $table->string('secDes');
             $table->string('secCod');
             $table->timestamps();
@@ -66,7 +66,7 @@ class Sd extends Migration
 
 
          //PALLET
-         Schema::create('undida_almacenaje', function (Blueprint $table) {
+     /*    Schema::create('sd_undida_almacenaje', function (Blueprint $table) {
             $table->bigIncrements('idUnAlm');
             $table->bigInteger('empId')->unsigned();
             $table->foreign('empId')->references('empId')->on('empresa');
@@ -100,7 +100,7 @@ class Sd extends Migration
             $table->foreign('idPrd')->references('idPrd')->on('producto');           
             $table->integer('bulPrCant')->nullable();
             $table->timestamps();
-        });
+        });*/
 
     }
 

@@ -13,12 +13,12 @@ class Envasado extends Migration
      */
     public function up()
     {
-        Schema::create('envasado', function (Blueprint $table) {
-            $table->bigIncrements('idEnv');
+        Schema::create('prod_envasado', function (Blueprint $table) {
+            $table->bigIncrements('envId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idTer')->unsigned();
-            $table->foreign('idTer')->references('idTer')->on('termoformado');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('terId')->unsigned();
+            $table->foreign('terId')->references('terId')->on('prod_termoformado');
             $table->integer('envTurn'); 
             $table->string('envLotSal');
             $table->string('envPrdCaja')->nullable();
@@ -32,12 +32,12 @@ class Envasado extends Migration
             $table->timestamps();
         });
 
-        Schema::create('envasado_det', function (Blueprint $table) {
-            $table->bigIncrements('idEnvd');
+        Schema::create('prod_envasado_det', function (Blueprint $table) {
+            $table->bigIncrements('envdId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idEnv')->unsigned();
-            $table->foreign('idEnv')->references('idEnv')->on('envasado');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('envId')->unsigned();
+            $table->foreign('envId')->references('envId')->on('prod_envasado');
             $table->string('envdHorIni');
             $table->string('envdHorFin')->nullable();
             $table->integer('envdCaja')->nullable(); 
@@ -45,12 +45,12 @@ class Envasado extends Migration
             $table->timestamps();
         });
 
-        Schema::create('envasado_arch', function (Blueprint $table) {
-            $table->bigIncrements('idEnvarch');
+        Schema::create('prod_envasado_arch', function (Blueprint $table) {
+            $table->bigIncrements('envarId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idEnv')->unsigned();
-            $table->foreign('idEnv')->references('idEnv')->on('envasado');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('envId')->unsigned();
+            $table->foreign('envId')->references('envId')->on('prod_envasado');           
             $table->string('envLink');        
             $table->timestamps();
         });

@@ -13,25 +13,25 @@ class BinCorrelativo extends Migration
      */
     public function up()
     {
-        Schema::create('bins_col', function (Blueprint $table) {
-            $table->bigIncrements('idColb');
+        Schema::create('parm_bins_col', function (Blueprint $table) {
+            $table->bigIncrements('colbId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idEta')->unsigned();
-            $table->foreign('idEta')->references('idEta')->on('etapasUser');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('etaId')->unsigned();
+            $table->foreign('etaId')->references('etaId')->on('parm_etapa');
             $table->bigInteger('colbnum')->unsigned();
             $table->char('colbtip')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('bins_col_his', function (Blueprint $table) {
-            $table->bigIncrements('idColb_h');
-            $table->bigInteger('idColb')->unsigned();
-            $table->foreign('idColb')->references('idColb')->on('bins_col');
+        Schema::create('parm_bins_col_his', function (Blueprint $table) {
+            $table->bigIncrements('colbdId');
+            $table->bigInteger('colbId')->unsigned();
+            $table->foreign('colbId')->references('colbId')->on('parm_bins_col');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idEta')->unsigned();
-            $table->foreign('idEta')->references('idEta')->on('etapasUser');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('etaId')->unsigned();
+            $table->foreign('etaId')->references('etaId')->on('parm_etapa');
             $table->bigInteger('colbnum_h')->unsigned();
             $table->char('colbtip_h')->nullable();
             $table->timestamps();

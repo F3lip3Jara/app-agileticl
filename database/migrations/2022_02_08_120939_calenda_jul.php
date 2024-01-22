@@ -13,10 +13,10 @@ class CalendaJul extends Migration
      */
     public function up()
     {
-        Schema::create('calendario_jul', function (Blueprint $table) {
-            $table->bigIncrements('idCal');
+        Schema::create('parm_calendario_jul', function (Blueprint $table) {
+            $table->bigIncrements('calId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->string('calAno');
             $table->integer('calMes');
             $table->string('calMesDes');

@@ -13,16 +13,15 @@ class ProdEquivalencia extends Migration
      */
     public function up()
     {
-        Schema::create('prd_equivalencia', function (Blueprint $table) {
-            $table->bigIncrements('idEqui');
+        Schema::create('parm_prd_equivalencia', function (Blueprint $table) {
+            $table->bigIncrements('equiId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idPrd')->unsigned();
-            $table->foreign('idPrd')->references('idPrd')->on('producto');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('prdId')->unsigned();
+            $table->foreign('prdId')->references('prdId')->on('parm_producto');
             $table->integer('equiPrdBulto')->nullable();
             $table->integer('equiBultPallet')->nullable();
-            $table->integer('equiPrdBins')->nullable();
-            
+            $table->integer('equiPrdBins')->nullable();            
             $table->timestamps();
         });
     }

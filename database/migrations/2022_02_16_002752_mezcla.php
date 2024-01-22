@@ -13,10 +13,10 @@ class Mezcla extends Migration
      */
     public function up()
     {
-        Schema::create('mezcla', function (Blueprint $table) {
-            $table->bigIncrements('idMez');
+        Schema::create('produ_mezcla', function (Blueprint $table) {
+            $table->bigIncrements('mezId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->string('mezUsu');
             $table->string('mezLotSal');
             $table->decimal('mezKil', 10, 2);
@@ -34,11 +34,11 @@ class Mezcla extends Migration
         });
 
         Schema::create('mezcla_det', function (Blueprint $table) {
-            $table->bigIncrements('idMezd');
+            $table->bigIncrements('mezdId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idMez')->unsigned();
-            $table->foreign('idMez')->references('idMez')->on('mezcla');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('mezId')->unsigned();
+            $table->foreign('mezId')->references('mezId')->on('produ_mezcla');
             $table->bigInteger('mezdidPrd');
             $table->string('mezdprdCod');
             $table->string('mezdprdTip');

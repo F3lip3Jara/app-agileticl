@@ -13,10 +13,10 @@ class Notificaciones extends Migration
      */
     public function up()
     {
-        Schema::create('notificaciones', function (Blueprint $table) {
-            $table->bigIncrements('idNot');
+        Schema::create('sys_notificaciones', function (Blueprint $table) {
+            $table->bigIncrements('notId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');           
             $table->string('notUso');          
             $table->string('notEst');                  
             $table->longText('notObs')->nullable();
@@ -24,12 +24,12 @@ class Notificaciones extends Migration
             $table->timestamps();
         });
 
-        Schema::create('notificaciones_visualizaciones', function (Blueprint $table) {
+        Schema::create('sys_not_visualizacion', function (Blueprint $table) {
             $table->bigIncrements('idNotv');            
-            $table->bigInteger('idNot')->unsigned();
-            $table->foreign('idNot')->references('idNot')->on('notificaciones');       
+            $table->bigInteger('notId')->unsigned();
+            $table->foreign('notId')->references('notId')->on('sys_notificaciones');       
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');           
+            $table->foreign('empId')->references('empId')->on('parm_empresa');           
             $table->string('notvUso');  
             $table->timestamps();
         });

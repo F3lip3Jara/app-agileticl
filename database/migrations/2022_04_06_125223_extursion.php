@@ -13,10 +13,10 @@ class Extursion extends Migration
      */
     public function up()
     {
-        Schema::create('extrusion', function (Blueprint $table) {
-            $table->bigIncrements('idExt');
+        Schema::create('prod_extrusion', function (Blueprint $table) {
+            $table->bigIncrements('extId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->string('extUsu');
             $table->string('extLotSal');
             $table->decimal('extAnbob', 10, 2)->nullable();
@@ -24,27 +24,26 @@ class Extursion extends Migration
             $table->string('extEstCtl');
             $table->string('extMaq');
             $table->string('extFor')->nullable();
-            $table->string('extidEta')->nullable();
+            $table->string('exteta')->nullable();
             $table->string('extPrdCod')->nullable();
-            $table->string('extIdPrd')->nullable();
+            $table->string('extprdId')->nullable();
             $table->string('extPrdDes')->nullable();
             $table->integer('extTurn');
-            $table->integer('extIdMez');
-            $table->integer('extIdMot')->nullable();
+            $table->integer('extMezId');
+            $table->integer('extMotId')->nullable();
             $table->string('extMotDes')->nullable();
             $table->longText('extObs')->nullable();
-            $table->decimal('extKilApr', 10, 2)->nullable();;
-            $table->decimal('extKilR', 10, 2)->nullable();;
-
+            $table->decimal('extKilApr', 10, 2)->nullable();
+            $table->decimal('extKilR', 10, 2)->nullable();
             $table->timestamps();
         });
 
-        Schema::create('extrusion_det', function (Blueprint $table) {
-            $table->bigIncrements('idExtd');
+        Schema::create('prod_extrusion_det', function (Blueprint $table) {
+            $table->bigIncrements('extdId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idExt')->unsigned();
-            $table->foreign('idExt')->references('idExt')->on('extrusion');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('extId')->unsigned();
+            $table->foreign('extId')->references('extId')->on('prod_extrusion');
             $table->decimal('extdIzq' , 10 , 2);
             $table->decimal('extdCen' , 10 , 2);
             $table->decimal('extdDer' , 10 , 2);
@@ -54,7 +53,7 @@ class Extursion extends Migration
             $table->string('extdUso');
             $table->string('extdRol');
             $table->string('extdTip');
-            $table->longText('extdObs')->nullable();;
+            $table->longText('extdObs')->nullable();
             $table->timestamps();
         });
     }

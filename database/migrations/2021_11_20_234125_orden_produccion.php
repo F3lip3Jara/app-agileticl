@@ -13,12 +13,12 @@ class OrdenProduccion extends Migration
      */
     public function up()
     {
-        Schema::create('ord_produccion', function (Blueprint $table) {
-            $table->bigIncrements('idOrp');
+        Schema::create('prod_orden', function (Blueprint $table) {
+            $table->bigIncrements('orpId');
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idPrv')->unsigned();
-            $table->foreign('idPrv')->references('idPrv')->on('proveedor');
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->bigInteger('prvId')->unsigned();
+            $table->foreign('prvId')->references('prvId')->on('parm_proveedor');
             $table->bigInteger('orpidEta')->unsigned();
             $table->string('orpNumOc');
             $table->string('orpNumRea');
@@ -28,6 +28,22 @@ class OrdenProduccion extends Migration
             $table->string('orpTurns')->nullable();
             $table->integer('orpEst');
             $table->integer('orpEstPrc');
+            $table->timestamps();
+        });
+
+        Schema::create('prod_orden_det', function (Blueprint $table) {
+            $table->bigIncrements('orpdId');
+            $table->bigInteger('orpId')->unsigned();
+            $table->foreign('orpId')->references('orpId')->on('prod_orden');
+            $table->bigInteger('empId')->unsigned();
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
+            $table->string('orpdPrdCod');
+            $table->string('orpdPrdDes');
+            $table->integer('orpdCant');
+            $table->integer('orpdCantDis');
+            $table->integer('orpdTotP');
+            $table->bigInteger('orpdetaId')->unsigned()->nullable();
+            $table->string('orpdObs')->nullable();
             $table->timestamps();
         });
     }
