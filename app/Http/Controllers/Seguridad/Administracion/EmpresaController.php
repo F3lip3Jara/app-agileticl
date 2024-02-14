@@ -24,7 +24,6 @@ class EmpresaController extends Controller
     public function ins(Request $request)
     {   
 
-     //   return $request;
         $name        = $request['name'];
         $empId       = 1;
 
@@ -37,11 +36,11 @@ class EmpresaController extends Controller
         ]);
 
         if (isset($affected)) {
-
            $affected1 =Roles::create([             
                 'rolDes' => 'ADMINISTRADOR',
                 'empId'  => $affected->id,
             ]);
+
             $xname =  utf8_encode('ADM-'.$affected->id);
               User::create([
                 'name'      => $xname,
@@ -54,7 +53,6 @@ class EmpresaController extends Controller
                 'empId'     =>  $affected->id,
              ]);
 
-           
             
             EmpresaOpciones::create([
                 'empId' => $affected->id,
@@ -74,9 +72,7 @@ class EmpresaController extends Controller
                 'molDes' => 'Seguridad',
                 'molIcon'=> 'cilShieldAlt'
     
-            ]);
-
-        
+            ]);        
     
             ModuleOpt:: create([
                 'molId' => $affected2->id,
@@ -101,9 +97,7 @@ class EmpresaController extends Controller
                 'rolId' => $affected1->id,
                 'molId' => $affected2->id
             ]);
-
-
-
+            
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
             dispatch($job);
             
@@ -213,9 +207,5 @@ class EmpresaController extends Controller
         } else {
             return response()->json('error', 204);
         }
-        
-        
-         // return $request->rol;
-       
     }   
 }

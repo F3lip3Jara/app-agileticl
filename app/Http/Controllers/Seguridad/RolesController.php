@@ -71,10 +71,10 @@ class RolesController extends Controller
 
     public function del(Request $request)
     {        
-           $empId    = $request['empId'];
-                $name     = $request['name'];
-                $xid      = $request->idRol;
-                $valida = User::all()->where('rolId' , $xid)->take(1);
+            $empId    = $request['empId'];
+            $name     = $request['name'];
+            $xid      = $request->rolDes;
+            $valida    = User::all()->where('rolId' , $xid)->take(1);
                 //si la variable es null o vacia elimino el rol
                 if(sizeof($valida) > 0 ){
                     //en el caso que no se ecuentra vacia no puedo eliminar
@@ -84,7 +84,7 @@ class RolesController extends Controller
                         );
                     return response()->json($resources, 200);
                 }else{
-                    $affected = Roles::where('rolId', $xid)
+                    $affected = Roles::where('rolDes', $xid)
                                         ->where('empId', $empId)
                                         ->delete();
 

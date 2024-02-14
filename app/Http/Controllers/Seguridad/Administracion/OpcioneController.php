@@ -11,7 +11,7 @@ class OpcioneController extends Controller
 {
     public function index(Request $request)
     {
-        $datos = Opciones::all();
+        $datos = Opciones::select('*')->get();
         return response()->json($datos, 200);
     }
     

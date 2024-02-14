@@ -18,6 +18,7 @@ Route::get('trabOpciones'   , [OpcioneController::class, 'index']);
 Route::post('insOpciones'   , [OpcioneController::class, 'ins']);
 Route::post('updOpciones'   , [OpcioneController::class, 'up']);
 Route::post('delOpciones'   , [OpcioneController::class, 'del']);
+
 //Acciones 
 Route::get('trabAcciones'   , [AccionController::class, 'index']);
 Route::post('insAcciones'   , [AccionController::class, 'ins']);
