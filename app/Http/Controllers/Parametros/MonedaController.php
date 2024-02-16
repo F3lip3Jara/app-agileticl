@@ -133,11 +133,17 @@ class MonedaController extends Controller
             $data = Moneda::all()->where('monInt', 'S');
            
             foreach($data as $item){
-                $client = new Client();               
+                $client = new Client([
+                    'base_uri'        => 'https://api.cmfchile.cl',
+                    'verify'          => false, 
+                    'headers'         => [
+                     //Your header here
+                ]
+              ]);           
                 try{
                     $url = 'https://api.cmfchile.cl/api-sbifv3/recursos_api/'.$item['monIntVal'].'?apikey=80e3f542faaf21efc24dd8111aca2eeb7dd28b28&formato=json';                    
                     $response   = $client->request('GET', $url);
-                    $statusCode = $response->getStatusCode();   
+                    $statusCode = $response->getStatusCode();               
                     $arr        = $item['monIntArray']; 
                  
                     if ($statusCode === 200) {
