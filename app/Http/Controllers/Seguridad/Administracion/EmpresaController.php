@@ -18,7 +18,7 @@ class EmpresaController extends Controller
 {
     public function index(Request $request)
     {
-        return Empresa::all();
+        return Empresa::select('empId','empDes','empDir','empRut','empGiro','empFono')->get();
     }  
 
     public function ins(Request $request)
@@ -33,6 +33,7 @@ class EmpresaController extends Controller
                 'empRut'    => $request->empRut,
                 'empGiro'   => $request->empGiro,
                 'empFono'   => $request->empFono,
+                'empImg'    => $request->empImg
         ]);
 
         if (isset($affected)) {
@@ -184,7 +185,6 @@ class EmpresaController extends Controller
         ->select('segu_emp_mol_opt.optId')      
         ->get();
 
-      
     
         foreach($opNoExistentes as $item ){
             ModuleOpt::where('optId', $item->optId)

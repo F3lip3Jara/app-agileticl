@@ -18,8 +18,8 @@ class sysAdmin
     public function handle(Request $request, Closure $next): Response
     {
       
-        $method = $request->method();
-        $url    = $request->url();
+        $method         = $request->method();
+        $url            = $request->url();
         $ultimoSegmento = basename($url);        
 
         $idUser = 0;

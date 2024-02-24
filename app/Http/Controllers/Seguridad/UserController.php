@@ -52,8 +52,9 @@ class UserController extends Controller
 
                 $xrol           = Roles::select('rolDes')->where('rolId', $user->rolId)->get();
                 $rol            = $xrol[0]['rolDes'];                
-                $xempresa       = Empresa::select('empDes')->where('empId', $user->empId)->get();
+                $xempresa       = Empresa::select('empDes', 'empImg')->where('empId', $user->empId)->get();
                 $empresa        =  $xempresa[0]['empDes'];
+                $imgEmp         =  $xempresa[0]['empImg'];
                 $controller     =  new MenuController;
                 $menu           = $controller->index($user->empId , $user->rolId);   
                 
@@ -67,7 +68,8 @@ class UserController extends Controller
                         'img'      => $img,
                         'rol'      => $rol,
                         'empresa'  => $empresa,
-                        'menu'     => $menu
+                        'menu'     => $menu,
+                        'imgEmp'   => $imgEmp
                     );
                 
                   $etaId    = 1;
@@ -188,8 +190,10 @@ class UserController extends Controller
     {  
         $data   = request()->all();
         $name   = $data['emploName'];
+        $empId  = $request['empId'];
         $val    = User::select('name')
                         ->where('name', $name)
+                        ->where('empId', $empId)
                         ->get();
         $count  = 0;
             foreach ($val as $item) {
@@ -200,10 +204,11 @@ class UserController extends Controller
 
     public function ins_Users(Request $request)
     {
+        $data        = request()->all();
         $empId       = $request['empId'];
         $nameI       = $request['name'];
         $emp         = $request['emp'];
-        $data        = request()->all();
+       
         $name        = $data['empName'];
         $imgName     = $data['emploAvatar'];
         $password    = $name;

@@ -36,6 +36,7 @@ class GerenciaController extends Controller
     {   
         $empId      = $request['empId'];
         $name       = $request['name'];
+        
         $affected = Gerencia::create([
             'gerDes' => $request->gerDes,
             'empId'  => $empId

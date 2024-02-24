@@ -15,6 +15,7 @@ class viewTblUser extends Model
     protected $fillable = [
         'id',
         'empId',
+        'empresa',
         'rolId',
         'name',
         'email',

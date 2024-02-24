@@ -34,6 +34,7 @@ Route::post('insEmpOpt'        , [EmpresaController::class, 'insEmpOpt']);
 Route::get('trabUsuariosAdm', [UserController::class,'trabUsuariosAmd']);
 Route::get('trabRolesAmd'   , [RolesController::class,'indexAdm']);
 Route::post('insUserAdm'    , [UserController::class, 'ins_Users']);
+Route::get('valUsuarioAdm'  , [UserController::class,'valUsuario']);
 
 
 ?>
