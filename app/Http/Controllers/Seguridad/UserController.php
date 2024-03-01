@@ -254,56 +254,6 @@ class UserController extends Controller
                 return response()->json($resources, 200);
     }
 
-    public function up_Password(Request $request)
-    {
-        
-        $header = $request->header('access-token');
-        $val    = User::select('token', 'id', 'activado', 'reinicio')->where('token', $header)->get();
-        $data   = request()->all();
-
-        if ($header == '') {
-            return response()->json('error', 203);
-        } else {
-
-
-            foreach ($val as $item) {
-                if ($item->activado == 'A') {
-                    $id = $item->id;
-                    $reinicio = $item->reinicio;
-                }
-            }
-
-
-            if ($id > 0) {
-                if ($reinicio == 'S') {
-                    User::where('id', $id)
-                        ->update([
-                            'password' => bcrypt($data['password']),
-                            'reinicio' => 'N'
-
-                        ]);
-                    $resources = array(
-                        array(
-                            "error" => "0", 'mensaje' => "Password actualizada",
-                            'type' => 'success'
-                        )
-                    );
-                    return response()->json($resources, 200);
-                } else {
-                    $resources = array(
-                        array(
-                            "error" => "1", 'mensaje' => "El usuario no está marcado para reinicio" . $reinicio,
-                            'type' => 'danger'
-                        )
-                    );
-                    return response()->json($resources, 200);
-                }
-            } else {
-                return response()->json('error', 203);
-            }
-        }
-    }
-
     public function up(Request $request)
     {
         $rest        = request()->all();
@@ -324,23 +274,29 @@ class UserController extends Controller
 
        
         if($mantenerPassword == 1){
-            $valida = $user->update([
-                'rolId'    => $rol
-            ]);
+            if($rol > 0 ){
+                $valida = $user->update([
+                    'rolId'    => $rol
+                ]);
+            }         
 
         }else{
-            $valida = $user->update([
-                'rolId'    => $rol,
+            if($rol > 0 ){
+                $valida = $user->update([
+                    'rolId'    => $rol
+                ]);
+            }
+            $valida = $user->update([               
                 'password' => bcrypt($emploPassword) 
             ]);
         }
         
-        if(is_null($gerencia)){
+        if(is_null($gerencia) || $gerencia == ''){
             $gerencia = 0;
         }
  
         if(strlen($emploNom)> 0){
-            Empleado::where('id', $xid)->update([
+            $valida =   Empleado::where('id', $xid)->update([
                  'emploNom'    => $emploNom,
                  'emploApe'    => $emploApe,
                  'emploFecNac' => $emploFecNac,

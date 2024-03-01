@@ -20,12 +20,11 @@ class sysAdmin
       
         $method         = $request->method();
         $url            = $request->url();
-        $ultimoSegmento = basename($url);        
-
-        $idUser = 0;
-        $header = $request->header('access-token');
-        $val    = User::select('token', 'id', 'activado', 'name', 'rolId', 'empId')->where('token', $header)->get();
-        $log    = Acciones::select('*')->where('accUrl', $ultimoSegmento)->get();
+        $ultimoSegmento = basename($url);
+        $idUser         = 0;
+        $header         = $request->header('access-token');
+        $val            = User::select('token', 'id', 'activado', 'name', 'rolId', 'empId')->where('token', $header)->get();
+        $log            = Acciones::select('*')->where('accUrl', $ultimoSegmento)->get();
 
         if ($header == '') {
             return response()->json('error', 203);
@@ -56,7 +55,7 @@ class sysAdmin
                         'type' => 'danger'
                     )
                 );
-                return response()->json($resources, 200);
+                return response()->json($resources, 403);
             }
         }
     }    
