@@ -125,8 +125,11 @@ class UserController extends Controller
 
     public function getUser(Request $request)
     {
-        $header = $request->header('access-token');
-        $datos = viewUser::select('name', 'imgName', 'rolDes')->where('token', $header)->get();
+        $token = $request->header('access-token');
+        $datos  = viewTblUser::select('*')
+                ->where('empId', $request['empId'])
+                ->where('id',$request['idUser'])
+                ->get();
         return response()->json($datos, 200);
     }
 
@@ -207,8 +210,7 @@ class UserController extends Controller
         $data        = request()->all();
         $empId       = $request['empId'];
         $nameI       = $request['name'];
-        $emp         = $request['emp'];
-       
+        $emp         = $request['emp'];       
         $name        = $data['empName'];
         $imgName     = $data['emploAvatar'];
         $password    = $name;
@@ -304,81 +306,83 @@ class UserController extends Controller
 
     public function up(Request $request)
     {
-        $header = $request->header('access-token');
-        $data   = request()->all();
-        $xid    = $data['id'];
-        $nameI  = $request['name'];
-        $emp    = $request['emp'];
+        $rest        = request()->all();
+        $data         = json_decode(base64_decode($rest['user']));      
+        $xid              = $data->usrid;
+        $emploNom         = $data->emploNom;
+        $emploApe         = $data->emploApe;
+        $avatar           = $data->avatar;
+        $fecha            = $data->emploFecNac;
+        $emploFecNac      = $fecha->year . '-' . $fecha->month . '-' . $fecha->day;
+        $mantenerPassword = $data->mantenerPassword;
+        $rol              = $data->rol;
+        $gerencia         = $data->gerencia;
+        $emploPassword    = $data->emploPassword;
+        $empId            = $rest['empId'];
+        $name             = $rest['name'];
+        $user = User::find($xid);
 
-                try {
+       
+        if($mantenerPassword == 1){
+            $valida = $user->update([
+                'rolId'    => $rol
+            ]);
 
-                    $idRol =  intval($data['rol']);
-                    $idGer =  intval($data['gerencia']);
+        }else{
+            $valida = $user->update([
+                'rolId'    => $rol,
+                'password' => bcrypt($emploPassword) 
+            ]);
+        }
+        
+        if(is_null($gerencia)){
+            $gerencia = 0;
+        }
+ 
+        if(strlen($emploNom)> 0){
+            Empleado::where('id', $xid)->update([
+                 'emploNom'    => $emploNom,
+                 'emploApe'    => $emploApe,
+                 'emploFecNac' => $emploFecNac,
+                 'gerId'       => $gerencia,
+                 'emploAvatar' => $avatar
+             ]);
+         }
 
-                    $user = User::find($xid);
-
-                    if ($data['reinicio'] == 'S') {
-                        $valida = $user->update([
-                            'rolId'    => $idRol,
-                            'reinicio' => $data['reinicio'],
-                            'activado' => $data['activado'],
-                            'password' => bcrypt($user->name) 
-                        ]);
-                    } else {
-                        $valida = $user->update([
-                            'rolId'    => $idRol,
-                            'reinicio' => $data['reinicio'],
-                            'activado' => $data['activado']
-                        ]);
-                    }
-
-                    if( !isNull($data['emploNom'])){
-                       Empleado::where('id', $xid)->update([
-                            'emploNom'    => $data['emploNom'],
-                            'emploApe'    => $data['emploApe'],
-                            'emploFecNac' => $data['emploFecNac'],
-                            'gerId'       => $idGer
-                        ]);
-                    }
-
-                  
-
-                    if ($valida == 1) {
-                        
-                        $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $nameI , $emp , $request->log['0']['accetaDes']);
-                            dispatch($job);                
-                        $resources = array(
-                            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-                        );
-                        return response()->json($resources, 200);
-                       
-                    } else {
-                        $resources = array(
-                            array(
-                                "error" => "1", 'mensaje' => "Error en el servidor",
-                                'type' => 'danger'
-                            )
-                        );
-                        return response()->json($resources, 200);
-                    }
-                } catch (Exception $ex) {
-                    return $ex;
-                }
+         if ($valida == 1) {                        
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                dispatch($job);                
+            $resources = array(
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
+            return response()->json($resources, 200);                       
+        } else {
+            $resources = array(
+                array(
+                    "error" => "1", 'mensaje' => "Error en el servidor",
+                    'type' => 'danger'
+                )
+            );
+            return response()->json($resources, 200);
+        }
     }
 
     function getUsuarios(Request $request)
     {
-
-        $xid    = $request->idUser;
-        return User::select('idRol', 'gerId')
-            ->join('empleados', 'users.id', '=', 'empleados.id')
+        $xid    = $request->userid;
+        $datos   = User::select('emploAvatar')
+        ->join('parm_empleados', 'users.id', '=', 'parm_empleados.id')
             ->where('users.id', $xid)->get();
+
+            return response()->json($datos, 200);
+
     }
 
     public function upUsuario2(Request $request)
     {
         try {
             $data = request()->all();
+           
             foreach ($data as $itemx) {
                 $imgName =  $itemx['imgName'];
                 $id      =  $itemx['idUser'];
@@ -409,4 +413,11 @@ class UserController extends Controller
             return $ex;
         }
     }
+
+    function getUsuario(Request $request)
+    {
+        return $request;
+
+    }
+
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Parametros\GerenciaController;
 use App\Http\Controllers\Seguridad\RolesController;
 use App\Http\Controllers\Seguridad\Administracion\AccionController;
 use App\Http\Controllers\Seguridad\Administracion\EmpresaController;
@@ -32,7 +33,8 @@ Route::post('insEmpOpt'        , [EmpresaController::class, 'insEmpOpt']);
 
 //Usuarios
 Route::get('trabUsuariosAdm', [UserController::class,'trabUsuariosAmd']);
-Route::get('trabRolesAmd'   , [RolesController::class,'indexAdm']);
+Route::get('trabRolesAdm'   , [RolesController::class,'indexAdm']);
+Route::get('trabGerenciaAdm', [GerenciaController::class,'indexAdm']);
 Route::post('insUserAdm'    , [UserController::class, 'ins_Users']);
 Route::get('valUsuarioAdm'  , [UserController::class,'valUsuario']);
 

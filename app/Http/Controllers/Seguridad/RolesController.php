@@ -19,16 +19,16 @@ class RolesController extends Controller
     }
 
     public function indexAdm( Request $request )
-    {      
-        return Roles:: select('*')->get();
+    {       
+        $empId = $request['empId'];
+        return Roles:: select('*')->where('empId', $empId)->get();
        
     }
 
     public function update(Request $request)
     {           
                 $empId    = $request['empId'];
-                $name     = $request['name'];
-
+                $name     = $request['name'];       
                 $affected = Roles::where('rolId' , $request->idRol)
                                   ->where('empId', $empId)
                                   ->update(['rolDes' => $request->rolDes]);

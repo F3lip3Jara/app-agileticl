@@ -14,6 +14,10 @@ class GerenciaController extends Controller
     {
         return Gerencia::select('*')->where('empId', $request['empId'])->get();
     }
+    public function indexAdm(Request $request)
+    {
+        return Gerencia::select('*')->where('empId', $request['empId'])->get();
+    }
 
     public function update(Request $request)
     {   
