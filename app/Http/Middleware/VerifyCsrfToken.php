@@ -12,8 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
-        
         '/productos',
         '/log',
         '/updRoles',
@@ -149,7 +147,13 @@ class VerifyCsrfToken extends Middleware
         '/updAcciones',
         '/delAcciones',
         '/insEmpOpt',
-        '/insUserAdm'
+        '/insUserAdm',
+        '/reiniciar',
+        '/deshabilitar',
+        '/habilitar',
+        '/reiniciarAdm',
+        '/deshabilitarAdm',
+        '/habilitarAdm'
         
     ];
 }

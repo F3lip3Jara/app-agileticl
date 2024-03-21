@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
     Route::post('upUsuario'     , [UserController::class,'up']);
 
     Route::get ('getUsuario'    , [UserController::class,'getUser']);
-    Route::post('up_Password'   , [UserController::class,'up_Password']);
-    Route::post('setUserSession', [UserController::class,'setUserSession']);
-   
+    Route::post('setUserSession', [UserController::class,'setUserSession']);   
     Route::get('getUsuarios'    , [UserController::class,'getUsuarios']);
     Route::post('upUsuario2'    , [UserController::class,'upUsuario2']);
     Route::post('insUser'       , [UserController::class,'ins_Users']);
+    Route::post('reiniciar'     , [UserController::class,'reiniciar']);
+    Route::post('deshabilitar'  , [UserController::class,'deshabilitar']);
+    Route::post('habilitar'     , [UserController::class,'habilitar']);
+    
 
     //Menu
     Route::get('usuarioMenu'    , [MenuController::class, 'index'] );    

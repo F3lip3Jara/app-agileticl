@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrdenVentaController;
+use App\Http\Controllers\Parametros\ComunaController;
 use App\Http\Controllers\Seguridad\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,5 +40,10 @@ Route::middleware(['App\Http\Middleware\webPayMiddleware'])->group(function () {
   Route::post('transbankRe'   , [OrdenVentaController::class,'transbankRep']);
   Route::get('transbankRe'    , [OrdenVentaController::class,'transbankRe']);
   Route::get('statusTransbank', [OrdenVentaController::class,'statusTransbank']);
+ 
 });
+
+
+require __DIR__ . '/weebhooksOms.php';
+Route::get('comuna'     , [ComunaController::class,'index']);
 ?>

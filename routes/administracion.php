@@ -32,11 +32,14 @@ Route::get('optAsig'           , [EmpresaController::class, 'empOptAsig']);
 Route::post('insEmpOpt'        , [EmpresaController::class, 'insEmpOpt']);  
 
 //Usuarios
-Route::get('trabUsuariosAdm', [UserController::class,'trabUsuariosAmd']);
-Route::get('trabRolesAdm'   , [RolesController::class,'indexAdm']);
-Route::get('trabGerenciaAdm', [GerenciaController::class,'indexAdm']);
-Route::post('insUserAdm'    , [UserController::class, 'ins_Users']);
-Route::get('valUsuarioAdm'  , [UserController::class,'valUsuario']);
+Route::get('trabUsuariosAdm'   , [UserController::class,'trabUsuariosAmd']);
+Route::get('trabRolesAdm'      , [RolesController::class,'indexAdm']);
+Route::get('trabGerenciaAdm'   , [GerenciaController::class,'indexAdm']);
+Route::post('insUserAdm'       , [UserController::class, 'ins_Users']);
+Route::get('valUsuarioAdm'     , [UserController::class,'valUsuario']);
+Route::post('reiniciarAdm'     , [UserController::class,'reiniciar']);
+Route::post('deshabilitarAdm'  , [UserController::class,'deshabilitar']);
+Route::post('habilitarAdm'     , [UserController::class,'habilitar']);
 
 
 ?>

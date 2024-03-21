@@ -2,7 +2,7 @@
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-
+date_default_timezone_set('America/Santiago');
 define('LARAVEL_START', microtime(true));
 set_time_limit(240);
 mb_internal_encoding('UTF-8');

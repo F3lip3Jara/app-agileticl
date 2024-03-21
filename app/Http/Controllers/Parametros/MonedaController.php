@@ -76,7 +76,10 @@ class MonedaController extends Controller
 
     public function del(Request $request)
     {
-        $xid    = $request->monId;
+        $xid         = $request->monId;
+        $name        = $request['name'];
+        $empId       = $request['empId'];
+
         $valida = Producto::all()->where('monId', $xid)->take(1);
         //si la variable es null o vacia elimino el rol
         if (sizeof($valida) > 0) {
@@ -92,10 +95,12 @@ class MonedaController extends Controller
             $affected = Moneda::where('monId', $xid)->delete();
 
             if ($affected > 0) {
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                dispatch($job);            
                 $resources = array(
-                    array("error" => '0', 'mensaje' => "Moneda Eliminada Correctamente", 'type' => 'warning')
+                    array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
                 );
-                return response()->json($resources, 200);
+             return response()->json($resources, 200);
             } else {
                 $resources = array(
                     array("error" => "2", 'mensaje' => "No se encuentra registro", 'type' => 'warning')

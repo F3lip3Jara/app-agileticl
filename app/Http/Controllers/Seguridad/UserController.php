@@ -10,6 +10,7 @@ use App\Models\Seguridad\Roles;
 use App\Models\User;
 use App\Models\viewTblUser;
 use App\Models\viewUser;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -246,7 +247,7 @@ class UserController extends Controller
 
                 ]);
 
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $nameI , $emp , $request->log['0']['accetaDes']);
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $nameI , $emp , $request->log['0']['accDes']);
                  dispatch($job);                
                 $resources = array(
                     array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -256,8 +257,8 @@ class UserController extends Controller
 
     public function up(Request $request)
     {
-        $rest        = request()->all();
-        $data         = json_decode(base64_decode($rest['user']));      
+        $rest             = request()->all();
+        $data             = json_decode(base64_decode($rest['user']));      
         $xid              = $data->usrid;
         $emploNom         = $data->emploNom;
         $emploApe         = $data->emploApe;
@@ -270,24 +271,28 @@ class UserController extends Controller
         $emploPassword    = $data->emploPassword;
         $empId            = $rest['empId'];
         $name             = $rest['name'];
-        $user = User::find($xid);
-
+        $user             = User::find($xid);
+        $valida           = 0;
        
         if($mantenerPassword == 1){
             if($rol > 0 ){
                 $valida = $user->update([
-                    'rolId'    => $rol
+                    'rolId'    => $rol,
                 ]);
-            }         
-
+            }
+                $valida = $user->update([
+                    'reinicio' => 'N'
+                ]);
         }else{
             if($rol > 0 ){
                 $valida = $user->update([
-                    'rolId'    => $rol
+                    'rolId'    => $rol,
+                    'reinicio' => 'N'
                 ]);
             }
             $valida = $user->update([               
-                'password' => bcrypt($emploPassword) 
+                'password' => bcrypt($emploPassword),
+                'reinicio' => 'N'
             ]);
         }
         
@@ -295,18 +300,22 @@ class UserController extends Controller
             $gerencia = 0;
         }
  
-        if(strlen($emploNom)> 0){
-            $valida =   Empleado::where('id', $xid)->update([
-                 'emploNom'    => $emploNom,
-                 'emploApe'    => $emploApe,
-                 'emploFecNac' => $emploFecNac,
-                 'gerId'       => $gerencia,
-                 'emploAvatar' => $avatar
-             ]);
-         }
+        
+            $empleado = Empleado::where('id', $xid)->get();
+            if (isset($empleado)) {
+                $valida =   Empleado::where('id', $xid)->update([
+                    'emploNom'    => $emploNom,
+                    'emploApe'    => $emploApe,
+                    'emploFecNac' => $emploFecNac,
+                    'gerId'       => $gerencia,
+                    'emploAvatar' => $avatar
+                ]);
+            
+            }
+         
 
          if ($valida == 1) {                        
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
                 dispatch($job);                
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -328,9 +337,8 @@ class UserController extends Controller
         $xid    = $request->userid;
         $datos   = User::select('emploAvatar')
         ->join('parm_empleados', 'users.id', '=', 'parm_empleados.id')
-            ->where('users.id', $xid)->get();
-
-            return response()->json($datos, 200);
+        ->where('users.id', $xid)->get();
+        return response()->json($datos, 200);
 
     }
 
@@ -374,6 +382,125 @@ class UserController extends Controller
     {
         return $request;
 
+    }
+
+    function reiniciar(Request $request){
+        $rest        = request()->all();
+        $data        = json_decode(base64_decode($rest['user'])); 
+        $xname       = $data->name; 
+        $xid         = $data->usrid;
+        try{
+            $empId       = $rest['empId'];
+
+        }catch(Exception $error){
+            $empId       = $data->empId; 
+
+        }
+      
+        $name        = $rest['name'];
+        $user        = User::find($xid);
+       
+        $valida      = $user->update([               
+            'password' => bcrypt($xname),
+            'reinicio' => 'S'
+        ]);
+
+        if ($valida == 1) {                        
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'].'('.$xname.')');
+                dispatch($job);                
+            $resources = array(
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
+            return response()->json($resources, 200);                       
+        } else {
+            $resources = array(
+                array(
+                    "error" => "1", 'mensaje' => "Error en el servidor",
+                    'type' => 'danger'
+                )
+            );
+            return response()->json($resources, 200);
+        }
+    }
+
+
+    function deshabilitar(Request $request){ 
+        $rest        = request()->all();
+        $data        = json_decode(base64_decode($rest['user'])); 
+        $xname       = $data->name; 
+        $xid         = $data->usrid;
+        $name        = $rest['name'];
+        $user        = User::find($xid);
+       
+        $valida      = $user->update([               
+            'password' => bcrypt($xname),
+            'reinicio' => 'S',
+            'activado' => 'D'
+        ]);
+
+        try{
+            $empId       = $rest['empId'];
+
+        }catch(Exception $error){
+            $empId       = $data->empId; 
+        }
+
+
+        if ($valida == 1) {                        
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'].'('.$xname.')');
+                dispatch($job);                
+            $resources = array(
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
+            return response()->json($resources, 200);                       
+        } else {
+            $resources = array(
+                array(
+                    "error" => "1", 'mensaje' => "Error en el servidor",
+                    'type' => 'danger'
+                )
+            );
+            return response()->json($resources, 200);
+        }
+    }
+
+    function habilitar(Request $request){ 
+        $rest        = request()->all();
+        $data        = json_decode(base64_decode($rest['user'])); 
+        $xname       = $data->name; 
+        $xid         = $data->usrid;
+        $name        = $rest['name'];
+        $user        = User::find($xid);
+
+        try{
+            $empId       = $rest['empId'];
+
+        }catch(Exception $error){
+            $empId       = $data->empId; 
+        }
+
+        $valida      = $user->update([               
+            'password' => bcrypt($xname),
+            'reinicio' => 'S',
+            'activado' => 'A'
+        ]);
+
+        if ($valida == 1) {                        
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'].'('.$xname.')');
+                dispatch($job);                
+            $resources = array(
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
+            return response()->json($resources, 200);                       
+        } else {
+            $resources = array(
+                array(
+                    "error" => "1", 'mensaje' => "Error en el servidor",
+                    'type' => 'danger'
+                )
+            );
+            return response()->json($resources, 200);
+        }
     }
 
 }

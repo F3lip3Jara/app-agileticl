@@ -12,7 +12,7 @@ class Empleado extends Model
     use HasFactory;
     protected $table    ='parm_empleados';
     protected $fillable = [
-        'idEmplo',      
+        'emploId',      
         'emploNom',
         'emploApe',
         'emploFecNac',

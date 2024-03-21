@@ -23,8 +23,8 @@ class postMiddleware
         $ultimoSegmento = basename($url);
         $idUser = 0;
         $header = $request->header('access-token');
-        $val = User::select('token', 'id', 'activado', 'name', 'rolId', 'empId')->where('token', $header)->get();
-    
+        $val = User::select('token', 'id', 'activado', 'name', 'rolId', 'empId', 'reinicio')->where('token', $header)->get();
+        
         if ($header == '') {
             return response()->json('error', 203);
         } else {
