@@ -2,25 +2,25 @@
 
 namespace App\Models\Seguridad;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
 
-class MenuRol extends Model
+class MenuSubModulo extends Model
 {
     use HasFactory;
-    protected $table    ='menu_roles';
+
+    protected $table    ='menu_roles_sub';
     protected $fillable = [
         'molId',
         'rolId',
-        'molDes',
+        'molsDes',
         'molIcon',
         'optId',
         'optDes',
-        'optLink',      
-        'empId'
+        'optLink',
+        'empId',
+        'molsId'
     ];
 
-   
+    
 }

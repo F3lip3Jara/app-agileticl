@@ -10,6 +10,7 @@ use App\Models\Seguridad\RolesModule;
 use Illuminate\Http\Request;
 use App\Models\Seguridad\ModuleOpt;
 use App\Models\Seguridad\ModuleRol;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class RolesModuloController extends Controller
@@ -175,7 +176,10 @@ class RolesModuloController extends Controller
         $name   = $request['name'];
         $empId  = $request['empId'];
        
-        $valida = ModuleRol::select('*')->where('molId' , $molId)->take(1)->get();
+        $valida = ModuleRol::select('*')
+                 ->where('molId' , $molId)
+                 ->where('empId' , $empId)
+                 ->take(1)->get();
         //si la variable es null o vacia elimino el rol
         if(sizeof($valida) > 0 ){
             //en el caso que no se ecuentra vacia no puedo eliminar
@@ -185,9 +189,10 @@ class RolesModuloController extends Controller
                 );
             return response()->json($resources, 200);
         }else{
-            $affected = ModuleOpt::where('molId', $molId)->delete();  
-            $affected2 =RolesModule::where('molId', $molId)->delete();   
-            $affected2 =Module::where('molId', $molId)->delete();  
+            try{
+                $affected = ModuleOpt::where('molId', $molId)->delete();  
+                $affected2 =RolesModule::where('molId', $molId)->delete();   
+                $affected2 =Module::where('molId', $molId)->delete();  
 
             if (isset($affected2)) {
                 
@@ -199,6 +204,15 @@ class RolesModuloController extends Controller
                 return response()->json($resources, 200); 
             
             }
+            }catch(Exception $ex){
+                $resources = array(
+                    array("error" => "1", 'mensaje' => "El módulo no se puede modificar",
+                    'type'=> 'danger')
+                    );
+                    
+                return $resources;
+            }
+            
         }
     }    
     

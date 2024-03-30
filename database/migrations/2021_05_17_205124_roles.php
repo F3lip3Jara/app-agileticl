@@ -154,6 +154,8 @@ class Roles extends Migration
             $table->bigInteger('molId')->unsigned();
             $table->foreign('molId')->references('molId')->on('segu_modulo');
             $table->string('molsDes');
+            $table->bigInteger('empId')->unsigned();
+            $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->timestamps();
         });
 

@@ -153,7 +153,8 @@ class VerifyCsrfToken extends Middleware
         '/habilitar',
         '/reiniciarAdm',
         '/deshabilitarAdm',
-        '/habilitarAdm'
+        '/habilitarAdm',
+        '/insSubOpc'
         
     ];
 }

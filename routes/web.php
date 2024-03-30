@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OrdenVentaController;
 use App\Http\Controllers\Parametros\ComunaController;
+use App\Http\Controllers\Seguridad\MenuController;
 use App\Http\Controllers\Seguridad\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,4 +47,5 @@ Route::middleware(['App\Http\Middleware\webPayMiddleware'])->group(function () {
 
 require __DIR__ . '/weebhooksOms.php';
 Route::get('comuna'     , [ComunaController::class,'index']);
+
 ?>

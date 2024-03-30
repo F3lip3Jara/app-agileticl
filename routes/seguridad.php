@@ -7,6 +7,7 @@ use App\Http\Controllers\Seguridad\ModuloController;
 use App\Http\Controllers\Seguridad\NotificacionesController;
 use App\Http\Controllers\Seguridad\RolesModuloController;
 use App\Http\Controllers\Seguridad\UserController;
+use App\Http\Controllers\Seguridad\subOpcionesController;
 use Illuminate\Support\Facades\Route;
 
     //USUARIO
@@ -33,6 +34,12 @@ use Illuminate\Support\Facades\Route;
     Route::get('snAsig'         , [RolesModuloController::class, 'moduleSnAsig']);
     Route::get('asig'           , [RolesModuloController::class, 'moduleAsig']);
     Route::get('menuAsig'       , [RolesModuloController::class, 'menuAsig']);
+    
+    //Menu subopciones
+    Route::get('trabsubopc'    , [subOpcionesController::class, 'index'] );
+    Route::get('snAsigOpt'     , [subOpcionesController::class, 'sinAsig']); 
+    Route::get('asigOpt'       , [subOpcionesController::class, 'asig']); 
+    Route::post('insSubOpc'    , [subOpcionesController::class,'ins']);
     
     //Route::get('getUser'      , 'App\Http\Controllers\UserController@setUserSession');
 
