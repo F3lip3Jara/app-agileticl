@@ -15,11 +15,11 @@ class MensajeEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    
+    public $mensaje;
 
-    public function __construct(public $mensaje )
+    public function __construct( $mensaje )
     {
-      
+        $this->mensaje = $mensaje;
     }
 
     /**

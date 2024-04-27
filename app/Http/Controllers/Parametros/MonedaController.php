@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-
+use GuzzleHttp\Exception\ClientException;
 
 class MonedaController extends Controller
 {
@@ -37,7 +37,7 @@ class MonedaController extends Controller
         );
 
         if ($affected > 0) {
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
             dispatch($job);            
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -63,7 +63,7 @@ class MonedaController extends Controller
         ]);
 
         if (isset($affected)) {
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
             dispatch($job);            
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -95,7 +95,7 @@ class MonedaController extends Controller
             $affected = Moneda::where('monId', $xid)->delete();
 
             if ($affected > 0) {
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
                 dispatch($job);            
                 $resources = array(
                     array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -125,7 +125,9 @@ class MonedaController extends Controller
         return response()->json($count, 200);
     }
 
-    public function indicadores(){     
+    public function indicadores(){
+        
+        
         $hoy = Carbon::now('America/Santiago');        
         $valida = MonedaConversion::all()                 
                 ->where('moncFecha', $hoy->format('Y-m-d'));
@@ -158,9 +160,9 @@ class MonedaController extends Controller
                             $valor = str_replace(',', '.', $valor); // Reemplaza la coma por un punto para el decimal
                             $fecha = $data[$arr][0]['Fecha'];                        
                             $affected = MonedaConversion::create([                            
-                                'monId' => $item['monId'],
+                                'monId'     => $item['monId'],
                                 'moncFecha' =>$fecha ,
-                                'moncValor'=>$valor
+                                'moncValor' =>$valor
                             ]);
                            
                     }else{
@@ -171,9 +173,35 @@ class MonedaController extends Controller
                         return 'No se pudo obtener los datos. Código de estado: ' . $statusCode;
                     }
                     
-                }catch(Exception $e){
-                    return 'No se pudo obtener los datos. Código de estado: ' . $e;
-                } 
+             
+                }catch(ClientException $e){
+                    try{
+                        $fecha = Carbon::now('America/Santiago');
+                        // Buscar el último registro de moneda creado
+                        $ultimoRegistro = MonedaConversion::where('monId', $item['monId'])
+                            ->latest('created_at')
+                            ->first();
+
+                        if ($ultimoRegistro) {
+                            // Si se encuentra un registro, usar su valor como valor para hoy
+                            $valor = $ultimoRegistro->moncValor;
+                        } else {
+                            // Si no se encuentra ningún registro, puedes asignar un valor predeterminado
+                            $valor = 0; // o algún otro valor predeterminado
+                        }
+
+                        // Crear el nuevo registro con el valor obtenido
+                        $affected = MonedaConversion::create([
+                            'monId'     => $item['monId'],
+                            'moncFecha' => $fecha->format('Y-m-d'),
+                            'moncValor' => $valor
+                        ]);
+
+                    }catch(Exception $ex){
+                        return 'No se pudo obtener los datos. Código de estado: ' . $ex;
+                    }
+                }
+                 
             }
 
             return MonedaConversion::select('*')

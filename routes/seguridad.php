@@ -52,10 +52,10 @@ use Illuminate\Support\Facades\Route;
     Route::get('asigRol'        , [RolesController::class, 'rolAsig']);
 
     //Trabajar etapas log
-    Route::get('trabEtapasDet'  , 'App\Http\Controllers\EtapasDesController@index');
+  /*  Route::get('trabEtapasDet'  , 'App\Http\Controllers\EtapasDesController@index');
     Route::post('insEtapasDet'  , 'App\Http\Controllers\EtapasDesController@ins');
     Route::post('delEtapasDet'  , 'App\Http\Controllers\EtapasDesController@del');
-    Route::post('updEtapasDet'  , 'App\Http\Controllers\EtapasDesController@update');
+    Route::post('updEtapasDet'  , 'App\Http\Controllers\EtapasDesController@update');*/
 
 
     //Log sistema
@@ -63,12 +63,12 @@ use Illuminate\Support\Facades\Route;
     Route::post('insLogSys'     , [LogController::class, 'ins']);
 
        //Notificaciones
-       Route::get('trabNot'          , [NotificacionesController::class,'index']);
+  /*     Route::get('trabNot'          , [NotificacionesController::class,'index']);
        Route::get('notificaciones'   , [NotificacionesController::class,'notificaciones']);
        Route::get('notcontador'      , [NotificacionesController::class,'notcontador']);
        Route::post('lecturaNot'      , [NotificacionesController::class,'lecturaNot']);
        Route::post('lecturaNotAll'   , [NotificacionesController::class,'lecturaNotAll']);
-    
+    */
       
 
 ?>

@@ -19,9 +19,9 @@ class subOpcionesController extends Controller
     }
 
     public function sinAsig(Request $request){
-        $empId = $request['empId'];     
-        $modulo = json_decode($request['modulo']);       
-
+        $empId  = $request['empId'];     
+        $modulo = json_decode($request['modulo']);          
+        
         $opcionesNoExistentes = DB::table('segu_emp_mol_opt')
         ->leftJoin('segu_emp_mol_submol_opt', function ($join) use ($empId , $modulo) {
             $join->on('segu_emp_mol_opt.optId', '=', 'segu_emp_mol_submol_opt.optId')
@@ -37,16 +37,18 @@ class subOpcionesController extends Controller
         ->get();
          return  $opcionesNoExistentes;
       
+      
     }
 
     public function asig(Request $request){
         $empId  = $request['empId'];     
         $modulo = json_decode($request['modulo']);       
-        
+        $molsId =  json_decode($request['molsId']);
         $opcionesExistentes =SubModuloOpt::select('segu_emp_mol_submol_opt.optId', 'segu_opciones.optDes' , 'segu_emp_mol_submol_opt.molId')
         ->leftJoin('segu_opciones', 'segu_emp_mol_submol_opt.optId','=', 'segu_opciones.optId')
         ->where('segu_emp_mol_submol_opt.empId' , $empId)
         ->where('segu_emp_mol_submol_opt.molId', $modulo->molId)
+        ->where('segu_emp_mol_submol_opt.molsId', $molsId)
         ->get();
          return  $opcionesExistentes;
       

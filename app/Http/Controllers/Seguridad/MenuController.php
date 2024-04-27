@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Seguridad;
 
 use App\Http\Controllers\Controller;
 use App\Models\Seguridad\MenuRol;
+use Illuminate\Support\Collection;
 use App\Models\Seguridad\MenuSubModulo;
-use App\Models\Seguridad\ModuleOpt;
 use App\Models\Seguridad\ModuleRol;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Ramsey\Collection\Collection;
+
 
 class MenuController extends Controller
 {
@@ -26,16 +23,16 @@ class MenuController extends Controller
 
         $datos = [];
 
-        $menu->groupBy('molId')->each(function ($items) use (&$datos , &$empId , &$rolId) {
-            $modulo           = $items->first(); 
-            $opciones         = $this->procesarOpciones( $modulo->molId, $empId , $rolId );  
+        $menu->each(function ($items) use (&$datos , &$empId , &$rolId) {
+           
+            $opciones         = $this->procesarOpciones( $items->molId, $empId , $rolId );  
             $mergedCollection = $opciones;
           
             $datos[] = [
-               'molId'    => $modulo->molId,
-                'rolId'    => $modulo->rolId,
-                'molDes'   => $modulo->molDes,
-                'molIcon'  => $modulo->molIcon,
+                'molId'    => $items->molId,
+                'rolId'    => $items->rolId,
+                'molDes'   => $items->molDes,
+                'molIcon'  => $items->molIcon,
                 'opciones' => $mergedCollection
             ];
         });
@@ -44,17 +41,18 @@ class MenuController extends Controller
     }
 
     private function procesarOpciones($molId , $empId , $rolId ) {
-        $opciones = MenuRol::select('*')
+
+    $opciones = MenuRol::select('*')
         ->where('rolId', $rolId)
         ->where('empId', $empId)
         ->where('molId', $molId)
         ->orderBy('optId', 'asc')
         ->get();   
 
-    $menu = [];
-
+    $menu      = [];
+    $childrens = [];
     // Procesar opciones
-    $opciones->each(function ($item) use (&$menu) {
+   $opciones->each(function ($item) use (&$menu) {
         $data = [
             'optId'       => 0,
             'optDes'      => $item->optDes,
@@ -68,44 +66,47 @@ class MenuController extends Controller
     });
 
     // Procesar subopciones
-    MenuSubModulo::select('*')
-        ->where('rolId', $rolId)
-        ->where('empId', $empId)
-        ->where('molId', $molId)
-        ->groupBy('molsId')
-        ->get()
-        ->each(function ($sub) use (&$menu) {
-            $children = MenuSubModulo::select('*')
-                ->where('rolId', $sub->rolId)
-                ->where('empId', $sub->empId)
-                ->where('molId', $sub->molId)
-                ->where('molsId', $sub->molsId)
-                ->get();
+    $data = MenuSubModulo::select('*')
+    ->where('rolId', $rolId)
+    ->where('empId', $empId)
+    ->where('molId', $molId)
+    ->get();
+    
+    $datosAgrupados = collect($data)->groupBy('molsDes');
+  
+    foreach($datosAgrupados as $item){
 
-            $childrens = $children->map(function ($item) {
-                return [
-                    'name' => $item->optDes,
-                    'url'  => $item->optLink,
+        $molsDes   = $item[0]['molsDes'];    
+        $childrens = [];
+        foreach($item as $chil){ 
+            if($molsDes == $chil->molsDes){
+              $childrens [] =   [
+                    'name'      => $chil->optDes,
+                    'url'       => $chil->optLink,
+                    'molsDes'   => $chil->molsDes,
+                    'molsDes2' => $molsDes
                 ];
-            });
+            }
+        }
+        $data = [
+            'optId'       => 0,
+            'optDes'      => $molsDes,
+            'optLink'     => $molsDes,
+            'optSub'      => 'S',
+            'molId'       => $molId,
+            'childrens'   => $childrens
+        ];
 
-            $data = [
-                'optId'       => 0,
-                'optDes'      => $sub->molsDes,
-                'optLink'     => $sub->molsDes,
-                'optSub'      => 'S',
-                'molId'       => $sub->molId,
-                'childrens'   => $childrens->all(),
-            ];
+        $menu[] = $data;
+      
+    }
 
-            $menu[] = $data;
-        });
-
+    
     return $menu;
     }
 
   
-    public function indexRolOpt(Request $request)
+ /*   public function indexRolOpt(Request $request)
     {
         $datos = ModuleOpt::select('*')
             ->join('roles_opt', 'roles_mod_opt.idOpt', '=', 'roles_opt.idOpt')
@@ -114,7 +115,7 @@ class MenuController extends Controller
             ->where('roles_mod_opt.empId', 1)
             ->get();
         return response()->json($datos, 200);
-    }
+    }*/
 
    
 }

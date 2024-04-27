@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Seguridad;
 
+use App\Events\MensajeEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Parametros\Empleado;
@@ -9,15 +10,13 @@ use App\Models\Seguridad\Empresa;
 use App\Models\Seguridad\Roles;
 use App\Models\User;
 use App\Models\viewTblUser;
-use App\Models\viewUser;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-use function PHPUnit\Framework\isNull;
+
 
 class UserController extends Controller
 {
@@ -51,13 +50,13 @@ class UserController extends Controller
                     $img = '';
                 }
 
-                $xrol           = Roles::select('rolDes')->where('rolId', $user->rolId)->get();
-                $rol            = $xrol[0]['rolDes'];                
-                $xempresa       = Empresa::select('empDes', 'empImg')->where('empId', $user->empId)->get();
+                $xrol           =  Roles::select('rolDes')->where('rolId', $user->rolId)->get();
+                $rol            =  $xrol[0]['rolDes'];                
+                $xempresa       =  Empresa::select('empDes', 'empImg')->where('empId', $user->empId)->get();
                 $empresa        =  $xempresa[0]['empDes'];
                 $imgEmp         =  $xempresa[0]['empImg'];
                 $controller     =  new MenuController;
-                $menu           = $controller->index($user->empId , $user->rolId);   
+                $menu           =  $controller->index($user->empId , $user->rolId);   
                 
                 $resources =
                     array(
@@ -78,10 +77,10 @@ class UserController extends Controller
                   $name     = $user->name;
                   $empId    = $user->empId; 
 
-                  $job = new LogSistema( $etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO');
+                  $job = new LogSistema($etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO');
                   dispatch($job);
-
-                return response()->json($resources, 200);
+                  event(new MensajeEvent('Hola desde el servidor'));
+                  return response()->json($resources, 200);
             } else {
                 $resources = array(
                     array(
@@ -136,9 +135,9 @@ class UserController extends Controller
 
     public function setUserSession(Request $request)
     {
-        $id     = 0;
-        $header = $request->header('access-token');
-        $val    = User::all()->where('token', $header);
+        $id     =  0;
+        $header =  $request->header('access-token');
+        $val    =  User::all()->where('token', $header);
         $data   =  $request->all();
 
         if (isset($val)) {

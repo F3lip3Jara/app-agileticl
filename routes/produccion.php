@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-	Route::get('trabOrden'       , 'App\Http\Controllers\OrdenProdController@index');
+/*	Route::get('trabOrden'       , 'App\Http\Controllers\OrdenProdController@index');
     Route::post('insOrd'         , 'App\Http\Controllers\OrdenProdController@ins');	
     Route::post('insOT'          , 'App\Http\Controllers\OrdenTrabController@ins');
     Route::get('trabOt'          , 'App\Http\Controllers\OrdenTrabController@index');
@@ -78,6 +78,6 @@ use Illuminate\Support\Facades\Route;
     Route::post('impRechazo'     , 'App\Http\Controllers\ImpresionController@impRechazo');
     
     //Archivos
-    Route::get('archivos'         ,'App\Http\Controllers\ArchivosController@index');
+    Route::get('archivos'         ,'App\Http\Controllers\ArchivosController@index');*/
 
     ?>

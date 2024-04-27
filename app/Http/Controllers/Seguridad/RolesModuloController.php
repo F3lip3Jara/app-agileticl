@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Seguridad;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Seguridad\MenuRol;
+use App\Models\Seguridad\MenuSubModulo;
 use App\Models\Seguridad\Module;
 use App\Models\Seguridad\RolesModule;
 use Illuminate\Http\Request;
@@ -226,7 +227,13 @@ class RolesModuloController extends Controller
                 ->where('segu_emp_mol_opt.molId' , '=' , $molId )  
                 ->where('segu_emp_opt.empId', '=', $empId);
         })
+        ->leftJoin('segu_emp_mol_submol_opt', function ($join) use ($empId, $molId) {
+            $join->on('segu_emp_mol_submol_opt.optId', '=', 'segu_emp_opt.optId')      
+                ->where('segu_emp_mol_submol_opt.molId' , '=' , $molId )  
+                ->where('segu_emp_mol_submol_opt.empId', '=', $empId);
+        })
         ->whereNull('segu_emp_mol_opt.molId' )
+        ->whereNull('segu_emp_mol_submol_opt.molId' )
         ->select('segu_emp_opt.optId', 'segu_opciones.optDes')
         ->join('segu_opciones' , 'segu_emp_opt.optId' , '=', 'segu_opciones.optId' )
         ->where('segu_emp_opt.empId' , $empId)
@@ -239,14 +246,27 @@ class RolesModuloController extends Controller
     public function moduleAsig (Request $request){
         $empId = $request['empId'];
         $molId = $request['molId'];
-        
-        $datos = ModuleOpt::select('segu_emp_mol_opt.molId','molDes', 'segu_emp_mol_opt.optId', 'optDes')
+    
+        // Realiza la consulta de opciones
+        $datos = ModuleOpt::select('segu_emp_mol_opt.molId', 'molDes', 'segu_emp_mol_opt.optId', 'optDes')
             ->join('segu_opciones', 'segu_opciones.optId', '=', 'segu_emp_mol_opt.optId')
             ->join('segu_modulo', 'segu_modulo.molId', '=', 'segu_emp_mol_opt.molId')
             ->where('segu_emp_mol_opt.molId', $molId)
-            ->where('segu_emp_mol_opt.empId', $empId )
+            ->where('segu_emp_mol_opt.empId', $empId)
             ->get();
-        return response()->json($datos, 200);
+    
+        // Realiza la consulta de subopciones
+         $sub = MenuSubModulo::select('menu_roles_sub.molsDes')
+            ->where('menu_roles_sub.molId', $molId)
+            ->where('menu_roles_sub.empId', $empId)
+            ->groupBy('menu_roles_sub.molsDes')
+            ->get();
+       
+        $resultado = array('opt'=> $datos ,
+                            'sub'=>$sub);
+    
+        // Devuelve la respuesta JSON
+        return response()->json($resultado, 200);
     }
 
     public function menuAsig(Request $request){

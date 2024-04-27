@@ -99,7 +99,7 @@ class EmpresaController extends Controller
                 'molId' => $affected2->id
             ]);
             
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
             dispatch($job);
             
             $resources = array(
@@ -196,7 +196,7 @@ class EmpresaController extends Controller
 
         if (isset($affected)) {
 
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $emp , $request->log['0']['accetaDes']);
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $emp , $request->log['0']['accDes']);
             dispatch($job);
             
             $resources = array(

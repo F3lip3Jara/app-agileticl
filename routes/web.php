@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\OrdenVentaController;
 use App\Http\Controllers\Parametros\ComunaController;
-use App\Http\Controllers\Seguridad\MenuController;
 use App\Http\Controllers\Seguridad\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,11 +35,11 @@ Route::middleware(['App\Http\Middleware\sysAdmin'])->group(function () {
 
 //PAGO DE CLIENTE
 Route::middleware(['App\Http\Middleware\webPayMiddleware'])->group(function () {
-  Route::get('ordenventa'     , [OrdenVentaController::class,'indexPago']);
+ /* Route::get('ordenventa'     , [OrdenVentaController::class,'indexPago']);
   Route::post('transbank'     , [OrdenVentaController::class,'transbank']);
   Route::post('transbankRe'   , [OrdenVentaController::class,'transbankRep']);
   Route::get('transbankRe'    , [OrdenVentaController::class,'transbankRe']);
-  Route::get('statusTransbank', [OrdenVentaController::class,'statusTransbank']);
+  Route::get('statusTransbank', [OrdenVentaController::class,'statusTransbank']);*/
  
 });
 

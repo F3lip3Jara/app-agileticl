@@ -85,11 +85,11 @@ use Illuminate\Support\Facades\Route;
     Route::post('updColor'       , [ColorController::class,'update']);
     Route::get('valColCod'       , [ColorController::class,'valColCod']);
     //Unidad
-    Route::get('trabUnidad'      , 'App\Http\Controllers\UnidadMedidaController@index');
+    /*Route::get('trabUnidad'      , 'App\Http\Controllers\UnidadMedidaController@index');
     Route::post('insUnidad'      , 'App\Http\Controllers\UnidadMedidaController@ins');
     Route::post('delUnidad'      , 'App\Http\Controllers\UnidadMedidaController@del');
     Route::post('updUnidad'      , 'App\Http\Controllers\UnidadMedidaController@update');
-    Route::get('valUnCod'        , 'App\Http\Controllers\UnidadMedidaController@valUnCod');
+    Route::get('valUnCod'        , 'App\Http\Controllers\UnidadMedidaController@valUnCod');*/
     //Motivo
     Route::get('trabMotivo'      , [MovRechazoController::class,'index']);
     Route::get('motEta'          , [MovRechazoController::class,'index1']);
@@ -103,7 +103,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('updGrupo'       , [GrupoController::class,'update']);
     Route::get('valGrpCod'       , [GrupoController::class,'valGrpCod']);
     //Sub Grupo
-    Route::get('trabSubGrupo'    , 'App\Http\Controllers\SubGrupoController@index');
+   /* Route::get('trabSubGrupo'    , 'App\Http\Controllers\SubGrupoController@index');
     Route::post('insSubGrupo'    , 'App\Http\Controllers\SubGrupoController@ins');
     Route::post('delSubGrupo'    , 'App\Http\Controllers\SubGrupoController@del');
     Route::post('updSubGrupo'    , 'App\Http\Controllers\SubGrupoController@update');
@@ -121,7 +121,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('filPrdCod'       , 'App\Http\Controllers\ProductoController@filPrdCod');
     Route::get('datPrd'          , 'App\Http\Controllers\ProductoController@datPrd');
     Route::get('datPrdMtP'       , 'App\Http\Controllers\ProductoController@datPrdMtP');
-    Route::get('prod'            , 'App\Http\Controllers\ProductoController@prod');
+    Route::get('prod'            , 'App\Http\Controllers\ProductoController@prod');*/
     //Maquinas
     Route::get('trabMaquinas'    , [MaquinasController::class,'index']);
     Route::post('insMaquinas'    , [MaquinasController::class,'ins']);
@@ -136,14 +136,14 @@ use Illuminate\Support\Facades\Route;
     Route::get('valCal'         , [CalendarioJulController::class,'valCal']);
     Route::get('diaJul'         , [CalendarioJulController::class,'diaJul']);
     //Producto Equivalencia
-    Route::get('trabPrdEqui'    , 'App\Http\Controllers\EquivalenciaPrdController@index');
+  /*  Route::get('trabPrdEqui'    , 'App\Http\Controllers\EquivalenciaPrdController@index');
     Route::post('valEqui'       , 'App\Http\Controllers\EquivalenciaPrdController@valEqui');
     Route::post('insEquival'    , 'App\Http\Controllers\EquivalenciaPrdController@ins');
     Route::get('valEquiPrd'     , 'App\Http\Controllers\EquivalenciaPrdController@valPrd');
     //Bins 
     Route::get('trabBins'       , 'App\Http\Controllers\BinController@index');
     Route::post('upBins'        , 'App\Http\Controllers\BinController@update');
-    Route::get('verBins'        , 'App\Http\Controllers\BinController@verHist');
+    Route::get('verBins'        , 'App\Http\Controllers\BinController@verHist');*/
 
       //Etapas
       Route::get('trabEtapas'     , [EtapasController ::class,'index']);
