@@ -87,11 +87,10 @@ class MaquinasController extends Controller
     
         $affected = Maquinas::where('maqId', $request->maqId)
             ->update([
-                'etaId'  => $request->etaId,
+               
                 'maqDes' => $request->maqDes,
                 'maqCod' => $request->maqCod,
-                'maqTip' => $request->maqTip,
-            ]);
+               ]);
 
         if ($affected > 0) {
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);

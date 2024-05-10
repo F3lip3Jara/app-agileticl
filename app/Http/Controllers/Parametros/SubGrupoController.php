@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Parametros;
 
+use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Parametros\Producto;
 use App\Models\Parametros\SubGrupo;
@@ -38,8 +39,8 @@ class SubGrupoController extends Controller
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
             dispatch($job);            
             $resources = array(
-                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-            );            
+            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
             return response()->json($resources, 200);
         } else {
             return response()->json('error', 204);
@@ -52,18 +53,18 @@ class SubGrupoController extends Controller
         $empId       = $request['empId'];     
 
         $affected = SubGrupo::create([
-            'idGrp' => $request->idGrp,
-            'empId'  => 1,
+            'grpId'   => $request->grpId,
+            'empId'   => $empId,
             'grpsCod' => $request->grpsCod,
-            'grpsDes'  => $request->grpsDes
+            'grpsDes' => $request->grpsDes
         ]);
 
         if (isset($affected)) {
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
             dispatch($job);            
             $resources = array(
-                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-            );            
+            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
             return response()->json($resources, 200);
         } else {
             return response()->json('error', 204);
@@ -93,8 +94,8 @@ class SubGrupoController extends Controller
                 $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
                 dispatch($job);            
                 $resources = array(
-                    array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-                );            
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+                );
                 return response()->json($resources, 200);
             } else {
                 $resources = array(
@@ -109,7 +110,6 @@ class SubGrupoController extends Controller
 
     public function valCodSubGrp(Request $request)
     {
-
         $data   = request()->all();
         $grpsCod   = $data['grpsCod'];
         $val    = SubGrupo::select('grpsCod')->where('grpsCod', $grpsCod)->get();

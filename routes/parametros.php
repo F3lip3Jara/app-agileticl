@@ -14,8 +14,9 @@ use App\Http\Controllers\Parametros\PaisController;
 use App\Http\Controllers\Parametros\ProveedorController;
 use App\Http\Controllers\Parametros\PrvDirController;
 use App\Http\Controllers\Parametros\RegionController;
+use App\Http\Controllers\Parametros\SubGrupoController;
 use App\Http\Controllers\Parametros\TipoPagoController;
-
+use App\Http\Controllers\Parametros\UnidadMedidaController;
 use Illuminate\Support\Facades\Route;
 
       
@@ -85,11 +86,11 @@ use Illuminate\Support\Facades\Route;
     Route::post('updColor'       , [ColorController::class,'update']);
     Route::get('valColCod'       , [ColorController::class,'valColCod']);
     //Unidad
-    /*Route::get('trabUnidad'      , 'App\Http\Controllers\UnidadMedidaController@index');
-    Route::post('insUnidad'      , 'App\Http\Controllers\UnidadMedidaController@ins');
-    Route::post('delUnidad'      , 'App\Http\Controllers\UnidadMedidaController@del');
-    Route::post('updUnidad'      , 'App\Http\Controllers\UnidadMedidaController@update');
-    Route::get('valUnCod'        , 'App\Http\Controllers\UnidadMedidaController@valUnCod');*/
+    Route::get('trabUnidad'      , [UnidadMedidaController::class,'index']);
+    Route::post('insUnidad'      , [UnidadMedidaController::class,'ins']);
+    Route::post('delUnidad'      , [UnidadMedidaController::class,'del']);
+    Route::post('updUnidad'      , [UnidadMedidaController::class,'update']);
+    Route::get('valUnCod'        , [UnidadMedidaController::class,'valUnCod']);
     //Motivo
     Route::get('trabMotivo'      , [MovRechazoController::class,'index']);
     Route::get('motEta'          , [MovRechazoController::class,'index1']);
@@ -103,12 +104,13 @@ use Illuminate\Support\Facades\Route;
     Route::post('updGrupo'       , [GrupoController::class,'update']);
     Route::get('valGrpCod'       , [GrupoController::class,'valGrpCod']);
     //Sub Grupo
-   /* Route::get('trabSubGrupo'    , 'App\Http\Controllers\SubGrupoController@index');
-    Route::post('insSubGrupo'    , 'App\Http\Controllers\SubGrupoController@ins');
-    Route::post('delSubGrupo'    , 'App\Http\Controllers\SubGrupoController@del');
-    Route::post('updSubGrupo'    , 'App\Http\Controllers\SubGrupoController@update');
-    Route::get('valCodSubGrp'    , 'App\Http\Controllers\SubGrupoController@valCodSubGrp');
-    Route::get('subGrp'          , 'App\Http\Controllers\SubGrupoController@indexFil');
+    Route::get('trabSubGrupo'    , [SubGrupoController::class,'index']);
+    Route::post('insSubGrupo'    , [SubGrupoController::class,'ins']);
+    Route::post('delSubGrupo'    , [SubGrupoController::class,'del']);
+    Route::post('updSubGrupo'    , [SubGrupoController::class,'update']);
+    Route::get('valCodSubGrp'    , [SubGrupoController::class,'valCodSubGrp']);
+    Route::get('subGrp'          , [SubGrupoController::class,'indexFil']);
+    /*
     //Producto
     Route::get('trabProducto'    , 'App\Http\Controllers\ProductoController@index');
     Route::post('insProducto'    , 'App\Http\Controllers\ProductoController@ins');

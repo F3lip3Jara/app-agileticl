@@ -81,10 +81,8 @@ class MenuController extends Controller
         foreach($item as $chil){ 
             if($molsDes == $chil->molsDes){
               $childrens [] =   [
-                    'name'      => $chil->optDes,
-                    'url'       => $chil->optLink,
-                    'molsDes'   => $chil->molsDes,
-                    'molsDes2' => $molsDes
+                    'name'         => $chil->optDes,
+                    'url'          => $chil->optLink
                 ];
             }
         }

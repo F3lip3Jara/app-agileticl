@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
 
-use App\Models\Producto;
-use App\Models\UnidadMed;
-use App\Models\User;
+namespace App\Http\Controllers\Parametros;
+
+use App\Http\Controllers\Controller;
+use App\Jobs\LogSistema;
+use App\Models\Parametros\Producto;
+use App\Models\Parametros\UnidadMed;
 use Illuminate\Http\Request;
 
 
@@ -13,13 +15,15 @@ class UnidadMedidaController extends Controller
     public function index(Request $request)
     {
 
-        return UnidadMed::all();
+        return UnidadMed::select('*')->get();
     }
 
     public function update(Request $request)
     {
+        $name        = $request['name'];
+        $empId       = $request['empId'];
 
-        $affected = UnidadMed::where('idUn', $request->idUn)->update(
+        $affected = UnidadMed::where('unId', $request->unId)->update(
             [
                 'unCod' => $request->unCod,
                 'unDes' => $request->unDes
@@ -28,11 +32,10 @@ class UnidadMedidaController extends Controller
         );
 
         if ($affected > 0) {
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+            dispatch($job);            
             $resources = array(
-                array(
-                    "error" => "0", 'mensaje' => "Unidad de Medida actualizada manera correcta",
-                    'type' => 'success'
-                )
+               array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
             return response()->json($resources, 200);
         } else {
@@ -42,19 +45,20 @@ class UnidadMedidaController extends Controller
 
     public function ins(Request $request)
     {
+        $name        = $request['name'];
+        $empId       = $request['empId'];
 
         $affected = UnidadMed::create([
             'unCod' => $request->unCod,
             'unDes' => $request->unDes,
-            'empId'  => 1
+            'empId'  => $empId
         ]);
 
         if (isset($affected)) {
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+            dispatch($job);            
             $resources = array(
-                array(
-                    "error" => "0", 'mensaje' => "Unidad de Medida ingresada de manera correcta",
-                    'type' => 'success'
-                )
+               array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
             return response()->json($resources, 200);
         } else {
@@ -65,11 +69,15 @@ class UnidadMedidaController extends Controller
     public function del(Request $request)
     {
 
-        $xid    = $request->idUn;
+        $xid         = $request->unId;
+        $name        = $request['name'];
+        $empId       = $request['empId'];
 
 
-
-        $valida = Producto::all()->where('idUn', $xid)->take(1);
+        $valida = Producto::all()
+                    ->where('unId', $xid)
+                    ->where('empId', $empId)
+                    ->take(1);
         //si la variable es null o vacia elimino el rol
         if (sizeof($valida) > 0) {
             //en el caso que no se ecuentra vacia no puedo eliminar
@@ -81,11 +89,13 @@ class UnidadMedidaController extends Controller
             );
             return response()->json($resources, 200);
         } else {
-            $affected = UnidadMed::where('idUn', $xid)->delete();
+            $affected = UnidadMed::where('unId', $xid)->delete();
 
             if ($affected > 0) {
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                dispatch($job);            
                 $resources = array(
-                    array("error" => '0', 'mensaje' => "Unidad de medida eliminado Correctamente", 'type' => 'warning')
+                   array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
                 );
                 return response()->json($resources, 200);
             } else {
