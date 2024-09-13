@@ -334,7 +334,7 @@ class UserController extends Controller
     function getUsuarios(Request $request)
     {
         $xid    = $request->userid;
-        $datos   = User::select('emploAvatar')
+        $datos   = User::select('emploAvatar', 'gerId')
         ->join('parm_empleados', 'users.id', '=', 'parm_empleados.id')
         ->where('users.id', $xid)->get();
         return response()->json($datos, 200);

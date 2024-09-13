@@ -19,6 +19,7 @@ class subOpcionesController extends Controller
     }
 
     public function sinAsig(Request $request){
+        
         $empId  = $request['empId'];     
         $modulo = json_decode($request['modulo']);          
         
@@ -54,6 +55,7 @@ class subOpcionesController extends Controller
       
     }
     public function ins(Request $request){
+        
         $empId  = $request['empId'];     
         $modulo = $request['modulo'];       
         $opt    = $request['opt'];
