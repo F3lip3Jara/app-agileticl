@@ -1,240 +1,39 @@
 [
-	{
-		"optId" : 1,
-		"optDes" : "Adm-Usuarios",
-		"optLink" : "seguridad/administracion/usuarios",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-22 16:03:57"
-	},
-	{
-		"optId" : 2,
-		"optDes" : "Adm-Opciones",
-		"optLink" : "seguridad/administracion/opciones",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 3,
-		"optDes" : "Empresa",
-		"optLink" : "seguridad/administracion/empresa",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 4,
-		"optDes" : "Usuario",
-		"optLink" : "seguridad/usuarios",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 5,
-		"optDes" : "Roles",
-		"optLink" : "seguridad/roles",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 6,
-		"optDes" : "Módulos",
-		"optLink" : "seguridad/modulos",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 9,
-		"optDes" : "Etapas",
-		"optLink" : "parametros/etapas",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-24 23:21:27"
-	},
-	{
-		"optId" : 10,
-		"optDes" : "Log de Sistema",
-		"optLink" : "seguridad/log",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 11,
-		"optDes" : "Correlativo bins",
-		"optLink" : "parametros/correlativos",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 12,
-		"optDes" : "Calendario Jul",
-		"optLink" : "parametros/cal_juliano",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 13,
-		"optDes" : "Gerencia",
-		"optLink" : "parametros/gerencia",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 15,
-		"optDes" : "Moneda",
-		"optLink" : "parametros/moneda",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 16,
-		"optDes" : "Motivo",
-		"optLink" : "parametros/motivo",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 17,
-		"optDes" : "Proveedor",
-		"optLink" : "parametros/proveedor",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 18,
-		"optDes" : "Maquina.",
-		"optLink" : "parametros/maquina",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 19,
-		"optDes" : "Mezcla.",
-		"optLink" : "produccion/mezcla",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 20,
-		"optDes" : "Extrusión.",
-		"optLink" : "produccion/extrusion",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-24 22:36:23"
-	},
-	{
-		"optId" : 21,
-		"optDes" : "O. Producción.",
-		"optLink" : "produccion/ordenProduccion",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 22,
-		"optDes" : "O. Trabajo.",
-		"optLink" : "produccion/ordenTrabajo",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 23,
-		"optDes" : "Notificaciones.",
-		"optLink" : "seguridad/notificaciones",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 24,
-		"optDes" : "Orden de Venta",
-		"optLink" : "ventas/ordenVenta",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 25,
-		"optDes" : "Tipos de Pagos",
-		"optLink" : "parametros/tipo_pago",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 26,
-		"optDes" : "Proyectos",
-		"optLink" : "proyectos/proyecto",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 27,
-		"optDes" : "País",
-		"optLink" : "parametros/pais",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 28,
-		"optDes" : "Región",
-		"optLink" : "parametros/region",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 29,
-		"optDes" : "Ciudad",
-		"optLink" : "parametros/ciudad",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 30,
-		"optDes" : "Comuna",
-		"optLink" : "parametros/comuna",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 31,
-		"optDes" : "Color",
-		"optLink" : "parametros/color",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 32,
-		"optDes" : "Grupo",
-		"optLink" : "parametros/grupo",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 33,
-		"optDes" : "Sub Grupo",
-		"optLink" : "parametros/sub_grupo",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 34,
-		"optDes" : "Productos",
-		"optLink" : "parametros/productos",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 35,
-		"optDes" : "Unidad Medida",
-		"optLink" : "parametros/unidad",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 36,
-		"optDes" : "Equivalencia",
-		"optLink" : "parametros/equivalencia",
-		"created_at" : "2023-12-21 15:18:42",
-		"updated_at" : "2023-12-21 15:18:42"
-	},
-	{
-		"optId" : 37,
-		"optDes" : "Navegación",
-		"optLink" : "seguridad/menu",
-		"created_at" : "2023-12-22 16:53:49",
-		"updated_at" : "2023-12-22 16:53:49"
-	}
-]
+	{"optId":"1","optDes":"Adm-Usuarios","optLink":"seguridad\/administracion\/usuarios","created_at":"2024-10-05 15:09:42","updated_at":"2024-10-05 15:09:42"},
+	{"optId":"2","optDes":"Adm-Opciones","optLink":"seguridad\/administracion\/opciones","created_at":"2024-10-05 15:09:43","updated_at":"2024-10-05 15:09:43"},
+	{"optId":"3","optDes":"Empresa","optLink":"seguridad\/administracion\/empresa","created_at":"2024-10-05 15:09:43","updated_at":"2024-10-05 15:09:43"},
+	{"optId":"4","optDes":"Usuario","optLink":"seguridad\/usuarios","created_at":"2024-10-05 15:09:43","updated_at":"2024-10-05 15:09:43"},
+	{"optId":"5","optDes":"Roles","optLink":"seguridad\/roles","created_at":"2024-10-05 15:09:44","updated_at":"2024-10-05 15:09:44"},
+	{"optId":"6","optDes":"Módulos","optLink":"seguridad\/modulos","created_at":"2024-10-05 15:09:44","updated_at":"2024-10-05 15:09:44"},
+	{"optId":"7","optDes":"Etapas","optLink":"parametros\/etapas","created_at":"2024-10-05 15:09:44","updated_at":"2024-10-05 15:09:44"},
+	{"optId":"8","optDes":"Log de Sistema","optLink":"seguridad\/log","created_at":"2024-10-05 15:09:45","updated_at":"2024-10-05 15:09:45"},
+	{"optId":"9","optDes":"Correlativo bins","optLink":"parametros\/correlativos","created_at":"2024-10-05 15:09:45","updated_at":"2024-10-05 15:09:45"},
+	{"optId":"10","optDes":"Calendario Jul","optLink":"parametros\/cal_juliano","created_at":"2024-10-05 15:09:45","updated_at":"2024-10-05 15:09:45"},
+	{"optId":"11","optDes":"Gerencia","optLink":"parametros\/gerencia","created_at":"2024-10-05 15:09:46","updated_at":"2024-10-05 15:09:46"},
+	{"optId":"12","optDes":"Moneda","optLink":"parametros\/moneda","created_at":"2024-10-05 15:09:46","updated_at":"2024-10-05 15:09:46"},
+	{"optId":"13","optDes":"Motivo","optLink":"parametros\/motivo","created_at":"2024-10-05 15:09:46","updated_at":"2024-10-05 15:09:46"},
+	{"optId":"14","optDes":"Proveedor","optLink":"parametros\/proveedor","created_at":"2024-10-05 15:09:47","updated_at":"2024-10-05 15:09:47"},
+	{"optId":"15","optDes":"Maquina.","optLink":"parametros\/maquina","created_at":"2024-10-05 15:09:47","updated_at":"2024-10-05 15:09:47"},
+	{"optId":"16","optDes":"Mezcla.","optLink":"produccion\/mezcla","created_at":"2024-10-05 15:09:47","updated_at":"2024-10-05 15:09:47"},
+	{"optId":"17","optDes":"Extrusión.","optLink":"produccion\/extrusion","created_at":"2024-10-05 15:09:48","updated_at":"2024-10-05 15:09:48"},
+	{"optId":"18","optDes":"O. Producción.","optLink":"produccion\/ordenProduccion","created_at":"2024-10-05 15:09:48","updated_at":"2024-10-05 15:09:48"},
+	{"optId":"19","optDes":"O. Trabajo.","optLink":"produccion\/ordenTrabajo","created_at":"2024-10-05 15:09:48","updated_at":"2024-10-05 15:09:48"},
+	{"optId":"20","optDes":"Notificaciones.","optLink":"seguridad\/notificaciones","created_at":"2024-10-05 15:09:49","updated_at":"2024-10-05 15:09:49"},
+	{"optId":"21","optDes":"Orden Venta Web","optLink":"ventas\/ventaweb","created_at":"2024-10-05 15:09:49","updated_at":"2024-10-06 12:20:13"},
+	{"optId":"22","optDes":"Tipos de Pagos","optLink":"parametros\/tipo_pago","created_at":"2024-10-05 15:09:49","updated_at":"2024-10-05 15:09:49"},
+	{"optId":"23","optDes":"Proyectos","optLink":"proyectos\/proyecto","created_at":"2024-10-05 15:09:50","updated_at":"2024-10-05 15:09:50"},
+	{"optId":"24","optDes":"País","optLink":"parametros\/pais","created_at":"2024-10-05 15:09:50","updated_at":"2024-10-05 15:09:50"},
+	{"optId":"25","optDes":"Región","optLink":"parametros\/region","created_at":"2024-10-05 15:09:50","updated_at":"2024-10-05 15:09:50"},
+	{"optId":"26","optDes":"Ciudad","optLink":"parametros\/ciudad","created_at":"2024-10-05 15:09:51","updated_at":"2024-10-05 15:09:51"},
+	{"optId":"27","optDes":"Comuna","optLink":"parametros\/comuna","created_at":"2024-10-05 15:09:51","updated_at":"2024-10-05 15:09:51"},
+	{"optId":"28","optDes":"Color","optLink":"parametros\/color","created_at":"2024-10-05 15:09:52","updated_at":"2024-10-05 15:09:52"},
+	{"optId":"29","optDes":"Grupo","optLink":"parametros\/grupo","created_at":"2024-10-05 15:09:52","updated_at":"2024-10-05 15:09:52"},
+	{"optId":"30","optDes":"Sub Grupo","optLink":"parametros\/sub_grupo","created_at":"2024-10-05 15:09:52","updated_at":"2024-10-05 15:09:52"},
+	{"optId":"31","optDes":"Productos","optLink":"parametros\/productos","created_at":"2024-10-05 15:09:53","updated_at":"2024-10-05 15:09:53"},
+	{"optId":"32","optDes":"Unidad Medida","optLink":"parametros\/unidad","created_at":"2024-10-05 15:09:53","updated_at":"2024-10-05 15:09:53"},
+	{"optId":"33","optDes":"Equivalencia","optLink":"parametros\/equivalencia","created_at":"2024-10-05 15:09:53","updated_at":"2024-10-05 15:09:53"},
+	{"optId":"34","optDes":"Navegación","optLink":"seguridad\/menu","created_at":"2024-10-05 15:09:54","updated_at":"2024-10-05 15:09:54"},
+	{"optId":"35","optDes":"Centro","optLink":"sd\/centro","created_at":"2024-10-05 15:16:57","updated_at":"2024-10-05 15:16:57"},
+	{"optId":"36","optDes":"Job user","optLink":"JOB","created_at":"2024-10-05 22:19:01","updated_at":"2024-10-05 22:19:01"},
+	{"optId":"37","optDes":"Webohook","optLink":"seguridad\/administracion\/webhook","created_at":"2024-10-06 12:24:45","updated_at":"2024-10-06 12:24:45"}
+	]

@@ -58,7 +58,7 @@ class CreateProductosTable extends Migration
             $table->bigIncrements('prdId');
             $table->string('prdCod')->index();
             $table->string('prdDes');
-            $table->string('prdObs')->nullable();
+            $table->longText('prdObs')->nullable();
             $table->string('prdRap');
             $table->string('prdEan');
             $table->string('prdTip');
@@ -68,6 +68,10 @@ class CreateProductosTable extends Migration
             $table->char('prdInv');
             $table->string('prdPes')->nullable();
             $table->string('prdMin');
+            $table->string('prdIdExt')->nullable();
+            $table->longText('prdUrl')->nullable();
+            $table->char('prdMig')->nullable();
+            
             $table->timestamps();
         });
 

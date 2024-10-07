@@ -37,15 +37,16 @@ class Websocket extends Command
        $process->run();
        
        
-       $command = "cd /home/agiletic/app.back/app.back/app-agileticl/";
-       $process = Process::fromShellCommandline($command);
-       $process->run();
-
-         // Ejecutar el comando "websocket:clean"
-        $process = new Process(['php', "artisan", 'websocket:restart']);
+       $command = "cd /home/agiletic/app.back/app-agileticl";
+        $process = Process::fromShellCommandline($command);
         $process->run();
+
         
-        $command = "/usr/local/bin/php artisan websocket:serve &";
+        $command = "/usr/local/bin/php artisan websockets:restart &";
+        $process = Process::fromShellCommandline($command);
+        $process->run();
+         
+        $command = "/usr/local/bin/php artisan websockets:serve &";
         $process = Process::fromShellCommandline($command);
         $process->run();
        

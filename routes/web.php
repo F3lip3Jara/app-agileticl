@@ -26,6 +26,7 @@ Route::middleware(['App\Http\Middleware\postMiddleware'])->group(function () {
   require __DIR__ . '/seguridad.php';
   require __DIR__ . '/parametros.php';
   require __DIR__ . '/produccion.php';
+  require __DIR__ . '/sd.php';
 });
 
 Route::middleware(['App\Http\Middleware\sysAdmin'])->group(function () {
@@ -45,6 +46,7 @@ Route::middleware(['App\Http\Middleware\webPayMiddleware'])->group(function () {
 
 
 require __DIR__ . '/weebhooksOms.php';
+
 Route::get('comuna'     , [ComunaController::class,'index']);
 
 ?>

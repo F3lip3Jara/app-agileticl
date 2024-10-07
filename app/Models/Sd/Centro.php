@@ -1,50 +1,38 @@
 <?php
 
-namespace App\Models\Parametros;
+namespace App\Models\Sd;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 
-class Producto extends Model
+class Centro extends Model
 {
+   
     use HasFactory;
 
-    protected $table    ='parm_producto';
+
+    protected $table    ='sd_centro';
     protected $fillable = [
-        'prdId',
-        'prdCod',
-        'prdDes',
-        'prdObs',
-        'prdRap',
-        'prdEan',
-        'prdTip',
-        'prdCost',
-        'prdNet',
-        'prdBrut',
-        'prdInv',
-        'prdPes',
-        'prdMin',
-        'monId',
-        'grpId',
-        'grpsId',
-        'unId',
-        'colId',
+        'centroId',
         'empId',
-        'prdIdExt',
-        'prdUrl',
-        'prdMig'
+        'cenDes',
+        'cenDir',
+        'cenCap',
+        'cenPlace'
+
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
         ->toDateTimeString();
     }
-        
+   
     public function getUpdatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
         ->toDateTimeString();
     }
+
 }

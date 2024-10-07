@@ -497,28 +497,8 @@ class DatabaseSeeder extends Seeder
                 $idUn = $item->unId;
             }
 
-
-             //Productos
-             Producto::create([
-                'prdEan'   => $faker->ean13(),
-                'prdCod'   => $request->prdCod,
-                'prdDes'   => $request->prdDes,
-                'prdObs'   =>  '',
-                'prdRap'   => $request->prdRap,
-                'prdTip'   => $request->prdTip,
-                'prdCost'  => $request->prdCost,
-                'prdNet'   => $request->prdNet,
-                'prdBrut'  => $request->prdBrut,
-                'prdInv'   => $request->prdInv,
-                'prdPes'   => $request->prdPes,
-                'prdMin'   => $request->prdMin,
-                'idMon'    => $idMon,
-                'idGrp'    => $idGrp,
-                'idSubGrp' => $idSubGrp,
-                'idUn'     => $idUn,
-                'idCol'    => $idCol
-            ]);
-            }
+        }
+           
 
             //views
  DB::unprepared(file_get_contents('database/sqlviews/create-view-template.sql'));  

@@ -29,14 +29,14 @@ class Queue extends Command
         $process = Process::fromShellCommandline($command);
         $process->run();
 
-        $command = "cd /home/agiletic/app.back/app.back/app-agileticl/";
+        $command = "cd /home/agiletic/app.back/app-agileticl";
         $process = Process::fromShellCommandline($command);
         $process->run();
 
         $process = new Process(['php', "artisan", 'queue:restart']);
         $process->run();
         
-        $command = "/usr/local/bin/php artisan queue:work &";
+        $command = "/usr/local/bin/php artisan queue:work --daemon &";
         $process = Process::fromShellCommandline($command);
         $process->run();
     }

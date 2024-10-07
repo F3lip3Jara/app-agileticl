@@ -10,6 +10,7 @@ use App\Models\Seguridad\ModuleOpt;
 use App\Models\Seguridad\Roles;
 use App\Models\Seguridad\Empresa;
 use App\Models\Seguridad\ModuleRol;
+use App\Models\Seguridad\SubModuloOpt;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,14 @@ class EmpresaController extends Controller
 {
     public function index(Request $request)
     {
-        return Empresa::select('empId','empDes','empDir','empRut','empGiro','empFono')->get();
+        return Empresa::select('empId','empDes','empDir','empRut','empGiro','empFono', 'empTokenOMS')->get();
     }  
 
     public function ins(Request $request)
     {   
 
         $name        = $request['name'];
-        $empId       = 1;
+        $empId       = $request['emp'];
 
         $affected = Empresa::create([
                 'empDes'    => $request->empDes,
@@ -33,7 +34,9 @@ class EmpresaController extends Controller
                 'empRut'    => $request->empRut,
                 'empGiro'   => $request->empGiro,
                 'empFono'   => $request->empFono,
-                'empImg'    => $request->empImg
+                'empImg'    => $request->empImg,
+                'empTokenOMS'=>$request->empTokenOMS
+
         ]);
 
         if (isset($affected)) {
@@ -112,8 +115,11 @@ class EmpresaController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function up(Request $request)
     {
+        $name        = $request['name'];
+        $empId       = $request['emp'];
+
         $affected = Empresa::where('empId', $request->empId)->update(
             [
                 'empDes'    => $request->empDes,
@@ -121,17 +127,21 @@ class EmpresaController extends Controller
                 'empRut'    => $request->empRut,
                 'empGiro'   => $request->empGiro,
                 'empFono'   => $request->empFono,
+                'empImg'    => $request->empImg,
+                'empTokenOMS'=>$request->empTokenOMS,
+                
              ]
         );
 
+        $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+        dispatch($job);
+
         if ($affected > 0) {
             $resources = array(
-                array(
-                    "error" => "0", 'mensaje' => "Empresa actualizada manera correcta",
-                    'type' => 'success'
-                )
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
-            return response()->json($resources, 200);
+            return response()->json($resources, 200); 
+
         } else {
             return response()->json('error', 204);
         }
@@ -169,27 +179,32 @@ class EmpresaController extends Controller
         $affected    = EmpresaOpciones:: where('empId', $empId)->delete();      
         $opt         = $request['asig'];
         
-        foreach($opt as $item){                           
+      foreach($opt as $item){                           
             EmpresaOpciones::create([
                 'optId' => $item['optId'],
                 'empId' => $empId
             ]);  
         }
-
-        $opNoExistentes = DB::table('segu_emp_mol_opt')       
+    
+        $opcionesNoExistentes = DB::table('segu_opciones')
         ->leftJoin('segu_emp_opt', function ($join) use ($empId) {
-            $join->on('segu_emp_mol_opt.optId', '=', 'segu_emp_opt.optId')       
+            $join->on('segu_opciones.optId', '=', 'segu_emp_opt.optId')
                 ->where('segu_emp_opt.empId', '=', $empId);
         })
-        ->whereNull('segu_emp_opt.empId' )
-        ->select('segu_emp_mol_opt.optId')      
+        ->whereNull('segu_emp_opt.optId')
+        ->select('segu_opciones.optId', 'segu_opciones.optDes')
         ->get();
 
-    
-        foreach($opNoExistentes as $item ){
+
+        
+        foreach($opcionesNoExistentes as $item ){
+            SubModuloOpt::where('optId', $item->optId)
+                        ->where('empId', $empId)
+                        ->delete();
+
             ModuleOpt::where('optId', $item->optId)
-                     ->where('empId', $empId)
-                     ->delete();
+                       ->where('empId', $empId)
+                    ->delete();
         
         }
         
@@ -207,5 +222,11 @@ class EmpresaController extends Controller
         } else {
             return response()->json('error', 204);
         }
-    }   
+    } 
+    
+    public function upImg(Request $request){
+        $data = $request->all();
+        return Empresa::select('empImg')->where('empId', $data['empresa'])->get();
+
+    }
 }

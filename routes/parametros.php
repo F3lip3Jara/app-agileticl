@@ -17,6 +17,7 @@ use App\Http\Controllers\Parametros\RegionController;
 use App\Http\Controllers\Parametros\SubGrupoController;
 use App\Http\Controllers\Parametros\TipoPagoController;
 use App\Http\Controllers\Parametros\UnidadMedidaController;
+use App\Http\Controllers\Parametros\ProductoController;
 use Illuminate\Support\Facades\Route;
 
       
@@ -110,20 +111,20 @@ use Illuminate\Support\Facades\Route;
     Route::post('updSubGrupo'    , [SubGrupoController::class,'update']);
     Route::get('valCodSubGrp'    , [SubGrupoController::class,'valCodSubGrp']);
     Route::get('subGrp'          , [SubGrupoController::class,'indexFil']);
-    /*
+    
     //Producto
-    Route::get('trabProducto'    , 'App\Http\Controllers\ProductoController@index');
-    Route::post('insProducto'    , 'App\Http\Controllers\ProductoController@ins');
-    Route::post('delProducto'    , 'App\Http\Controllers\ProductoController@del');
-    Route::post('updProducto'    , 'App\Http\Controllers\ProductoController@update');
-    Route::get('valPrdCod'       , 'App\Http\Controllers\ProductoController@valCodPrd');
-    Route::get('valPrdEan'       , 'App\Http\Controllers\ProductoController@valEanPrd');
-    Route::get('filPrdDes'       , 'App\Http\Controllers\ProductoController@filPrdDes');
-    Route::get('prdDes'          , 'App\Http\Controllers\ProductoController@prdDes');
-    Route::get('filPrdCod'       , 'App\Http\Controllers\ProductoController@filPrdCod');
-    Route::get('datPrd'          , 'App\Http\Controllers\ProductoController@datPrd');
-    Route::get('datPrdMtP'       , 'App\Http\Controllers\ProductoController@datPrdMtP');
-    Route::get('prod'            , 'App\Http\Controllers\ProductoController@prod');*/
+    Route::get('trabProducto'    ,  [ProductoController::class,'index']);
+    Route::post('insProducto'    ,  [ProductoController::class,'ins']);
+    Route::post('delProducto'    ,  [ProductoController::class,'del']);
+    Route::post('updProducto'    ,  [ProductoController::class,'update']);
+    Route::get('valPrdCod'       ,  [ProductoController::class,'valCodPrd']);
+    Route::get('valPrdEan'       ,  [ProductoController::class,'valEanPrd']);
+    Route::get('filPrdDes'       ,  [ProductoController::class,'filPrdDes']);
+    Route::get('prdDes'          ,  [ProductoController::class,'prdDes']);
+    Route::get('filPrdCod'       ,  [ProductoController::class,'filPrdCod']);
+    Route::get('datPrd'          ,  [ProductoController::class,'datPrd']);
+    Route::get('datPrdMtP'       ,  [ProductoController::class,'datPrdMtP']);
+    Route::get('prod'            ,  [ProductoController::class,'prod']);
     //Maquinas
     Route::get('trabMaquinas'    , [MaquinasController::class,'index']);
     Route::post('insMaquinas'    , [MaquinasController::class,'ins']);

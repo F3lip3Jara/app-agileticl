@@ -2,46 +2,37 @@
 
 namespace App\Models\Parametros;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 
-class Producto extends Model
+class Clientes extends Model
 {
     use HasFactory;
 
-    protected $table    ='parm_producto';
+    protected $table    ='parm_clientes';
     protected $fillable = [
-        'prdId',
-        'prdCod',
-        'prdDes',
-        'prdObs',
-        'prdRap',
-        'prdEan',
-        'prdTip',
-        'prdCost',
-        'prdNet',
-        'prdBrut',
-        'prdInv',
-        'prdPes',
-        'prdMin',
-        'monId',
-        'grpId',
-        'grpsId',
-        'unId',
-        'colId',
+        'cliId',
         'empId',
-        'prdIdExt',
-        'prdUrl',
-        'prdMig'
+        'cliemail',
+        'clinombre',
+        'cliapellido',
+        'cliempresa',
+        'clidireccion_1',
+        'clidireccion_2',
+        'cliciudad',
+        'clicomuna',
+        'clipais',
+        'clitelefono',
+        'cliidExt'
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
         ->toDateTimeString();
     }
-        
+   
     public function getUpdatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))

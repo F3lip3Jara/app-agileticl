@@ -7,6 +7,7 @@ use App\Jobs\LogSistema;
 use App\Models\Seguridad\ModuleOpt;
 use App\Models\Seguridad\SubModulo;
 use App\Models\Seguridad\SubModuloOpt;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -62,7 +63,17 @@ class subOpcionesController extends Controller
         $molId  = $modulo['molId'];
         $molsDes= $request['molsDes'];
         $name   = $request['name'];
+        $molsId = $request['molsId'];
 
+        if($molsId > 0 ){
+            $affected = SubModuloOpt::where('molsId', $molsId)
+            ->where('empId', $empId)
+            ->delete();
+
+            $affected = SubModulo::where('molsId', $molsId)
+            ->where('empId', $empId)
+            ->delete();
+        }
         
         $affected = SubModulo::create([
             'molId'   => $molId,
@@ -98,5 +109,60 @@ class subOpcionesController extends Controller
         return response()->json($resources, 200);
       
     }
+  }
+
+  public function del(Request $request){
+    $empId  = $request['empId'];     
+    $modulo = $request['modulo'];    
+    $molId  = $modulo['molId']; 
+    $name   = $request['name'];
+    $molsId = $request['molsId'];
+   // $opt    = $request['opt'];
+    $opt    = SubModuloOpt::all();
+
+        try{
+
+            foreach($opt as $item){
+                $optId = $item['optId'];
+
+                $affected1 = ModuleOpt::create([
+                    'optId' => $optId,
+                    'molId' => $molId,
+                    'empId' => $empId
+                 ]);
+
+                $affected2 = SubModuloOpt::where('molId', $molId)
+                                        ->where('optId', $optId)
+                                        ->where('empId', $empId)
+                                        ->where('molsId', $molsId)
+                                        ->delete(); 
+                }
+    
+          
+        $affected = SubModulo::where('molsId', $molsId)
+                    ->where('empId', $empId)
+                    ->delete();
+
+
+        if (isset($affected)) {
+            
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+            dispatch($job); 
+            $resources = array(
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+            );
+            return response()->json($resources, 200); 
+        
+        }
+        }catch(Exception $ex){
+            $resources = array(
+                array("error" => "1", 'mensaje' => "El Sub módulo no se puede eliminar",
+                'type'=> 'danger')
+                );
+                
+            return $resources;
+        }
+        
+   
   }
 }

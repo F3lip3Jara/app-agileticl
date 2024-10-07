@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Parametros;
 
-use App\Models\Producto;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Jobs\LogSistema;
+use App\Models\Parametros\Producto;
 use App\Models\viewProductos;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\isEmpty;
+
 
 class ProductoController extends Controller
 {
@@ -25,13 +26,15 @@ class ProductoController extends Controller
 
     public function update(Request $request)
     {
+        $name        = $request['name'];
+        $empId       = $request['empId'];
 
-        $affected = Producto::where('idPrd', $request->idPrd)->update([
-            'prdEan'   => $request->prdEan,
-            'prdCod'   => $request->prdCod,
+        $affected = Producto::where('prdId', $request->prdId)
+        ->where('empId', $empId)
+        ->update([
+            
             'prdDes'   => $request->prdDes,
-            'prdObs'   => $request->prdObs,
-            'prdRap'   => substr($request->prdCod, 0, 6),
+            'prdObs'   => $request->prdObs,           
             'prdTip'   => $request->prdTip,
             'prdCost'  => $request->prdCost,
             'prdNet'   => $request->prdNet,
@@ -39,19 +42,18 @@ class ProductoController extends Controller
             'prdInv'   => $request->prdInv,
             'prdPes'   => $request->prdPes,
             'prdMin'   => $request->prdMin,
-            'idMon'    => $request->idMon,
-            'idGrp'    => $request->idGrp,
-            'idSubGrp' => $request->idSubGrp,
-            'idUn'     => $request->idUn,
-            'idCol'    => $request->idCol
+            'monId'    => $request->monId,
+            'grpId'    => $request->grpId,
+            'grpsId'   => $request->grpsId,
+            'unId'     => $request->unId,
+            'colId'    => $request->colId,
+          
         ]);
-
-        if ($affected > 0) {
+        if (isset($affected)) {
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+            dispatch($job);            
             $resources = array(
-                array(
-                    "error" => "0", 'mensaje' => "Producto actualizado manera correcta",
-                    'type' => 'success'
-                )
+            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
             return response()->json($resources, 200);
         } else {
@@ -61,6 +63,9 @@ class ProductoController extends Controller
 
     public function ins(Request $request)
     {
+
+        $name        = $request['name'];
+        $empId       = $request['empId'];   
 
         $affected = Producto::create([
             'prdEan'   => $request->prdEan,
@@ -75,19 +80,19 @@ class ProductoController extends Controller
             'prdInv'   => $request->prdInv,
             'prdPes'   => $request->prdPes,
             'prdMin'   => $request->prdMin,
-            'idMon'    => $request->idMon,
-            'idGrp'    => $request->idGrp,
-            'idSubGrp' => $request->idSubGrp,
-            'idUn'     => $request->idUn,
-            'idCol'    => $request->idCol
+            'monId'    => $request->monId,
+            'grpId'    => $request->grpId,
+            'grpsId'   => $request->grpsId,
+            'unId'     => $request->unId,
+            'colId'    => $request->colId,
+            'empId'    => $empId
         ]);
 
         if (isset($affected)) {
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+            dispatch($job);            
             $resources = array(
-                array(
-                    "error" => "0", 'mensaje' => "Producto ingresado manera correcta",
-                    'type' => 'success'
-                )
+            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
             return response()->json($resources, 200);
         } else {
@@ -176,8 +181,8 @@ class ProductoController extends Controller
     {
 
         $data   = request()->all();
-        $idPrd = $data['idPrd'];
-        return Producto::select('*')->where('idPrd', $idPrd)->get();
+        $idPrd = $data['prdId'];
+        return Producto::select('*')->where('prdId', $idPrd)->get();
     }
 
     public function datPrdMtP(Request $request)

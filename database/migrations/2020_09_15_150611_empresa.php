@@ -24,6 +24,7 @@ class Empresa extends Migration
             $table->string('empNomApp')->nullable();
             $table->string('empMail')->nullable();
             $table->longText('empImg')->nullable();
+            $table->longText('empTokenOMS')->nullable();
             $table->timestamps();
         });
 

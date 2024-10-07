@@ -1,47 +1,33 @@
 <?php
 
-namespace App\Models\Parametros;
+namespace App\Models\Oms;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
-class Producto extends Model
+class WebhookOms extends Model
 {
     use HasFactory;
-
-    protected $table    ='parm_producto';
+    
+    protected $table    ='webhook_oms';
     protected $fillable = [
-        'prdId',
-        'prdCod',
-        'prdDes',
-        'prdObs',
-        'prdRap',
-        'prdEan',
-        'prdTip',
-        'prdCost',
-        'prdNet',
-        'prdBrut',
-        'prdInv',
-        'prdPes',
-        'prdMin',
-        'monId',
-        'grpId',
-        'grpsId',
-        'unId',
-        'colId',
-        'empId',
-        'prdIdExt',
-        'prdUrl',
-        'prdMig'
+        'omshId',
+        'json',
+        'x_wc_webhook_topic',
+        'x_wc_webhook_resource',
+        'x_wc_webhook_event',
+        'session',
+        'header',
+        'web_estado'
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
         ->toDateTimeString();
     }
-        
+   
     public function getUpdatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))

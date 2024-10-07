@@ -19,7 +19,8 @@ class Sd extends Migration
             $table->foreign('empId')->references('empId')->on('parm_empresa');
             $table->string('cenDes');
             $table->string('cenDir');
-            $table->integer('cenCap');
+            $table->longText('cenPlace')->nullable();
+            $table->integer('cenCap')->nullable();;
             $table->timestamps();
         });
 
@@ -49,6 +50,9 @@ class Sd extends Migration
             $table->string('secCod');
             $table->timestamps();
         });
+
+        
+
 
     /*    Schema::create('sd_stock', function (Blueprint $table) {
             $table->bigIncrements('idExi');

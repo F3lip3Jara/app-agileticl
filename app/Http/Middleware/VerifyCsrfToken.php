@@ -154,7 +154,16 @@ class VerifyCsrfToken extends Middleware
         '/reiniciarAdm',
         '/deshabilitarAdm',
         '/habilitarAdm',
-        '/insSubOpc'
+        '/insSubOpc',
+        '/delSubOpc',
+        '/weebhooks_oms_wooecommerce',
+        '/updEmpresa',
+        '/insCentro',
+        '/delCentro',
+        '/updCentro',
+        '/insAlmacen',
+        '/delAlmacen',
+        '/updAlmacen'
         
     ];
 }

@@ -55,7 +55,7 @@ class OrdenVentaController extends Controller
             $xaffected = OrdenVentaDet::create([
                 'idOrv'     => $affected->id,
                 'empId'     => 1,
-                'idMon'     =>$item['idMon'] ,
+                'idMon'     =>$item['Mon'] ,
                 'orpvPrdCod'=>$item['prdCod'],
                 'orpvPrdDes'=>$item['prdDes'],
                 'orpvPrdCost'=>$item['prdCost'],
@@ -347,9 +347,6 @@ class OrdenVentaController extends Controller
 
     public function refoundT($token , $amount, $idOrv){
         return "auqi";
-       
-
-        
     }
     
     function statusTransbank(Request $request){

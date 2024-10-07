@@ -21,8 +21,9 @@ class TipoPagoController extends Controller
         $name        = $request['name'];
         $empId       = $request['empId'];        
     
-        $affected = TipoPago::where('tipCod', $request->tipCod)->update([
-            'tipDes' => $request->tipDes
+        $affected = TipoPago::where('tipPagId', $request->tipPagId)->update([
+            'tipDes' => $request->tipDes,
+            'tipCod' => $request->tipCod
         ]);
 
         if ($affected > 0) {

@@ -18,7 +18,8 @@ class Empresa extends Model
         'empRut',
         'empGiro',
         'empFono',
-        'empImg'
+        'empImg', 
+        'empTokenOMS'
     ];
 
     public function getCreatedAtAttribute($value){

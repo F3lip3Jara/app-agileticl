@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         
         Commands\Websocket::class,
         Commands\Queue::class,
+       
     ];
 
 
@@ -25,6 +26,10 @@ class Kernel extends ConsoleKernel
         $horaServidor = Carbon::now()->format('H:i'); 
         $schedule->command('app:websocket')->dailyAt($horaServidor);
         $schedule->command('app:queue')->dailyAt($horaServidor);
+        $schedule->command('app:actualiza_indicadores')->dailyAt($horaServidor);
+      
+        
+
     }
 
     /**

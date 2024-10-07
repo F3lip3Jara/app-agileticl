@@ -1,47 +1,35 @@
 <?php
 
-namespace App\Models\Parametros;
+namespace App\Models\OMS;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 
-class Producto extends Model
+class LineaOrden extends Model
 {
     use HasFactory;
 
-    protected $table    ='parm_producto';
+    protected $table = 'vent_lineas_ordenes';
+    
     protected $fillable = [
-        'prdId',
-        'prdCod',
-        'prdDes',
-        'prdObs',
-        'prdRap',
-        'prdEan',
-        'prdTip',
-        'prdCost',
-        'prdNet',
-        'prdBrut',
-        'prdInv',
-        'prdPes',
-        'prdMin',
-        'monId',
-        'grpId',
-        'grpsId',
-        'unId',
-        'colId',
+       'opedId',
         'empId',
-        'prdIdExt',
-        'prdUrl',
-        'prdMig'
+        'opeddId',// Agregado cliId
+        'opeddproductoId',
+        'opeddnombreProducto',
+        'opeddsubtotal',
+        'opeddtotal',
+        'opeddcantidad'
     ];
+
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
         ->toDateTimeString();
     }
-        
+   
     public function getUpdatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
