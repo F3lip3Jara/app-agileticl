@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\OrdenVentaController;
+
 use App\Http\Controllers\Parametros\ComunaController;
 use App\Http\Controllers\Seguridad\UserController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +27,9 @@ Route::middleware(['App\Http\Middleware\postMiddleware'])->group(function () {
   require __DIR__ . '/parametros.php';
   require __DIR__ . '/produccion.php';
   require __DIR__ . '/sd.php';
+  require __DIR__ . '/ventas.php';
+  //require __DIR__ . '/ventas.php';
+  
 });
 
 Route::middleware(['App\Http\Middleware\sysAdmin'])->group(function () {

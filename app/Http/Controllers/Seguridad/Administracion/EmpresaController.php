@@ -20,7 +20,15 @@ class EmpresaController extends Controller
     public function index(Request $request)
     {
         return Empresa::select('empId','empDes','empDir','empRut','empGiro','empFono', 'empTokenOMS')->get();
+    } 
+    
+    public function index1(Request $request)
+    {
+        return Empresa::select('empId','empDes','empDir','empRut','empGiro','empFono', 'empTokenOMS')
+                        ->where('empId', $request['empId'])
+                        ->get();
     }  
+
 
     public function ins(Request $request)
     {   

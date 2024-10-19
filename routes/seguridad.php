@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('snAsigOpt'     , [subOpcionesController::class, 'sinAsig']); 
     Route::get('asigOpt'       , [subOpcionesController::class, 'asig']); 
     Route::post('insSubOpc'    , [subOpcionesController::class,'ins']);
-    Route::post('delSubOpc'     , [subOpcionesController::class, 'del']);
+    Route::post('delSubOpc'    , [subOpcionesController::class, 'del']);
     
     //Route::get('getUser'      , 'App\Http\Controllers\UserController@setUserSession');
 

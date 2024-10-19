@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Sd\AlmacenController;
 use App\Http\Controllers\Sd\CentroController;
+use App\Http\Controllers\Sd\ClassTipController;
+use App\Http\Controllers\SdOrdController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +20,12 @@ use Illuminate\Support\Facades\Route;
  Route::post('delAlmacen'       , [AlmacenController::class,'del']);
  Route::post('updAlmacen'       , [AlmacenController::class,'update']);
  
+ Route::get('trabSdOrden'       , [SdOrdController::class,'index']);
+ Route::post('insSdOrden'       , [SdOrdController::class,'ins']);
+
+
+ Route::get('trabSdClass'       , [ClassTipController::class,'index']);
+ Route::post('insSdClass'       , [ClassTipController::class,'ins']);
+ Route::post('updSdClass'       , [ClassTipController::class,'update']);
 
 ?>

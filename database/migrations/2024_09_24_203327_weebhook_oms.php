@@ -83,6 +83,7 @@ return new class extends Migration
             $table->string('userAgentCliente');
             $table->string('opedcarritoHash');
             $table->string('opedidExt');
+            $table->string('opedComCod')->nullable();
             $table->timestamps();
 
             // Relaciones

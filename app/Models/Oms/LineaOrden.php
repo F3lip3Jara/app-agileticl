@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\OMS;
+namespace App\Models\Oms;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,14 +14,16 @@ class LineaOrden extends Model
     protected $table = 'vent_lineas_ordenes';
     
     protected $fillable = [
-       'opedId',
+        'opedId',
         'empId',
         'opeddId',// Agregado cliId
         'opeddproductoId',
         'opeddnombreProducto',
         'opeddsubtotal',
         'opeddtotal',
-        'opeddcantidad'
+        'opeddcantidad',
+        'centroId',        
+        'almId'
     ];
 
     public function getCreatedAtAttribute($value){

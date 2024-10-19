@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\Ciudades;
 use App\Jobs\LogSistema;
 use App\Models\Parametros\Ciudad;
+use App\Models\Parametros\Comuna;
+use App\Models\Parametros\Pais;
 use App\Models\Parametros\Proveedor;
 use App\Models\Parametros\PrvDirDes;
 use App\Models\Parametros\Region;
@@ -147,16 +150,52 @@ class RegionController extends Controller
     public function indexFil( Request $request)
     {     
         $data   = $request->all();
-        $datos = Region::select(['regId' , 'regDes'])->where('paiId', $data['paiId'])->get();
+        $paiId  = $data['paiId'];
+        $datos = Region::select(['regId' , 'regDes'])->where('paiId', $paiId)->get();
+        
+        if(sizeof($datos) > 0){           
+            return $datos;
+        }else{
+            $resources = [];
 
-                foreach($datos as $item){
-                    $resources = array(
-                        array('regId'     => $item->regId,
-                              'regDes'    => $item->regDes
-                            )
-                        );
+            $code = Pais::select('paiCod')->where('paiId', $paiId)->get();
+            $iso2 = $code['0']['paiCod'];
+            $json = file_get_contents(__DIR__ . '/c_states_cities.json');
+            $data = json_decode($json);
+            $state = [];
+        
+            foreach($data as $item){
+                if($item->iso2 === $iso2){
+                    $states = $item->states;
+                    foreach($states as $itemReg){
+                            $cod    = $itemReg->state_code;
+                            $name   = $itemReg->name;
+                            $cities = $itemReg->cities;
+
+                            $affected = Region::create([
+                                    'paiId'  => $paiId,
+                                    'empId'  => 1,
+                                    'regCod' => $cod,
+                                    'regDes' => $name
+                            ]);
+
+                            $regId = $affected->id;
+
+                            $region = array(
+                                'regId' => $affected->id,
+                                'regDes' => $affected->regDes
+                            );
+                                
+                            $job = new Ciudades($cities ,$paiId ,$regId);
+                            dispatch($job); 
+
+                        array_push($state , $region);
                     }
-        return $datos;
+                    return $state;
+                    
+                }
+            }
+        }
     }
 
 }

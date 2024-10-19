@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Models\OMS;
-
-use App\Models\Cliente;
+namespace App\Models\Oms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
+
 
 class OrdenWeb extends Model
 {
@@ -15,7 +14,7 @@ class OrdenWeb extends Model
     protected $table = 'vent_ordenes';
     
     protected $fillable = [
-       'opedId',
+        'opedId',
         'empId',
         'cliId',// Agregado cliId
         'opedparentid',
@@ -24,36 +23,27 @@ class OrdenWeb extends Model
         'opedversion',
         'opedfechaCreacion', // Cambio de date a timestamp
         'opedpreciosIncluyenImpuestos',
-       'opeddescuentoTotal',
-       'opeddescuentoImpuesto',
-       'opedenvioTotal',
-       'opedenvioImpuesto',
-       'opedimpuestoCarrito',
-       'opedtotal',
-       'opedtotalImpuesto',
-      'opedclaveOrden',
-      'opedMetodoPago',
-      'opedtituloMetodoPago',
-      'opeddireccionIpCliente',
-      'opedEntrega',
-      'opePlace',
-      'userAgentCliente',
-      'opedcarritoHash',
-      'opedidExt'
-       
-        
+        'opeddescuentoTotal',
+        'opeddescuentoImpuesto',
+        'opedenvioTotal',
+        'opedenvioImpuesto',
+        'opedimpuestoCarrito',
+        'opedtotal',
+        'opedtotalImpuesto',
+        'opedclaveOrden',
+        'opedMetodoPago',
+        'opedtituloMetodoPago',
+        'opeddireccionIpCliente',
+        'opedEntrega',
+        'opePlace',
+        'opeComCod',
+        'userAgentCliente',
+        'opedcarritoHash',
+        'opedidExt',
+        'clasTipId'
     ];
 
-  /*  public function cliente()
-    {
-        return $this->belongsTo(Cliente::class);
-    }
-    
-    public function lineas()
-    {
-        return $this->hasMany(LineaOrden::class);
-    }
-*/
+
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
  Route::get('trabEmpresa'    ,  [EmpresaController::class, 'index']);
  Route::post('updEmpresa'    ,  [EmpresaController::class, 'up']);
  Route::get('upImg'          ,  [EmpresaController::class, 'upImg']);
- 
+ Route::get('empresafil'     ,  [EmpresaController::class, 'index1']);
 
  //Opciones
 Route::get('trabOpciones'   , [OpcioneController::class, 'index']);   
