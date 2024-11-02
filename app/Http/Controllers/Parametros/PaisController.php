@@ -9,14 +9,35 @@ use App\Models\Parametros\Pais;
 use App\Models\Parametros\Proveedor;
 use App\Models\Parametros\PrvDirDes;
 use App\Models\Parametros\Region;
-
+use Illuminate\Support\Facades\Schema;
 
 class PaisController extends Controller
 {
     public function index(Request $request)
     {
+        $table   = 'parm_pais';
+        $columns = Schema::getColumnListing($table);
 
-        return Pais::select('*')->get();
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'empId'; // Columna a excluir
+        });
+
+        $columns = array_values($columns); // Reindexar el array si es necesa
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));
+        
+       if(isset($filtros)){       
+        $data     = Pais::query()->filter($filtros)->get();
+       }else{
+         $data    = Pais::all()->take(1000);
+       }
+       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+       
+        return response()->json($resources, 200); 
     }
 
     public function update(Request $request)

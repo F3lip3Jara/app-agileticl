@@ -9,12 +9,35 @@ use App\Models\viewComunas;
 use Illuminate\Http\Request;
 use  App\Models\Parametros\Proveedor;
 use App\Models\Parametros\PrvDirDes;
+use Illuminate\Support\Facades\Schema;
 
 class ComunaController extends Controller
 {
     public function index(Request $request)
     {
-        return viewComunas::select('*')->get();
+        $table   = 'comunas';
+        $columns = Schema::getColumnListing($table);
+
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'empId'; // Columna a excluir
+        });
+
+        $columns = array_values($columns); // Reindexar el array si es necesa
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));
+        
+       if(isset($filtros)){       
+        $data     = viewComunas::query()->filter($filtros)->get();
+       }else{
+         $data    = viewComunas::select('*')->take(1500)->get();
+       }
+       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+       
+        return response()->json($resources, 200);
     }
 
     public function update(Request $request)

@@ -6,21 +6,41 @@ use App\Http\Controllers\Controller;
 use App\Jobs\Ciudades;
 use App\Jobs\LogSistema;
 use App\Models\Parametros\Ciudad;
-use App\Models\Parametros\Comuna;
 use App\Models\Parametros\Pais;
 use App\Models\Parametros\Proveedor;
 use App\Models\Parametros\PrvDirDes;
 use App\Models\Parametros\Region;
-use App\Models\User;
 use App\Models\viewRegiones;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class RegionController extends Controller
 {
             public function index( Request $request)
         {  
-                    return viewRegiones::select('*')->get();
-       
+                $table   = 'regiones';
+                $columns = Schema::getColumnListing($table);
+
+                $columns = array_filter($columns, function ($column) {
+                    return $column !== 'empId'; // Columna a excluir
+                });
+
+                $columns = array_values($columns); // Reindexar el array si es necesa
+                $filtros = $request['filter'];
+                $filtros = json_decode(base64_decode($filtros));
+                
+            if(isset($filtros)){       
+                $data     = viewRegiones::query()->filter($filtros)->get();
+            }else{
+                $data     = viewRegiones::select('*')->take(1500)->get();
+            }
+            
+                $resources = array(
+                        "data"   => $data,
+                        "colums" => $columns
+                );
+            
+                return response()->json($resources, 200); 
         }
 
         public function update(Request $request)

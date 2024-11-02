@@ -9,13 +9,32 @@ use App\Models\viewProveedores;
 use Exception;
 use Freshwork\ChileanBundle\Facades\Rut;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ProveedorController extends Controller
 {
     public function index(Request $request)
     {
-
-        return viewProveedores::all();
+        $table   = 'proveedores';
+        $columns = Schema::getColumnListing($table);
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'empId'; // Columna a excluir
+        });
+        $columns = array_values($columns); // Reindexar el array si es necesa
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));
+        
+       if(isset($filtros)){       
+        $data     = viewProveedores::query()->filter($filtros)->get();
+       }else{
+         $data    = viewProveedores::select('*')->take(1500)->get();
+       }       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+        return response()->json($resources, 200); 
+    
     }
 
     public function update(Request $request)
@@ -152,7 +171,6 @@ class ProveedorController extends Controller
     public function selCliente(Request $request)
     {
         $data = $request->all();
-        $es_cliente = $data['es_cliente'];
-        return viewProveedores::all()->where('es_cliente', $es_cliente);
+        return viewProveedores::select('*')->get();
     }
 }

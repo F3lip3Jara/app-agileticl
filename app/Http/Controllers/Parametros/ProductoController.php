@@ -7,8 +7,7 @@ use App\Jobs\LogSistema;
 use App\Models\Parametros\Producto;
 use App\Models\viewProductos;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\Schema;
 
 class ProductoController extends Controller
 {
@@ -21,7 +20,22 @@ class ProductoController extends Controller
     public function index(Request $request)
     {
 
-        return viewProductos::all()->take(1000);
+        $table   = 'productos';
+        $columns = Schema::getColumnListing($table);
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));  
+       if(isset($filtros)){ 
+      
+        $data     = viewProductos::query()->filter($filtros)->get();
+       }else{
+         $data    = viewProductos::all()->take(1000);
+       }
+       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+        return response()->json($resources, 200);    
     }
 
     public function update(Request $request)
@@ -169,8 +183,6 @@ class ProductoController extends Controller
         }
     }
 
-
-
     public function prdDes(Request $request)
     {
 
@@ -201,8 +213,8 @@ class ProductoController extends Controller
         $data = $request->all();
         $prdTip = $data['prdTip'];
         
-        return Producto::select('idPrd', 'prdCod', 'prdDes','prdNet', 'prdCost', 'producto.idMon','monCod')
-            ->join('moneda', 'moneda.idMon' , '=' , 'producto.idMon')
+        return Producto::select('prdId', 'prdCod', 'prdDes','prdNet', 'prdCost', 'parm_producto.monId','monCod')
+            ->join('parm_moneda', 'parm_moneda.monId' , '=' , 'parm_producto.monId')
             ->where('prdTip',  $prdTip)
             ->get();
     }

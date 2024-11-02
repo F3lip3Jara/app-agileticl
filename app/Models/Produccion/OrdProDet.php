@@ -11,18 +11,24 @@ class OrdProDet extends Model
 {
     use HasFactory;
 
-    protected $table    ='ord_produccion_det';
+    protected $table    ='prod_orden_det';
     protected $fillable = [
-        'idOrp',
-        'empId',
-        'idOrpd',
-        'orpdPrdCod',
-        'orpdPrdDes',
-        'orpdCant',
-        'orpdCantDis',
-        'orpdTotP',
-        'orpdObs',
-        'orpdidEta'
+            'orpdId',
+            'orpId',
+            'empId',
+            'orpdPrdCod',
+            'orpdPrdDes',
+            'orpdCant',
+            'orpdDtlCustShortText1',
+            'orpdDtlCustShortText2',  // 
+            'orpdDtlCustShortText3',  // 
+            'orpdDtlCustShortText4',  // 
+            'orpdDtlrCustShortText5', // 
+            'orpdDtlCustShortText6',  // 
+            'orpdDtlCustShortText7',  // 
+            'orpdDtlCustShortText8',  //  
+            'orpdDtlCustShortText9',  // 
+            'orpdDtlCustShortText10' // 
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))

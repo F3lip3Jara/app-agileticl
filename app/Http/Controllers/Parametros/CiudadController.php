@@ -10,12 +10,30 @@ use App\Models\viewCiudad;
 use Illuminate\Http\Request;
 use App\Models\Parametros\Proveedor;
 use App\Models\Parametros\PrvDirDes;
+use Illuminate\Support\Facades\Schema;
 
 class CiudadController extends Controller
 {
     public function index(Request $request)
     {
-        return viewCiudad::select('*')->get();
+        $table   = 'ciudades';
+        $columns = Schema::getColumnListing($table);
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'empId'; // Columna a excluir
+        });
+        $columns = array_values($columns); // Reindexar el array si es necesa
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));        
+       if(isset($filtros)){       
+        $data     = viewCiudad::query()->filter($filtros)->get();
+       }else{
+         $data    = viewCiudad::select('*')->take(1500)->get();
+       }       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+        return response()->json($resources, 200); 
     }
 
     public function update(Request $request)

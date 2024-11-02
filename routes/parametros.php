@@ -125,6 +125,8 @@ use Illuminate\Support\Facades\Route;
     Route::get('datPrd'          ,  [ProductoController::class,'datPrd']);
     Route::get('datPrdMtP'       ,  [ProductoController::class,'datPrdMtP']);
     Route::get('prod'            ,  [ProductoController::class,'prod']);
+    
+
     //Maquinas
     Route::get('trabMaquinas'    , [MaquinasController::class,'index']);
     Route::post('insMaquinas'    , [MaquinasController::class,'ins']);
