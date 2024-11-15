@@ -1,20 +1,48 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Produccion;
 
-use App\Models\OrdenProduccion;
-use App\Models\OrdProDet;
-use App\Models\Producto;
+use App\Http\Controllers\Controller;
+use App\Jobs\LogSistema;
+use App\Models\Produccion\OrdenProduccion;
+use App\Models\Produccion\OrdProDet;
+use App\Models\Parametros\Producto;
 use App\Models\User;
 use App\Models\viewOrdenProduccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Schema;
 
 class OrdenProdController extends Controller
 {
     public function index(Request $request)
     {
+        $table   = 'orden_produccion';
+        $columns = Schema::getColumnListing($table);
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'empId'; // Columna a excluir
+        });
+
+        $columns = array_values($columns); // Reindexar el array si es necesa
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));
+        
+       if(isset($filtros)){       
+        $data     = viewOrdenProduccion::query()->filter($filtros)
+                    ->where('empId', $request->empId)
+                    ->get();
+       }else{
+         $data    = viewOrdenProduccion::select('*')->where('empId', $request->empId)->take(1500)->get();
+       }
+       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+ 
+	
+	  return response()->json($resources, 200); 
+	
 
         $affected =  viewOrdenProduccion::select('*')->get();
         return response()->json($affected, 200);
@@ -61,61 +89,80 @@ class OrdenProdController extends Controller
         $header = $request->header('access-token');
         $val    = User::select('token', 'id', 'activado', 'name')->where('token', $header)->get();
         $data   = $request->all();
-
-        foreach ($val as $item) {
-            if ($item->activado = 'A') {
-                $id      = $item->id;
-                $orpUsrG = $item->name;
-            }
-        }
-
+        $empId  = $data['empId'];
+        $name   = $data['name'];
+        $idUser = $data['idUser'];
+ 
         foreach ($data as $item) {
-
-            $fecha          = $item['orpFech'];
+           
+            $fecha          = $item['orpFech'];           
             $orpFech        = $fecha['year'] . '-' . $fecha['month'] . '-' . $fecha['day'];
-            $ordenes        = $item['ordenes'];
+            $ordenes        = $item['ordenes'];          
+            $proveedor      = $item['proveedor'];  
+            $prvId          = $proveedor['id'];
+            $centroId       = $item['centroId'];
+            $almId          = $item['almId'];
+            $clasTipId      = $item['clasTipId'];
+            
 
             $affected       = OrdenProduccion::create([
-                'empId'     => 1,
-                'idPrv'     => $item['idPrv'],
-                'orpidEta'  => $item['idEta'],
+              
+                'empId'     => $empId,
+                'prvId'     => $prvId,
                 'orpNumOc'  => $item['orpNumOc'],
-                'orpFech'   => $orpFech,
-                'orpUsrG'   => $orpUsrG,
-                'orpObs'    => $item['orpObs'],
                 'orpNumRea' => $item['orpNumRea'],
+                'orpFech'   => $orpFech,
+                'orpUsrG'   => $name,
+                'orpObs'    => $item['orpObs'],
+                'orpTurns'  => '',
                 'orpEst'    => 1,
                 'orpEstPrc' => 1,
-                'orpTurns'  => ''
+                'orpHdrCustShortText1' => $centroId, // 255, //
+                'orpHdrCustShortText2' => $almId,// 100, // Clase documento descripcion
+                'orpHdrCustShortText3' => $clasTipId,// 100, // 
+                'orpHdrCustShortText4' => '', //100, // 
+                'orpHdrCustShortText5' => '', // 100, // 
+                'orpHdrCustShortText6' => '', // 100, // 
+                'orpHdrCustShortText7' => '', //100, // 
+                'orpHdrCustShortText8' => '', //100, // 
+                'orpHdrCustShortText9' => '', //100, // 
+                'orpHdrCustShortText10' => '', //20, // Clase documento
+                'orpHdrCustShortText11' => '', //20, // 
+                'orpHdrCustShortText12' => '', //20, // 
+                'orpHdrCustShortText13' => '', //20, // 
+                'orpHdrCustLongText1' => '' // 
 
             ]);
 
-            /*  $idOrp = OrdenProduccion::select('idOrp')->where('orpNumRea',$item['orpNumRea'])->get();
-
-                foreach($idOrp as $idOrpx){
-                        $xid = $idOrpx->idOrp;
-                }*/
             $xid = $affected['id'];
 
             foreach ($ordenes as $orddet) {
                 OrdProDet::create([
-                    'idOrp'       => $xid,
-                    'empId'       => 1,
-                    'orpdPrdCod'  => $orddet['prdCod'],
-                    'orpdPrdDes'  => $orddet['prdDes'],
-                    'orpdCant'    => $orddet['orpdCant'],
-                    'orpdCantDis' => $orddet['orpdCantDis'],
-                    'orpdTotP'    => $orddet['orpdTotP'],
-                    'orpdObs'     => $orddet['orpdObs'],
-                    'orpdidEta'   => $item['idEta']
+
+                    'orpdId' => $xid,
+                    'orpId' => $xid,
+                    'empId' => $empId,
+                    'orpdPrdCod' => $orddet['prdCod'],
+                    'orpdPrdDes' => $orddet['prdDes'],
+                    'orpdCant' => $orddet['orpdCant'],
+                    'orpdDtlCustShortText1'  => '',
+                    'orpdDtlCustShortText2'  => '',  // 
+                    'orpdDtlCustShortText3'  => '',  // 
+                    'orpdDtlCustShortText4'  => '',  // 
+                    'orpdDtlrCustShortText5' => '', // 
+                    'orpdDtlCustShortText6' => '',  // 
+                    'orpdDtlCustShortText7' => '',  // 
+                    'orpdDtlCustShortText8' => '',  //  
+                    'orpdDtlCustShortText9' => '',  // 
+                    'orpdDtlCustShortText10' => '' // 
                 ]);
             }
+           
             if (isset($affected)) {
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                dispatch($job);            
                 $resources = array(
-                    array(
-                        "error" => "0", 'mensaje' => "Orden ingresada manera correcta",
-                        'type' => 'success'
-                    )
+                    array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
                 );
                 return response()->json($resources, 200);
             } else {
@@ -250,7 +297,7 @@ class OrdenProdController extends Controller
                 return  OrdProDet::select('*')->where('idOrp', $data['idOrp'])->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
                         ->from('ordenes_de_trabajos_det')
-                        ->whereRaw('ord_produccion_det.idOrp     = ordenes_de_trabajos_det.orden_produccion')
+                        ->whereRaw('ord_produccion_det.orpId     = ordenes_de_trabajos_det.orden_produccion')
                         ->whereRaw('ord_produccion_det.orpdPrdCod = ordenes_de_trabajos_det.ordtdPrdCod');
                 })->get();
           
@@ -259,26 +306,21 @@ class OrdenProdController extends Controller
 
     public function valPrdOrd(Request $request)
     {
-
-        
-                $data = $request->all();
-                $affected = Producto::all()->where('prdCod', $data['prdCod'])->take(1);
-                if (sizeof($affected) > 0) {
-                    $error = 3;
-                    return response()->json($error, 200);
-                } else {
-                    $error = 2;
-                    return response()->json($error, 200);
-                }
-        
+        $data = $request->all();
+         $affected = Producto::all()->where('prdCod', $data['prdCod'])->take(1);
+         if (sizeof($affected) > 0) {
+             $error = 3;
+             return response()->json($error, 200);
+         } else {
+             $error = 2;
+             return response()->json($error, 200);
+         }        
     }
 
     public function OrdPDet(Request $request)
-    {
-        
-                $data = $request->all();
-
-                return  OrdProDet::select('*')->where('idOrp', $data['idOrp'])->get();
+    {        
+        $data = $request->all();
+        return  OrdProDet::select('*')->where('orpId', $data['orpId'])->get();
         
     }
 }

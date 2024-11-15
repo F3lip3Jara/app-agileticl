@@ -13,6 +13,12 @@ class ClassTipController extends Controller
         {
             return SdTipClase::select('*')->get();
         }
+
+     /*   public function indexFil(Request $request)
+        {
+            return SdTipClase::select('*')
+                    ->get();
+        }*/
     
         public function update(Request $request)
         {   

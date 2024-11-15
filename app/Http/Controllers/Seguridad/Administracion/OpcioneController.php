@@ -6,13 +6,36 @@ use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Seguridad\Opciones;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class OpcioneController extends Controller
 {
     public function index(Request $request)
-    {
-        $datos = Opciones::select('*')->get();
-        return response()->json($datos, 200);
+    {   
+        $table   = 'segu_opciones';
+        $columns = Schema::getColumnListing($table);
+        $columns = array_filter($columns, function ($column) {
+            return $column !== 'empId'; // Columna a excluir
+        });
+        $columns = array_values($columns); // Reindexar el array si es necesa
+        $filtros = $request['filter'];
+        $filtros = json_decode(base64_decode($filtros));
+    
+       if(isset($filtros)){       
+        $data     =   Opciones::query()->filter($filtros)->get();
+       }else{
+         $data    =  Opciones::select('*')->take(1500)->get();
+       }
+       
+        $resources = array(
+                "data"   => $data,
+                "colums" => $columns
+        );
+ 
+	
+	  return response()->json($resources, 200); 
+	
+
     }
     
 

@@ -38,7 +38,7 @@ class Sd extends Migration
 
 
 
-        Schema::create('sd_sector', function (Blueprint $table) {
+        Schema::create('sd_cent_alm_sector', function (Blueprint $table) {
             $table->bigIncrements('sectorId');
             $table->bigInteger('empId')->unsigned();
             $table->foreign('empId')->references('empId')->on('parm_empresa'); 
@@ -53,58 +53,6 @@ class Sd extends Migration
 
         
 
-
-    /*    Schema::create('sd_stock', function (Blueprint $table) {
-            $table->bigIncrements('idExi');
-            $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->bigInteger('idCentro')->unsigned();
-            $table->bigInteger('idSector')->unsigned();
-            $table->bigInteger('idPrd')->unsigned();
-            $table->foreign('idPrd')->references('idPrd')->on('producto');
-            $table->string('exiDis');
-            $table->integer('exiTrans');
-            $table->string('exiReser');
-            $table->timestamps();
-        });*/
-
-
-         //PALLET
-     /*    Schema::create('sd_undida_almacenaje', function (Blueprint $table) {
-            $table->bigIncrements('idUnAlm');
-            $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');
-            $table->char('unTip')->nullable();
-            $table->string('unCod')->nullable();         
-            $table->timestamps();
-        });
-
-
-        //PALLET - BULTOS
-        Schema::create('undida_almacenaje_bultos', function (Blueprint $table) {
-            $table->bigIncrements('idBulAlm');
-            $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');         
-            $table->bigInteger('idUnAlm')->unsigned();
-            $table->foreign('idUnAlm')->references('idUnAlm')->on('undida_almacenaje');         
-            $table->integer('bulCant')->nullable();
-            $table->string('bulCod')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('undida_almacenaje_bultos_prd', function (Blueprint $table) {
-            $table->bigIncrements('idBulPrd');
-            $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('empresa');         
-            $table->bigInteger('idUnAlm')->unsigned();
-            $table->foreign('idUnAlm')->references('idUnAlm')->on('undida_almacenaje'); 
-            $table->bigInteger('idBulAlm')->unsigned();
-            $table->foreign('idBulAlm')->references('idBulAlm')->on('undida_almacenaje_bultos');
-            $table->bigInteger('idPrd')->unsigned();
-            $table->foreign('idPrd')->references('idPrd')->on('producto');           
-            $table->integer('bulPrCant')->nullable();
-            $table->timestamps();
-        });*/
 
     }
 

@@ -1,19 +1,21 @@
 <?php
 
+use App\Http\Controllers\Produccion\OrdenProdController;
 use Illuminate\Support\Facades\Route;
 
 
-
-/*	Route::get('trabOrden'       , 'App\Http\Controllers\OrdenProdController@index');
-    Route::post('insOrd'         , 'App\Http\Controllers\OrdenProdController@ins');	
-    Route::post('insOT'          , 'App\Http\Controllers\OrdenTrabController@ins');
-    Route::get('trabOt'          , 'App\Http\Controllers\OrdenTrabController@index');
-    Route::get('verOtIny'        , 'App\Http\Controllers\OrdenTrabController@verOtIny');
-    Route::get('verOtTer'        , 'App\Http\Controllers\OrdenTrabController@verOtTer');
-    Route::get('verOtImp'        , 'App\Http\Controllers\OrdenTrabController@verOtImp');
-    Route::post('insOTT'         , 'App\Http\Controllers\OrdenTrabController@insOTT');
-    Route::post('AprOt'          , 'App\Http\Controllers\OrdenTrabController@AprOt');
-    
+	Route::get('trabOrdenProduccion'        ,[OrdenProdController::class,'index']);
+   Route::post('insOrdProduccion'          ,[OrdenProdController::class,'ins']);	
+   Route::get('OrdPDet'                    ,[OrdenProdController::class,'OrdPDet']);	
+  
+   /* Route::post('insOT'          ,[OrdenTrabController::class,'ins']);
+    Route::get('trabOt'          ,[OrdenTrabController::class,'index']);
+    Route::get('verOtIny'        ,[OrdenTrabController::class,'verOtIny']);
+    Route::get('verOtTer'        ,[OrdenTrabController::class,'verOtTer']);
+    Route::get('verOtImp'        ,[OrdenTrabController::class,'verOtImp']);
+    Route::post('insOTT'         ,[OrdenTrabController::class,'insOTT']);
+    Route::post('AprOt'          ,[OrdenTrabController::class,'AprOt']);*/
+ /*   
     //Termoformado
     Route::get('trabOtTermo'     , 'App\Http\Controllers\OrdenTrabController@indexTermo');
     Route::get('trabOtTermofil'  , 'App\Http\Controllers\OrdenTrabController@indexTermoFil');

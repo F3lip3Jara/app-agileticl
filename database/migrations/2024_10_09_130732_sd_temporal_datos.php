@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('sd_ordentemp', function (Blueprint $table) {
             $table->bigIncrements('ordtId');            
             $table->bigInteger('empId')->unsigned();
-            $table->foreign('empId')->references('empId')->on('pam_empresa'); 
+            $table->foreign('empId')->references('empId')->on('parm_empresa'); 
             $table->bigInteger('centroId')->unsigned();
             $table->foreign('centroId')->references('centroId')->on('sd_centro'); 
             $table->bigInteger('almId')->unsigned();
             $table->foreign('almId')->references('almId')->on('sd_centro_alm'); 
-            $table->string('ordtCustShortText1', 20)->nullable(); // id Venta
-            $table->string('ordtTip', 20)->nullable(); // id Venta
+            $table->json('ordtCustShortText1')->nullable(); // id Venta
+            $table->string('ordtTip', 20)->nullable();
             $table->char('ordtest'); // Número de onda
             $table->timestamps();
         });

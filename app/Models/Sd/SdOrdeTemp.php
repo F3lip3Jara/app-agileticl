@@ -20,7 +20,9 @@ class SdOrdeTemp extends Model
          'almId',
          'ordtCustShortText1',//id Venta
          'ordtTip',
-         'ordtest',// estado        
+         'ordtest',
+         'updated_at',
+         'created_at'
     ];
 
     public function getCreatedAtAttribute($value){

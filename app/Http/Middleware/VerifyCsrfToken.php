@@ -166,7 +166,10 @@ class VerifyCsrfToken extends Middleware
         '/updAlmacen',
         '/insSdOrden',
         '/insSdClass',
-        '/updSdClass'
+        '/updSdClass',
+        '/insSector',
+        '/delSector',
+        '/updSector'
 
         
     ];

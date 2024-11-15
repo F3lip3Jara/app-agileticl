@@ -1,68 +1,52 @@
 <?php
 
-namespace App\Http\Controllers\Oms;
+namespace App\Http\Controllers\Sd;
 
 use App\Http\Controllers\Controller;
-use App\Models\Oms\LineaOrden;
-use App\Models\Oms\OrdenWeb;
-use App\Models\OrdenVenta;
+use App\Jobs\LogSistema;
+use App\Models\Sd\Sector;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
 
-class VentaWebController extends Controller
+class SectorController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = OrdenWeb::select('*')
-        ->join('parm_clientes', 'parm_clientes.cliId', '=', 'vent_ordenes.cliId')   
-        ->where('vent_ordenes.empId', $request->empId)    
-        ->orderBy('vent_ordenes.opedfechaCreacion', 'desc')
-        ->first();
-
-        $columns = $query ? array_keys($query->toArray()) : [];
-        $columns = array_filter($columns, function ($column) {
-            return $column !== 'empId'; // Columna a excluir
-        });
-
-        $columns = array_values($columns); // Reindexar el array si es necesa
-        $filtros = $request['filter'];
-        $filtros = json_decode(base64_decode($filtros));
-        
-       if(isset($filtros)){       
-        $data     = OrdenWeb::query()       
-                    ->filter($filtros)
-                    ->join('parm_clientes', 'parm_clientes.cliId', '=', 'vent_ordenes.cliId')       
-                    ->orderBy('vent_ordenes.opedfechaCreacion', 'desc')
-                    ->get();
-       }else{
-         $data    = OrdenWeb::select('*')
-                    ->join('parm_clientes', 'parm_clientes.cliId', '=', 'vent_ordenes.cliId')       
-                    ->orderBy('vent_ordenes.opedfechaCreacion', 'desc')
-                    ->take(1500)->get();
-       }
-       
-        $resources = array(
-                "data"   => $data,
-                "colums" => $columns
-        );
- 
-	
-	  return response()->json($resources, 200); 
-	
-
-
+    {   
+      
+        return Sector::select('*')
+        ->join('sd_centro_alm', 'sd_centro_alm.almId', '=', 'sd_cent_alm_sector.almId')
+        ->join('sd_centro', 'sd_centro.centroId', '=', 'sd_centro_alm.centroId')
+        ->where('sd_cent_alm_sector.empId', $request['empId'])
+        ->where('sd_cent_alm_sector.almId', $request['almacenId'])
+        ->get();
     }
 
 
+    public function indexFil(Request $request)
+    {   
+      $centroId  = $request['centroId'];
+      $empId     = $request['empId'];
+      $almId     = $request['almId'];
+
+      return Sector::select('*')      
+      ->where('empId', $empId)
+      ->where('centroId', $centroId)
+      ->where('almId', $almId)
+      ->get();
+        
+    }
+
     public function update(Request $request)
     {   
-      /*  $name        = $request['name'];
+        $name        = $request['name'];
         $empId       = $request['empId'];
+        $sector      = $request['sector'];
+        
 
-        $affected = Color::where('colId', $request->colId)->update(
-            [
-                'colCod' => $request->colCod,
-                'colDes' => $request->colDes
+        $affected = Sector::where('sectorId', $sector['sectorId'])
+        ->where('empId', $empId)
+        ->update(
+            [   'secDes' => $request->secDes,
+                'secCod' => $request->secCod,
             ]
         );
 
@@ -75,18 +59,21 @@ class VentaWebController extends Controller
             return response()->json($resources, 200);
         } else {
             return response()->json('error', 204);
-        }*/
+        }
     }
 
     public function ins(Request $request)
-    { 
-      /*  $name        = $request['name'];
+    {
+        $name        = $request['name'];
         $empId       = $request['empId'];
+        $almacen     = $request['almacen'];
 
-        $affected = Color::create([
-            'colCod' => $request->colCod,
-            'colDes' => $request->colDes,
-            'empId'  => 1
+        $affected = Sector::create([
+            'empId'     => $empId,
+            'centroId'  => $almacen['centroId'],
+            'almId'     => $almacen['almId'],
+            'secDes'    => $request->secDes,
+            'secCod'    => $request->secCod,
         ]);
 
         if (isset($affected)) {
@@ -98,12 +85,12 @@ class VentaWebController extends Controller
             return response()->json($resources, 200);
         } else {
             return response()->json('error', 204);
-        }*/
+        }
     }
 
     public function del(Request $request)
     {
-        /*$name        = $request['name'];
+       /* $name        = $request['name'];
         $empId       = $request['empId'];
 
 
@@ -135,16 +122,5 @@ class VentaWebController extends Controller
                 return response()->json($resources, 200);
             }
         }*/
-    }
-
-    public function lineas_pedidos(Request $request)
-    {
-
-
-        $affected = LineaOrden::select('*')
-                    ->where('opedId', $request->opedId)
-                    ->where('empId' , $request->empId)
-                    ->get();
-        return response()->json($affected, 200);
     }
 }

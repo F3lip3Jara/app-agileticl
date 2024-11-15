@@ -15,6 +15,7 @@ class SdOrdenDet extends Model
     protected $table = 'sd_orden_det';
     
     protected $fillable = [
+        'empId',
         'orddId',
         'centroId',
         'almId',// Agregado cliId
@@ -32,8 +33,6 @@ class SdOrdenDet extends Model
         'ordDtlCustShortText8',
         'ordDtlCustShortText9',
         'ordDtlCustShortText10'
-       
-        
     ];
 
   /*  public function cliente()

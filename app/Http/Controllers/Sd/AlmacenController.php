@@ -19,6 +19,19 @@ class AlmacenController extends Controller
         ->get();
     }
 
+
+    public function indexFil(Request $request)
+    {   
+      $centroId  = $request['centroId'];
+      $empId     = $request['empId'];
+
+      return Almacen::select('*')      
+      ->where('empId', $empId)
+      ->where('centroId', $centroId)
+      ->get();
+        
+    }
+
     public function update(Request $request)
     {   
         $name        = $request['name'];

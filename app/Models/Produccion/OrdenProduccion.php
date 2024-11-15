@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Produccion;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,19 +24,19 @@ class OrdenProduccion extends Model
         'orpTurns',
         'orpEst',
         'orpEstPrc',
-        'orpHdrCustShortText1', 255, // Etapa
-        'orpHdrCustShortText2', 100, // Clase documento
-        'orpHdrCustShortText3', 100, // 
-        'orpHdrCustShortText4', 100, // 
-        'orpHdrCustShortText5', 100, // 
-        'orpHdrCustShortText6', 100, // 
-        'orpHdrCustShortText7', 100, // 
-        'orpHdrCustShortText8', 100, // 
-        'orpHdrCustShortText9', 100, // 
-        'orpHdrCustShortText10', 20, // 
-        'orpHdrCustShortText11', 20, // 
-        'orpHdrCustShortText12', 20, // 
-        'orpHdrCustShortText13', 20, // 
+        'orpHdrCustShortText1', // 255, //
+        'orpHdrCustShortText2',// 100, // Clase documento descripcion
+        'orpHdrCustShortText3',// 100, // 
+        'orpHdrCustShortText4', //100, // 
+        'orpHdrCustShortText5', // 100, // 
+        'orpHdrCustShortText6', // 100, // 
+        'orpHdrCustShortText7', //100, // 
+        'orpHdrCustShortText8', //100, // 
+        'orpHdrCustShortText9', //100, // 
+        'orpHdrCustShortText10', //20, // Clase documento
+        'orpHdrCustShortText11', //20, // 
+        'orpHdrCustShortText12', //20, // 
+        'orpHdrCustShortText13', //20, // 
         'orpHdrCustLongText1' // 
      
     ];

@@ -26,17 +26,12 @@ return new class extends Migration
         });
 
            // Tabla Lineas de Ordenes
-        Schema::table('vent_lineas_ordenes', function (Blueprint $table) {
-          
+        Schema::table('vent_lineas_ordenes', function (Blueprint $table) {          
             $table->bigInteger('centroId')->unsigned();
             $table->foreign('centroId')->references('centroId')->on('sd_centro'); 
             $table->bigInteger('almId')->unsigned();
             $table->foreign('almId')->references('almId')->on('sd_centro_alm'); 
-
-           
-        });
-
-    
+        });   
        
     }
 
