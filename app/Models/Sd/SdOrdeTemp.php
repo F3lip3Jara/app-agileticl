@@ -18,7 +18,8 @@ class SdOrdeTemp extends Model
          'empId',
          'centroId',
          'almId',
-         'ordtCustShortText1',//id Venta
+         'ordtCustShortText1',
+         'ordtCustShortText2',
          'ordtTip',
          'ordtest',
          'updated_at',

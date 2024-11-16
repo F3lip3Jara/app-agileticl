@@ -43,8 +43,6 @@ return new class extends Migration
             $table->bigIncrements('stockMovId');            
             $table->bigInteger('empId')->unsigned();
             $table->foreign('empId')->references('empId')->on('parm_empresa');         
-            $table->bigInteger('stockId')->unsigned();
-            $table->foreign('stockId')->references('stockId')->on('sd_stocks');
             $table->string('stockMovTip', 1);
             $table->integer('stockMovQty'); 
             $table->bigInteger('prdId')->unsigned();

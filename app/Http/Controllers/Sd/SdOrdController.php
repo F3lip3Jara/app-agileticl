@@ -75,6 +75,7 @@ class SdOrdController extends Controller
                         ->where('centroId', $centroId)
                         ->where('almId', $almId)
                         ->where('ordtTip', $tipo)
+                        ->where('ordtCustShortText2', $id)
                         ->take(1);
 
         //si la variable es null o vacia elimino el rol
@@ -94,6 +95,7 @@ class SdOrdController extends Controller
                     'centroId' => $centroId,
                     'almId'    => $almId,
                     'ordtCustShortText1'=>$data ,
+                    'ordtCustShortText2' => $id,
                     'ordtTip' => $tipo,
                     'ordtest'  => 'N', 
                 ]);

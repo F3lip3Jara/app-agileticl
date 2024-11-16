@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('centroId')->references('centroId')->on('sd_centro'); 
             $table->bigInteger('almId')->unsigned();
             $table->foreign('almId')->references('almId')->on('sd_centro_alm'); 
-            $table->json('ordtCustShortText1')->nullable(); // id Venta
+            $table->json('ordtCustShortText1')->nullable(); 
+            $table->string('ordtCustShortText2')->nullable(); 
             $table->string('ordtTip', 20)->nullable();
             $table->char('ordtest'); // Número de onda
             $table->timestamps();

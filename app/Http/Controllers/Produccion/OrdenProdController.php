@@ -39,13 +39,8 @@ class OrdenProdController extends Controller
                 "data"   => $data,
                 "colums" => $columns
         );
- 
-	
+ 	
 	  return response()->json($resources, 200); 
-	
-
-        $affected =  viewOrdenProduccion::select('*')->get();
-        return response()->json($affected, 200);
     }
 
     public function update(Request $request)

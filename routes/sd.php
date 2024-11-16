@@ -5,6 +5,7 @@ use App\Http\Controllers\Sd\CentroController;
 use App\Http\Controllers\Sd\ClassTipController;
 use App\Http\Controllers\Sd\SdOrdController;
 use App\Http\Controllers\Sd\SectorController;
+use App\Http\Controllers\Sd\StockController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,9 @@ use Illuminate\Support\Facades\Route;
  Route::post('delSector'        , [SectorController::class,'del']);
  Route::post('updSector'        , [SectorController::class,'update']);
 
+ //Stock
+ Route::get('trabSdStock'       , [StockController::class,'index']);
+ Route::post('insSdStock'       , [StockController::class,'ins']);
  
 
 ?>
