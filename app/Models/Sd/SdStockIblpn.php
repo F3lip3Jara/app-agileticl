@@ -7,30 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 
-class SdMovStocks extends Model
+class SdStockIblpn extends Model
 {
     use HasFactory;
-    protected $table    ='sd_stocks_mov';
+
+    protected $table    ='sd_stocks_iblpns';
     protected $fillable = [
-        'stockMovId',
+        'stockIblpnId',            
         'empId',
-        'stockMovTip',
-        'stockMovQty',
+        'centroId',
+        'almId',
+        'iblpnId',
         'prdId',
-        'stockMovHdrCustShortText1', // Centro ID
-        'stockMovHdrCustShortText2', // Centro Desc
-        'stockMovHdrCustShortText3', // Almacen ID
-        'stockMovHdrCustShortText4', // Almacen Desc
-        'stockMovHdrCustShortText5', // Usuario ID
-        'stockMovHdrCustShortText6' // Usuario Desc
-       ];
+        'stockIblpnQty',
+    ];
 
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))
         ->toDateTimeString();
-    }
-        
+    }  
+    
     public function getUpdatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
         ->timezone(Config::get('app.timezone'))

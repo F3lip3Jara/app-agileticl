@@ -1,19 +1,18 @@
 <?php
 
-
 namespace App\Http\Controllers\Parametros;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
-use App\Models\Parametros\Color;
 use App\Models\Parametros\Producto;
+use App\Models\Parametros\Talla;
 use Illuminate\Http\Request;
 
-class ColorController extends Controller
+class TallaController extends Controller
 {
     public function index(Request $request)
     {
-        return Color::select('*')->get();
+        return Talla::select('*')->get();
     }
 
     public function update(Request $request)
@@ -21,10 +20,10 @@ class ColorController extends Controller
         $name        = $request['name'];
         $empId       = $request['empId'];
 
-        $affected = Color::where('colId', $request->colId)->update(
+        $affected = Talla::where('tallaId', $request->tallaId)->update(
             [
-                'colCod' => $request->colCod,
-                'colDes' => $request->colDes
+                'tallCod' => $request->colCod,
+                'TallaDes' => $request->colDes
             ]
         );
 
@@ -45,9 +44,9 @@ class ColorController extends Controller
         $name        = $request['name'];
         $empId       = $request['empId'];
 
-        $affected = Color::create([
-            'colCod' => $request->colCod,
-            'colDes' => $request->colDes,
+        $affected = Talla::create([
+            'tallaCod' => $request->colCod,
+            'tall' => $request->colDes,
             'empId'  => $empId
         ]);
 
@@ -70,7 +69,7 @@ class ColorController extends Controller
 
 
         $xid    = $request->colId;
-        $valida = Producto::all()->where('colId', $xid)->take(1);
+        $valida = Producto::all()->where('tallId', $xid)->take(1);
         //si la variable es null o vacia elimino el rol
         if (sizeof($valida) > 0) {
             //en el caso que no se ecuentra vacia no puedo eliminar
@@ -82,7 +81,7 @@ class ColorController extends Controller
             );
             return response()->json($resources, 200);
         } else {
-            $affected = Color::where('colId', $xid)->delete();
+            $affected = Talla::where('tallid', $xid)->delete();
 
             if ($affected > 0) {
                 $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
@@ -101,10 +100,10 @@ class ColorController extends Controller
 
     public function valColCod(Request $request)
     {
-        $data   = request()->all();
-        $colCod   = $data['colCod'];
-        $val    = Color::select('colCod')->where('colCod', $colCod)->get();
-        $count  = 0;
+        $data      = request()->all();
+        $tallCod   = $data['colCod'];
+        $val       = Talla::select('tallCod')->where('tallCod', $tallCod)->get();
+        $count     = 0;
 
         foreach ($val as $item) {
             $count = $count + 1;

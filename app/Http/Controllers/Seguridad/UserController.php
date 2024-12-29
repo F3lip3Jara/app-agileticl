@@ -112,6 +112,95 @@ class UserController extends Controller
         }
     }
 
+    public function authenticateUserPda(Request $request)
+    {
+
+        try{
+
+            $data     = $request->all();
+            $rep      = json_decode(base64_decode($data['Authentication']));
+            $email    = $rep->email;
+            $password = $rep->password;
+            $remember = '';
+            $crf      = '';
+
+        if (Auth::attempt(['name' => $email, 'password' => $password], $remember)) {
+            $token = Str::random(60);
+            $user  = Auth::user();
+            
+            if ($user->activado == 'A') {
+                $idUser = $user->id;
+                User::where('id', $idUser)
+                    ->update(['token' => $token]);             
+                
+                $crf = csrf_token();
+                $imgx = Empleado::select('emploAvatar')->where('id', $idUser)->get();
+
+                if(sizeof($imgx) > 0){
+                  $img  = $imgx[0]['emploAvatar'];
+                }else{
+                    $img = '';
+                }
+
+                $xrol           =  Roles::select('rolDes')->where('rolId', $user->rolId)->get();
+                $rol            =  $xrol[0]['rolDes'];                
+                $xempresa       =  Empresa::select('empDes', 'empImg')->where('empId', $user->empId)->get();
+                $empresa        =  $xempresa[0]['empDes'];
+              
+                
+                $resources =
+                    array(
+                        'id'       => $user->id,
+                        'name'     => $user->name,
+                        'token'    => $token,
+                        'reinicio' => $user->reinicio,
+                        'crf'      => $crf,
+                        'img'      => $img,
+                        'rol'      => $rol,
+                        'empresa'  => $empresa,
+                        'error'    => '0'
+                    );
+                
+                  $etaId    = 1;
+                  $etaDesId = 1;
+                  $name     = $user->name;
+                  $empId    = $user->empId; 
+
+                  $job = new LogSistema($etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO PDA');
+                  dispatch($job);
+                  event(new MensajeEvent('Hola desde el servidor'));
+                  return response()->json($resources, 200);
+            } else {
+                $resources = array(
+                    array(
+                        "error" => "1", 'mensaje' => "Usuario desactivado",
+                        'type' => 'danger'
+                    )
+                );
+                return response()->json($resources, 200);
+            }
+        } else {
+            $resources = array(
+                array(
+                    "error" => "1", 'mensaje' => "El usuario no logeado",
+                    'type' => 'danger'
+                )
+            );
+            return response()->json($resources, 200);
+        }
+
+        }catch(QueryException $ex){
+            $resources = array(
+                array(
+                    "error" => "1", 'mensaje' => "Error en el servidor",
+                    'type' => 'danger',
+                    "des" => $ex
+                )
+            );
+            return response()->json($resources, 200);
+        }
+    }
+
     public function trabUsuarios(Request $request)
     {
 

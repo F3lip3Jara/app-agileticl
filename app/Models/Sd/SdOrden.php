@@ -14,13 +14,13 @@ class SdOrden extends Model
     protected $table = 'sd_orden';
     
     protected $fillable = [
-         'ordId',
-         'empId',
-         'centroId',
+        'ordId',
+        'empId',
+        'centroId',
         'almId',
         'ordNumber',// Número de onda
         'ordQty',// Cantidad de orden
-        'ordestatus', // Estado del pedido
+        'ordestatus', // Estado del pedido P:Pendiente L:Liberado V:Verificado A:Almacenado
         'ordTip', // Tipo Salida / Entrada
         'ordTipDes',//Tipo Salida / Entrada
         'ordClase',//Clase 

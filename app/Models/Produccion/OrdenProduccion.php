@@ -22,8 +22,8 @@ class OrdenProduccion extends Model
         'orpUsrG',
         'orpObs',
         'orpTurns',
-        'orpEst',
-        'orpEstPrc',
+        'orpEst', // 1: Pendiente, 2: Procesando, 3: Aprobada, 4: Rechazada
+        'orpEstPrc', // 1: Pendiente, 2: Procesando, 3: Aprobada, 4: Rechazada
         'orpHdrCustShortText1', // 255, //
         'orpHdrCustShortText2',// 100, // Clase documento descripcion
         'orpHdrCustShortText3',// 100, // 

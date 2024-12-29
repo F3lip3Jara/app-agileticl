@@ -9,7 +9,8 @@ Route::post('weebhooks_oms_wooecommerce', function(Request $request){
 });*/
 
 Route::post('weebhooks_oms_wooecommerce' , [WebhookController::class,'ins']);
-Route::get('product' , [WebhookController::class,'product']);
-
-Route::get('carro_stock' , [WebhookController::class,'carro']);
+Route::get('product'                     , [WebhookController::class,'product']);
+Route::get('carro_stock'                 , [WebhookController::class,'carro']);
+Route::get('product_web'                 , [WebhookController::class,'product_web']);
+Route::get('webhooks_oms'                , [WebhookController::class,'webHooks']);
 ?>

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Sd;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
+use App\Jobs\SdCierreTraslado;
 use App\Jobs\SdOrdenJobTemp;
+use App\Jobs\StockMov;
 use App\Models\Sd\SdOrden;
 use App\Models\Sd\SdOrdenDet;
 use App\Models\Sd\SdOrdeTemp;
-
+use App\Models\Sd\SdTIblns;
+use App\Models\Sd\SdTraslado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -52,10 +55,7 @@ class SdOrdController extends Controller
                 "data"   => $data,
                 "colums" => $columns
         );
- 
-	
-	  return response()->json($resources, 200); 
-	
+	  return response()->json($resources, 200); 	
 	
     }
 
@@ -84,40 +84,156 @@ class SdOrdController extends Controller
             $resources = array(
                 array(
                     "error" => "1", 'mensaje' => "La orden ya se encuentra en proceso",
-                    'type' => 'danger'
+                    'type' => 'info'
                 )
             );
             return response()->json($resources, 200);
         } else {
+             $affected = SdOrdeTemp::create([
+                 'empId'    => $empId,
+                 'centroId' => $centroId,
+                 'almId'    => $almId,
+                 'ordtCustShortText1'=>$data ,
+                 'ordtCustShortText2' => $id,
+                 'ordtTip' => $tipo,
+                 'ordtest'  => 'N', 
+             ]);
 
-                $affected = SdOrdeTemp::create([
-                    'empId'    => $empId,
-                    'centroId' => $centroId,
-                    'almId'    => $almId,
-                    'ordtCustShortText1'=>$data ,
-                    'ordtCustShortText2' => $id,
-                    'ordtTip' => $tipo,
-                    'ordtest'  => 'N', 
-                ]);
-
-                if (isset($affected)) {
-                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
-                    dispatch($job); 
-                    $job = new SdOrdenJobTemp($empId);         
-                    dispatch($job);             
-                    $resources = array(
-                    array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-                    );
-                    return response()->json($resources, 200);
-                } else {
-                    return response()->json('error', 204);
-                }
-            }
+             if (isset($affected)) {
+                     $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                     dispatch($job); 
+                     $job = new SdOrdenJobTemp($empId);         
+                     dispatch($job);             
+                     $resources = array(
+                     array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+                     );
+                     return response()->json($resources, 200);
+             } else {
+                 return response()->json('error', 204);
+             }
+        }
     }
 
     function ver(Request $request){
         $ordId = $request['ordId'];
         $data = SdOrdenDet::where('ordId', $ordId)->get();
         return response()->json($data, 200);
+    }
+
+    public function insOrdTrasInt(Request $request){
+     
+        $data     = $request->all();
+        $empId    = $data['empId'];
+        $name     = $data['name'];
+        $idUser   = $data['idUser'];
+        $prd      = json_encode($data['0']['prd']);
+        $centroId = $data['0']['centroId'];
+        $almId    = $data['0']['almId'];        
+      
+        $affected = SdTIblns::all()
+                            ->where('empId', $empId )
+                            ->where('centroId', $centroId)
+                            ->where('almId' , $almId)
+                            ->where('stockTblpnJson' , $prd);
+        if(sizeof($affected) > 0){
+            $resources = array(
+                array("error" => '0', 'mensaje' => 'Error la orden ya tiene traslado iniciado' , 'type' => 'info')
+            );
+            return response()->json($resources, 200);
+        }else{
+                $affected=SdTIblns::create([
+                    'empId'         => $empId,
+                    'centroId'      => $centroId,
+                    'almId'         => $almId,   
+                    'stockTblpnJson'=> $prd
+                ]);
+
+        
+            
+                if (isset($affected)) {
+                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                    dispatch($job);
+                    $job = new StockMov($empId, $idUser, $name, $centroId, $almId);
+                    dispatch($job);         
+                    $resources = array(
+                        array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+                    );
+                    return response()->json($resources, 200);
+                } else {
+                    return response()->json('error', 204);
+                }
+        }
+    }
+
+    public function pdfOrden(Request $request){
+        $ordId = $request['ordId'];
+        $data = SdTraslado::select('prdCod', 'iblpnOriginalBarcode' , 'iblpnQty' , 'trasSecDesDes' , 'iblpnHdrCustShortText6')
+                    ->join('sd_iblpns', 'sd_iblpns.iblpnId', '=', 'sd_traslado.iblpnId')   
+                    ->join('parm_producto', 'sd_iblpns.prdId', '=', 'parm_producto.prdId')   
+                    -> where('trasHdrCustShortText1', $ordId)
+                    ->get();
+        return response()->json($data, 200);
+    }
+
+    public function ordenPda(Request $request){
+        $ordNumber = $request['ordNumber'];
+        $data = SdOrden::select('ordestatus')->where('ordNumber', $ordNumber)->get();  
+        
+        if(sizeof($data) > 0){
+            if ($data['0']['ordestatus'] == 'V') {
+                $data = SdTraslado::select('prdCod', 'iblpnOriginalBarcode' , 'iblpnQty' , 'trasSecDesDes' , 'iblpnHdrCustShortText6')
+                            ->join('sd_iblpns', 'sd_iblpns.iblpnId', '=', 'sd_traslado.iblpnId')   
+                            ->join('parm_producto', 'sd_iblpns.prdId', '=', 'parm_producto.prdId')   
+                            ->where('trassecCod', $ordNumber)
+                            ->get();
+                return response()->json($data, 200);
+            }else{
+                $resources = array(
+                    array("error" => '0', 'mensaje' => 'Error la orden no está en estado verificado' , 'type' => 'info')
+                );
+                return response()->json($resources, 200);
+            }
+        }else{
+            $resources = array(
+                array("error" => '0', 'mensaje' => 'Error la orden no existe' , 'type' => 'info')
+            );
+            return response()->json($resources, 200);
+        }
+       
+    }
+
+    public function ordenChEstA(Request $request){
+       $data = $request->all();
+       $empId    = $data['empId'];
+       $name     = $data['name'];
+       $idUser   = $data['idUser'];
+       
+       
+       foreach($data as $item){
+         $ordNumber =  $item['ordenNumero'];
+         $iblpns    =  $item['iblpns'];
+        
+            $affected = SdOrden::where('ordNumber', $ordNumber)->update(
+                [
+                    'ordestatus' => 'A'
+                ]
+            );
+
+            if ($affected > 0) {
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                dispatch($job);  
+                $job = new SdCierreTraslado($empId, $iblpns);
+                dispatch($job);      
+                $resources = array(
+                    array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+                );
+                return response()->json($resources, 200);
+            } else {
+                return response()->json('error', 204);
+            }    
+       }
+
+     //   $data = SdOrden::select('ordestatus')->where('ordNumber', $ordNumber)->get();   
+
     }
 }

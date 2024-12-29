@@ -18,7 +18,7 @@ class OrdenWeb extends Model
         'empId',
         'cliId',// Agregado cliId
         'opedparentid',
-        'opedstatus',
+        'opedstatus' ,// pending, processing, on-hold, completed, cancelled, refunded, failed
         'opedmoneda',
         'opedversion',
         'opedfechaCreacion', // Cambio de date a timestamp

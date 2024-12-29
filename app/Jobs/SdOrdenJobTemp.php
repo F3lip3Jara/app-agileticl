@@ -34,23 +34,23 @@ class SdOrdenJobTemp implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Job de actualizacion de ordenes temporales');
-        
+        Log::info('Job de actualizacion de ordenes temporales');        
         $data = SdOrdeTemp::where('ordtest', 'N')
         ->where('empId', $this->empId)
         ->get();
-        $det  = [];    
+        $det  = [];   
 
         foreach($data as $item){
             $orden = json_decode($item->ordtCustShortText1);
             $det    = $orden->detalles;
             $ordtId = $item->ordtId;
+            $ordNumber = $orden->tipo_des.'-'.substr($orden->tipo_des, 0, 1).$orden->orden_compra.$orden->orden_produccion;
 
             $affected = SdOrden::create([
             'empId'                => $orden->empId,
             'centroId'             => $orden->centro_id,
             'almId'                => $orden->almacen_id,
-            'ordNumber'            => $orden->tipo_des.'-'.substr($orden->tipo_des, 0, 1).$orden->orden_compra.$orden->orden_produccion,// Número de onda
+            'ordNumber'            => $ordNumber,// Número de onda
             'ordQty'               => $orden->prd_total,// Cantidad de orden
             'ordestatus'           => 'L', // Estado del pedido
             'ordTip'               => $orden->tipo_id, // Tipo Salida / Entrada
@@ -72,13 +72,14 @@ class SdOrdenJobTemp implements ShouldQueue
             'ordHdrCustShortText13'=>$orden->rut,//Rut
             'ordHdrCustLongText1'  =>''//Comentarios
             ]);
+
             foreach($det as $detalle){
                 SdOrdenDet::create([
                 'empId'                 =>$orden->empId,
                 'centroId'              =>$orden->centro_id,
                 'almId'                 =>$orden->almacen_id,// Agregado cliId
                 'ordId'                 =>$affected->id,
-                'orddNumber'            =>'',
+                'orddNumber'            =>$ordNumber,
                 'orddQtySol'            =>$detalle->orpdCant,
                 'orddQtyAsig'           =>0,
                 'ordDtlCustShortText1'  =>$detalle->orpdPrdCod, // Cambio de date a timestamp
@@ -95,7 +96,7 @@ class SdOrdenJobTemp implements ShouldQueue
             }
 
             SdOrdeTemp::where('ordtId', $ordtId)->update(['ordtest' => 'S']);
-           
+          
         }
     }
 }

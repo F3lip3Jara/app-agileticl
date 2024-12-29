@@ -23,7 +23,7 @@ class SdOrdenDet extends Model
         'orddNumber',
         'orddQtySol',
         'orddQtyAsig',
-        'ordDtlCustShortText1', // Cambio de date a timestamp
+        'ordDtlCustShortText1', 
         'ordDtlCustShortText2',
         'ordDtlCustShortText3',
         'ordDtlCustShortText4',

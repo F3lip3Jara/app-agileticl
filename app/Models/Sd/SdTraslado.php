@@ -2,28 +2,35 @@
 
 namespace App\Models\Sd;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 
-class SdMovStocks extends Model
+class SdTraslado extends Model
 {
     use HasFactory;
-    protected $table    ='sd_stocks_mov';
+
+    protected $table    ='sd_traslado';
     protected $fillable = [
-        'stockMovId',
-        'empId',
-        'stockMovTip',
-        'stockMovQty',
-        'prdId',
-        'stockMovHdrCustShortText1', // Centro ID
-        'stockMovHdrCustShortText2', // Centro Desc
-        'stockMovHdrCustShortText3', // Almacen ID
-        'stockMovHdrCustShortText4', // Almacen Desc
-        'stockMovHdrCustShortText5', // Usuario ID
-        'stockMovHdrCustShortText6' // Usuario Desc
-       ];
+        'trasId',        
+        'empId',     
+        'centroId',       
+        'almId',     
+        'iblpnId',    
+        'trasTip',           
+        'trassecCod',
+        'trassecDes',            
+        'trasSecDesDes',
+        'trasSecCodDes',
+        'trasUserid', 
+        'trasUserName',
+        'trasHdrCustShortText1', //
+        'trasHdrCustShortText2', // 
+        'trasHdrCustShortText3', // 
+        'trasHdrCustShortText4' //             
+       
+    ];
 
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))
@@ -55,4 +62,5 @@ class SdMovStocks extends Model
         }
         
     }
+  
 }

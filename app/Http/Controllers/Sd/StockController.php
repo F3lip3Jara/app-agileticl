@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Sd;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Parametros\Producto;
+use App\Models\Sd\SdIblpns;
 use App\Models\Sd\SdStocks;
+use App\Models\Sd\SdTIblns;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -53,58 +55,7 @@ class StockController extends Controller
    
     public function ins(Request $request)
     {
-        $id     = 0;
-        $header = $request->header('access-token');
-        $val    = User::select('token', 'id', 'activado', 'name')->where('token', $header)->get();
-        $data   = $request->all();
-        $empId  = $data['empId'];
-        $name   = $data['name'];
-        $idUser = $data['idUser'];
-        $prd    = $data['0']['prd'];
-        
-
-
-        foreach ($prd as $item) {   
-            
-            $prdCod   = $item['ordDtlCustShortText1'];            
-            $prdId    = Producto::where('prdCod', $prdCod)->get();
-            $prdId    = $prdId[0]['prdId'];   
-            $enteredQty = $item['enteredQty'];
-            
-            $stockQty = SdStocks::where('prdId', $prdId)->where('centroId', $item['centroId'])->where('almId', $item['almId'])->get();
-            $stockQty = $stockQty[0]['stockQty'];
-
-            if($stockQty  > 0){
-                $affected = SdStocks::where('prdId', $prdId)
-                                    ->where('centroId', $item['centroId'])
-                                    ->where('almId', $item['almId'])
-                                    ->update([
-                                        'stockQty'   => $stockQty + $enteredQty,
-                                    ]);    
-            }else{
-                $affected = SdStocks::create([
-                    'empId'      => $empId,
-                    'centroId'   => $item['centroId'],
-                    'almId'      => $item['almId'],
-                    'prdId'      => $prdId,
-                    'stockQty'   => $enteredQty,
-                    'stockEst'   => 'D', //Disponible
-                ]);
-            }
-    
-          
-        }
-           
-            if (isset($affected)) {
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
-                dispatch($job);            
-                $resources = array(
-                    array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-                );
-                return response()->json($resources, 200);
-            } else {
-                return response()->json('error', 204);
-            }
+      
         
     }
 

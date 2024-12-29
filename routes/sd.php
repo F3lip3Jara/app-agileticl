@@ -22,10 +22,13 @@ use Illuminate\Support\Facades\Route;
  Route::post('delAlmacen'       , [AlmacenController::class,'del']);
  Route::post('updAlmacen'       , [AlmacenController::class,'update']);
  Route::get('almacenFil'        , [AlmacenController::class,'indexFil']);
+ 
  Route::get('trabSdOrden'       , [SdOrdController::class,'index']);
  Route::post('insSdOrden'       , [SdOrdController::class,'ins']);
  Route::get('verSdOrden'        , [SdOrdController::class,'ver']);
+ Route::get('pdfOrden'          , [SdOrdController::class, 'pdfOrden']);
 
+ Route::post('insOrdTrasInt'    , [SdOrdController::class,'insOrdTrasInt']);
  Route::get('trabSdClass'       , [ClassTipController::class,'index']);
  Route::post('insSdClass'       , [ClassTipController::class,'ins']);
  Route::post('updSdClass'       , [ClassTipController::class,'update']);
@@ -39,7 +42,7 @@ use Illuminate\Support\Facades\Route;
 
  //Stock
  Route::get('trabSdStock'       , [StockController::class,'index']);
- Route::post('insSdStock'       , [StockController::class,'ins']);
+
  
 
 ?>

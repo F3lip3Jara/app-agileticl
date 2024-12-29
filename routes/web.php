@@ -2,6 +2,8 @@
 
 
 use App\Http\Controllers\Parametros\ComunaController;
+use App\Http\Controllers\Parametros\ProductoController;
+use App\Http\Controllers\Sd\SdOrdController;
 use App\Http\Controllers\Seguridad\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,14 +22,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('log', [UserController::class, 'authenticateUser'] );
-
+Route::post('log'   , [UserController::class, 'authenticateUser'] );
+Route::post('logPda', [UserController::class, 'authenticateUserPda'] );
 Route::middleware(['App\Http\Middleware\postMiddleware'])->group(function () {
   require __DIR__ . '/seguridad.php';
   require __DIR__ . '/parametros.php';
   require __DIR__ . '/produccion.php';
   require __DIR__ . '/sd.php';
   require __DIR__ . '/ventas.php';
+  require __DIR__ . '/pda.php';
   //require __DIR__ . '/ventas.php';
   
 });
@@ -50,6 +53,8 @@ Route::middleware(['App\Http\Middleware\webPayMiddleware'])->group(function () {
 
 require __DIR__ . '/weebhooksOms.php';
 
-Route::get('comuna'     , [ComunaController::class,'index']);
+Route::get('comuna'       , [ComunaController::class,'index']);
+
+
 
 ?>

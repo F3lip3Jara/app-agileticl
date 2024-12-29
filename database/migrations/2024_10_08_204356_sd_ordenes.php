@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('almId')->references('almId')->on('sd_centro_alm'); 
             $table->string('ordNumber', 20); // Número de onda
             $table->integer('ordQty'); // Cantidad de orden
-            $table->string('ordestatus', 20); // Estado del pedido
+            $table->string('ordestatus', 20); // Estado del pedido  (Liberado , Verificado, Pendiente , Transito)
             $table->string('ordTip', 20)->nullable(); // Tipo Salida / Entrada
             $table->string('ordTipDes', 100)->nullable(); // Tipo Salida / Entrada
             $table->string('ordClase', 100)->nullable(); // Tipo Salida / Entrada

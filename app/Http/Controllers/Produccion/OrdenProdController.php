@@ -132,9 +132,7 @@ class OrdenProdController extends Controller
             $xid = $affected['id'];
 
             foreach ($ordenes as $orddet) {
-                OrdProDet::create([
-
-                    'orpdId' => $xid,
+                OrdProDet::create([                   
                     'orpId' => $xid,
                     'empId' => $empId,
                     'orpdPrdCod' => $orddet['prdCod'],

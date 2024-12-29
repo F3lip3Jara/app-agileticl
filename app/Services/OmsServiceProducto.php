@@ -8,24 +8,26 @@ use App\Models\Parametros\Producto;
 class OmsServiceProducto
 {
     public function manejarProducto($json, $empId)
-    {
-        $valida = Producto::all()->where('prdIdExt', $json->id)->take(1); 
-        $sku = $this->generateSku( $json->sku , $json->name);
-        $image = json_encode($json->images);           
+    {   
+      
+        $valida = Producto::all()->where('prdIdExt', $json['id'])->take(1); 
+        $sku    = $this->generateSku( $json['sku'] , $json['name']);
+        $image  = json_encode($json['image']['src']); 
+    
     
          if (sizeof($valida) > 0) {
             foreach($valida as $item){
                 $affected = Producto::where('prdId', $item['prdId'])->update(
                     [
                         'prdCod' => $sku ,
-                        'prdDes' => $json->name,
-                        'prdObs' =>  $json->description,
+                        'prdDes' => $json['name'],
+                        'prdObs' =>  $json['description'],
                         'prdRap' => substr($sku, 0, 6),
                         'prdEan' => $sku ,
                         'prdTip' => 'T',
-                        'prdCost'=>  $json->price,
-                        'prdNet' =>  $json->price,
-                        'prdBrut'=>  $json->price,
+                        'prdCost'=>  $json['price'],
+                        'prdNet' =>  $json['price'],
+                        'prdBrut'=>  $json['price'],
                         'prdInv'=> 'S',
                         'prdPes'=> 0,
                         'prdMin'=> 0,
@@ -35,7 +37,7 @@ class OmsServiceProducto
                         'unId'=> 1,
                         'colId'=> 1,
                         'empId'=> $empId,
-                        'prdIdExt'=>  $json->id,
+                        'prdIdExt'=>  $json['id'],
                         'prdUrl'=>$image,
                         'prdMig' => 'S'
                     ]
@@ -57,27 +59,27 @@ class OmsServiceProducto
         }else{
     
              $affected =Producto::create([
-                     'prdCod' => $sku ,
-                     'prdDes' => $json->name,
-                     'prdObs' => $json->description,
-                     'prdRap' => substr($sku, 0, 6),
-                     'prdEan' => $sku ,
-                     'prdTip' => 'T',
-                     'prdCost'=>  $json->price,
-                     'prdNet' =>  $json->price,
-                     'prdBrut'=>  $json->price,
-                     'prdInv'=> 'S',
-                     'prdPes'=> 0,
-                     'prdMin'=> 0,
-                     'monId'=> 1,
-                     'grpId'=> 1,
-                     'grpsId'=> 1,
-                     'unId'=> 1,
-                     'colId'=> 1,
-                     'empId'=> $empId,
-                     'prdIdExt'=>  $json->id,
-                     'prdUrl'=>$image,
-                     'prdMig' => 'S'
+                  'prdCod' => $sku ,
+                        'prdDes' => $json['name'],
+                        'prdObs' =>  $json['description'],
+                        'prdRap' => substr($sku, 0, 6),
+                        'prdEan' => $sku ,
+                        'prdTip' => 'T',
+                        'prdCost'=>  $json['price'],
+                        'prdNet' =>  $json['price'],
+                        'prdBrut'=>  $json['price'],
+                        'prdInv'=> 'S',
+                        'prdPes'=> 0,
+                        'prdMin'=> 0,
+                        'monId'=> 1,
+                        'grpId'=> 1,
+                        'grpsId'=> 1,
+                        'unId'=> 1,
+                        'colId'=> 1,
+                        'empId'=> $empId,
+                        'prdIdExt'=>  $json['id'],
+                        'prdUrl'=>$image,
+                        'prdMig' => 'S'
                  ]
              );
     

@@ -17,13 +17,13 @@ class SdIblpns extends Model
         'prdId',
         'iblpnQty',
         'iblpnOriginalBarcode',
-        'iblpnStatus',
-        'iblpnType',
-        'iblpnHdrCustShortText1',
-        'iblpnHdrCustShortText2',
-        'iblpnHdrCustShortText3',
-        'iblpnHdrCustShortText4',
-        'iblpnHdrCustShortText5',
+        'iblpnStatus', //P: Pendiente, A: Almacenado, R: Reservado, T: En tránsito
+        'iblpnType', //I: Ingreso, E: Egreso
+        'iblpnHdrCustShortText1', //Orden de SD
+        'iblpnHdrCustShortText2', //Id de la Orden de SD
+        'iblpnHdrCustShortText3', //Sector destino 
+        'iblpnHdrCustShortText4', //Sector Código
+        'iblpnHdrCustShortText5', // Cantidad Orignal
         'iblpnHdrCustShortText6',
     ];
 
@@ -57,4 +57,34 @@ class SdIblpns extends Model
         }
         
     }
+
+    public static function generateUniqueBarcode()
+    {
+        // Obtén el último código generado
+        $lastBarcode = self::query()
+            ->where('iblpnOriginalBarcode', 'like', 'IBLPN%')
+            ->orderBy('iblpnOriginalBarcode', 'desc')
+            ->value('iblpnOriginalBarcode');
+
+        // Extrae el número del último código, si existe
+        $lastNumber = $lastBarcode ? intval(substr($lastBarcode, 5)) : 0;
+
+        // Incrementa el número y genera el nuevo código
+        $newNumber = $lastNumber + 1;
+
+        return 'IBLPN' . str_pad($newNumber, 7, '0', STR_PAD_LEFT);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!$model->iblpnOriginalBarcode) {
+                $model->iblpnOriginalBarcode = self::generateUniqueBarcode();
+            }
+        });
+    }
+
+
 }
