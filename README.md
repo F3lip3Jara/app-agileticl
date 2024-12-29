@@ -79,4 +79,4 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENS
 
 ## Contacto
 
-Para más información, puedes contactar a [tu_email@ejemplo.com](mailto:tu_email@ejemplo.com).
+Para más información, puedes contactar a [tu_email@ejemplo.com](mailto:felipe.andres.j@agileticl.com).
