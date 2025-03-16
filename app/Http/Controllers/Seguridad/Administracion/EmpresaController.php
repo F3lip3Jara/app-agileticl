@@ -127,16 +127,17 @@ class EmpresaController extends Controller
     {
         $name        = $request['name'];
         $empId       = $request['emp'];
-
-        $affected = Empresa::where('empId', $request->empId)->update(
+        $empresa     = $request['empresa'];
+      
+        $affected = Empresa::where('empId', $empresa['empId'])->update(
             [
-                'empDes'    => $request->empDes,
-                'empDir'    => $request->empDir,
-                'empRut'    => $request->empRut,
-                'empGiro'   => $request->empGiro,
-                'empFono'   => $request->empFono,
-                'empImg'    => $request->empImg,
-                'empTokenOMS'=>$request->empTokenOMS,
+                'empDes'    => $empresa['empDes'],
+                'empDir'    => $empresa['empDir'],
+                'empRut'    => $empresa['empRut'],
+                'empGiro'   => $empresa['empGiro'],
+                'empFono'   => $empresa['empFono'],
+                'empImg'    => $empresa['empImg'],
+                'empTokenOMS'=>$empresa['empTokenOMS'],
                 
              ]
         );

@@ -174,8 +174,11 @@ class VerifyCsrfToken extends Middleware
         '/insOrdProduccion',
         '/insOrdTrasInt',
         '/ordenChEstA',
-        '/logPda'
-
+        '/logPda',
+        '/insTalla',
+        '/updTalla',
+        '/delTalla',
+        '/cambiarPassword',
         
     ];
 }

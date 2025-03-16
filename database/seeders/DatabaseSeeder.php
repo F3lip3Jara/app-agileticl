@@ -181,7 +181,7 @@ class DatabaseSeeder extends Seeder
         Module:: create([
             'empId'  => 1,
             'molDes' => 'Seguridad',
-            'molIcon'=> 'cilShieldAlt'
+            'molIcon'=> 'pi pi-shield'
 
         ]);
 

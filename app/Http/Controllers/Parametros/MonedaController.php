@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
 
 class MonedaController extends Controller
 {
@@ -126,88 +127,185 @@ class MonedaController extends Controller
     }
 
     public function indicadores(){
+        $hoy = Carbon::now('America/Santiago');
         
+        // Si es fin de semana, retrocedemos al último día hábil
+        if ($hoy->isWeekend()) {
+            $hoy = $hoy->copy()->previousWeekday();
+        }
         
-        $hoy = Carbon::now('America/Santiago');        
-        $valida = MonedaConversion::all()                 
-                ->where('moncFecha', $hoy->format('Y-m-d'));
+        // Obtenemos el día hábil anterior
+        $diaAnterior = $hoy->copy()->previousWeekday();
 
-        if (sizeof($valida) > 0) {
-            return MonedaConversion::select('*')
-            ->join('parm_moneda', 'parm_moneda.monId', '=', 'parm_moneda_conversion.monId')
-            ->where('moncFecha', $hoy->format('Y-m-d'))->get();
+        // Verificar si hay datos en MonedaConversion
+        $existenDatos = MonedaConversion::exists();
+
+        if (!$existenDatos) {
+            // Si no hay datos, consultamos el histórico
+            $anioActual = $hoy->year;
+            $anioAnterior = $anioActual - 1;
+            
+            $data = Moneda::where('monInt', 'S')->get();
+            
+            foreach($data as $item) {
+                try {
+                    $client = new \GuzzleHttp\Client([
+                        'verify' => false,
+                        'timeout' => 30,
+                        'connect_timeout' => 30
+                    ]);
+
+                    // Consultar datos del año actual
+                    $urlActual = 'http://api.cmfchile.cl/api-sbifv3/recursos_api/'.$item['monIntVal'].'/'.$anioActual.'?apikey=80e3f542faaf21efc24dd8111aca2eeb7dd28b28&formato=json';
+                    $responseActual = $client->request('GET', $urlActual);
+                    $datosActual = json_decode($responseActual->getBody(), true);
+
+                    // Consultar datos del año anterior
+                   /* $urlAnterior = 'http://api.cmfchile.cl/api-sbifv3/recursos_api/'.$item['monIntVal'].'/'.$anioAnterior.'?apikey=80e3f542faaf21efc24dd8111aca2eeb7dd28b28&formato=json';
+                    $responseAnterior = $client->request('GET', $urlAnterior);
+                    $datosAnterior = json_decode($responseAnterior->getBody(), true);*/
+
+                    // Procesar y guardar los datos
+                    $arr = $item['monIntArray'];
+                    if (isset($datosActual[$arr])) {
+                        foreach($datosActual[$arr] as $valor) {
+                            MonedaConversion::updateOrCreate(
+                                [
+                                    'monId' => $item['monId'],
+                                    'moncFecha' => Carbon::createFromFormat('Y-m-d', $valor['Fecha'])->format('Y-m-d')
+                                ],
+                                [
+                                    'moncValor' => str_replace(',', '.', str_replace('.', '', $valor['Valor']))
+                                ]
+                            );
+                        }
+                    }
+
+                   /* if (isset($datosAnterior[$arr])) {
+                        foreach($datosAnterior[$arr] as $valor) {
+                            MonedaConversion::updateOrCreate(
+                                [
+                                    'monId' => $item['monId'],
+                                    'moncFecha' => Carbon::createFromFormat('Y-m-d', $valor['Fecha'])->format('Y-m-d')
+                                ],
+                                [
+                                    'moncValor' => str_replace(',', '.', str_replace('.', '', $valor['Valor']))
+                                ]
+                            );
+                        }
+                    }*/
+
+                } catch (\GuzzleHttp\Exception\ConnectException $e) {
+                    return response()->json([
+                        'error' => true,
+                        'mensaje' => 'Error de conexión con API SBIF: ' . $e->getMessage()
+                    ], 500);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'error' => true,
+                        'mensaje' => 'Error al consultar API SBIF: ' . $e->getMessage()
+                    ], 500);
+                }
+            }
+        }
+
+        $validaHoy = MonedaConversion::where('moncFecha', $hoy->format('Y-m-d'))->exists();
+        $validaAnterior = MonedaConversion::where('moncFecha', $diaAnterior->format('Y-m-d'))->exists();
+
+        if ($validaHoy && $validaAnterior) {
+            $resultado = $this->obtenerResultadoFormateado($hoy, $diaAnterior);
+            return response()->json($resultado, 200);
         } else {
-            $data = Moneda::all()->where('monInt', 'S');
+            $data = Moneda::where('monInt', 'S')->get();
            
             foreach($data as $item){
-                $client = new Client([
-                    'base_uri'        => 'https://api.cmfchile.cl',
-                    'verify'          => false, 
-                    'headers'         => [
-                     //Your header here
-                ]
-              ]);           
-                try{
-                    $url = 'https://api.cmfchile.cl/api-sbifv3/recursos_api/'.$item['monIntVal'].'?apikey=80e3f542faaf21efc24dd8111aca2eeb7dd28b28&formato=json';                    
-                    $response   = $client->request('GET', $url);
-                    $statusCode = $response->getStatusCode();               
-                    $arr        = $item['monIntArray']; 
-                 
-                    if ($statusCode === 200) {
-                        $data = json_decode($response->getBody()->getContents(), true);
-                        if (isset($data[$arr]) && !empty($data[$arr])) {                        
-                            $valor = str_replace('.', '', $data[$arr][0]['Valor']); // Elimina los puntos separadores de miles
-                            $valor = str_replace(',', '.', $valor); // Reemplaza la coma por un punto para el decimal
-                            $fecha = $data[$arr][0]['Fecha'];                        
-                            $affected = MonedaConversion::create([                            
-                                'monId'     => $item['monId'],
-                                'moncFecha' =>$fecha ,
-                                'moncValor' =>$valor
-                            ]);
-                           
-                    }else{
-                        return 'Error en array';
-                    }
+                $client = new \GuzzleHttp\Client([
+                    'verify' => false,
+                    'timeout' => 30,
+                    'connect_timeout' => 30
+                ]);
+                
+                $fechasAConsultar = [];
+                if (!$validaHoy) $fechasAConsultar[] = $hoy;
+                if (!$validaAnterior) $fechasAConsultar[] = $diaAnterior;
             
-                    } else {
-                        return 'No se pudo obtener los datos. Código de estado: ' . $statusCode;
+                foreach($fechasAConsultar as $fecha) {
+                    if ($fecha->isWeekend()) {
+                        continue;
                     }
                     
-             
-                }catch(ClientException $e){
-                    try{
-                        $fecha = Carbon::now('America/Santiago');
-                        // Buscar el último registro de moneda creado
-                        $ultimoRegistro = MonedaConversion::where('monId', $item['monId'])
-                            ->latest('created_at')
-                            ->first();
+                    try {
+                        $url = 'http://api.cmfchile.cl/api-sbifv3/recursos_api/'.$item['monIntVal'].'?apikey=80e3f542faaf21efc24dd8111aca2eeb7dd28b28&formato=json';
+                        $response = $client->request('GET', $url);
+                        $datos = json_decode($response->getBody(), true);
+                        $arr = $item['monIntArray'];
 
-                        if ($ultimoRegistro) {
-                            // Si se encuentra un registro, usar su valor como valor para hoy
-                            $valor = $ultimoRegistro->moncValor;
-                        } else {
-                            // Si no se encuentra ningún registro, puedes asignar un valor predeterminado
-                            $valor = 0; // o algún otro valor predeterminado
+                        if (isset($datos[$arr])) {
+                            foreach($datos[$arr] as $valor) {
+                                MonedaConversion::updateOrCreate(
+                                    [
+                                        'monId' => $item['monId'],
+                                        'moncFecha' => Carbon::createFromFormat('Y-m-d', $valor['Fecha'])->format('Y-m-d')
+                                    ],
+                                    [
+                                        'moncValor' => str_replace(',', '.', str_replace('.', '', $valor['Valor']))
+                                    ]
+                                );
+                            }
                         }
-
-                        // Crear el nuevo registro con el valor obtenido
-                        $affected = MonedaConversion::create([
-                            'monId'     => $item['monId'],
-                            'moncFecha' => $fecha->format('Y-m-d'),
-                            'moncValor' => $valor
-                        ]);
-
-                    }catch(Exception $ex){
-                        return 'No se pudo obtener los datos. Código de estado: ' . $ex;
+                    } catch (\GuzzleHttp\Exception\ConnectException $e) {
+                        return response()->json([
+                            'error' => true,
+                            'mensaje' => 'Error de conexión con API SBIF: ' . $e->getMessage()
+                        ], 500);
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'error' => true,
+                            'mensaje' => 'Error al consultar API SBIF: ' . $e->getMessage()
+                        ], 500);
                     }
                 }
-                 
             }
 
-            return MonedaConversion::select('*')
-            ->join('parm_moneda', 'parm_moneda.monId', '=', 'parm_moneda_conversion.monId')
-            ->where('moncFecha', $hoy->format('Y-m-d'))->get();
-
+            $resultado = $this->obtenerResultadoFormateado($hoy, $diaAnterior);
+            return response()->json($resultado, 200);
         }
+    }
+
+    private function obtenerResultadoFormateado($hoy, $diaAnterior) {
+        $monedas = MonedaConversion::select(
+                'parm_moneda.monDes as nombre',
+                'parm_moneda.monCod as codigo',
+                'mc1.moncValor as valor_actual',
+                'mc2.moncValor as valor_anterior',
+                'mc1.moncFecha as fecha_actual',
+                'mc2.moncFecha as fecha_anterior'
+            )
+            ->from('parm_moneda_conversion as mc1')
+            ->join('parm_moneda', 'parm_moneda.monId', '=', 'mc1.monId')
+            ->leftJoin('parm_moneda_conversion as mc2', function($join) use ($diaAnterior) {
+                $join->on('mc2.monId', '=', 'mc1.monId')
+                    ->where('mc2.moncFecha', '=', $diaAnterior->format('Y-m-d'));
+            })
+            ->where('mc1.moncFecha', '=', $hoy->format('Y-m-d'))
+            ->get();
+
+        $resultado = [];
+        foreach ($monedas as $moneda) {
+            $resultado[] = [
+                'nombre' => $moneda->nombre,
+                'codigo' => $moneda->codigo,
+                'valor_actual' => [
+                    'fecha' => $moneda->fecha_actual,
+                    'valor' => floatval($moneda->valor_actual)
+                ],
+                'valor_anterior' => [
+                    'fecha' => $moneda->fecha_anterior,
+                    'valor' => floatval($moneda->valor_anterior)
+                ]
+            ];
+        }
+
+        return $resultado;
     }
 }

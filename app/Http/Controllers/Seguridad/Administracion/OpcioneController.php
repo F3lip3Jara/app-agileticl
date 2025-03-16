@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Seguridad\Administracion;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
+use App\Models\Seguridad\ModuleOpt;
 use App\Models\Seguridad\Opciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\Seguridad\Acciones;
 class OpcioneController extends Controller
 {
     public function index(Request $request)
@@ -43,7 +44,6 @@ class OpcioneController extends Controller
     {   
         $name        = $request['name'];
         $empId       = $request['emp'];
-
         $affected = Opciones::create([
             'optDes' => $request->optDes,
             'optLink' => $request->optLink,
@@ -68,17 +68,15 @@ class OpcioneController extends Controller
     {   
         $name        = $request['name'];
         $empId       = $request['emp'];
-    
-        $xid    = $request->optId;
-      //  $valida = Producto::all()->where('monId', $xid)->take(1);
-         $valida   = [];
-
+        $xid         = $request->optId;
+        $valida      = ModuleOpt::where('optId', $xid)->take(1)->get();
+        $valida2     = Acciones::where('optId', $xid)->take(1)->get();
         //si la variable es null o vacia elimino el rol
-        if (sizeof($valida) > 0) {
+        if (sizeof($valida) > 0 || sizeof($valida2) > 0) {
             //en el caso que no se ecuentra vacia no puedo eliminar
             $resources = array(
                 array(
-                    "error" => "1", 'mensaje' => "La Moneda no se puede eliminar",
+                    "error" => "1", 'mensaje' => "La opción no se puede eliminar",
                     'type' => 'danger'
                 )
             );

@@ -20,7 +20,17 @@ class Centro extends Model
         'cenDes',
         'cenDir',
         'cenCap',
-        'cenPlace'
+        'cenPlace',
+        'cenContacto',// Persona o número de contacto
+        'centEmail',// Correo de contacto
+        'cenHoraApertura',// Horario de apertura
+        'cenHoraCierre',// Horario de cierre
+        'cenStockLimitWeb',// Stock máximo disponible para ventas web
+        'cenStockLimiteRepo',// Stock para reabastecimiento interno
+       'cenEstado', 
+        'cenTelefono',// Extensión telefónica si aplica
+        'cenLat',
+        'cenLong'
 
     ];
     public function getCreatedAtAttribute($value){

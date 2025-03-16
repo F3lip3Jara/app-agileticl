@@ -26,7 +26,13 @@ class postMiddleware
         $val = User::select('token', 'id', 'activado', 'name', 'rolId', 'empId', 'reinicio')->where('token', $header)->get();
         
         if ($header == '') {
-            return response()->json('error', 203);
+            $resources = array(
+                array(
+                    "error" => "99", 'mensaje' => "Error",
+                    'type' => 'danger'
+                )
+            );
+            return response()->json($resources, 203);
         } else {
             foreach ($val as $item) {
                 if ($item->activado == 'A') {
@@ -61,11 +67,11 @@ class postMiddleware
             } else {
                 $resources = array(
                     array(
-                        "error" => "1", 'mensaje' => "Usuario desactivado",
+                        "error" => "99", 'mensaje' => "Usuario desactivado",
                         'type' => 'danger'
                     )
                 );
-                return response()->json($resources, 200);
+                return response()->json($resources, 203);
             }
         }
     }    

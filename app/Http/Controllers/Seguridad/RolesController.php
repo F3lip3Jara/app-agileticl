@@ -106,8 +106,7 @@ class RolesController extends Controller
 
     public function rolSnAsig (Request $request){    
         $molId = $request['molId'];
-        $empId = $request['empId'];
-
+        $empId = $request['empId'];     
         $rolesNoExistente = DB::table('segu_roles')       
         ->leftJoin('segu_emp_mol_rol', function ($join) use ($empId, $molId) {
             $join->on('segu_emp_mol_rol.rolId', '=', 'segu_roles.rolId')      

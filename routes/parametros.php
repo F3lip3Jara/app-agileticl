@@ -18,6 +18,8 @@ use App\Http\Controllers\Parametros\SubGrupoController;
 use App\Http\Controllers\Parametros\TipoPagoController;
 use App\Http\Controllers\Parametros\UnidadMedidaController;
 use App\Http\Controllers\Parametros\ProductoController;
+use App\Http\Controllers\Parametros\TallaController;
+use App\Models\Parametros\Talla;
 use Illuminate\Support\Facades\Route;
 
       
@@ -156,5 +158,12 @@ use Illuminate\Support\Facades\Route;
       Route::post('insEtapas'     , [EtapasController ::class,'ins']);
       Route::post('delEtapas'     , [EtapasController ::class,'del']);
       Route::post('updEtapas'     , [EtapasController ::class,'up']);
+
+     //Color
+     Route::get('trabTalla'       , [TallaController::class,'index']);
+     Route::post('insTalla'       , [TallaController::class,'ins']);
+     Route::post('delTalla'       , [TallaController::class,'del']);
+     Route::post('updTalla'       , [TallaController::class,'update']);
+     Route::get('valTalla'       , [TallaController::class,'valColCod']);
 
 ?>

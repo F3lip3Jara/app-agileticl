@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Jobs;
+use App\Jobs\OmsProductWebHook;
+use App\Jobs\OmsOrderWebhook;
 
 use App\Models\Oms\WebhookOms;
 use App\Models\Seguridad\Empresa;
@@ -9,9 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
-
-use function PHPUnit\Framework\isJson;
 
 class OmsPrdWebhook implements ShouldQueue
 {
@@ -45,7 +44,8 @@ class OmsPrdWebhook implements ShouldQueue
 
              // Dispatch el job correspondiente según el recurso
              if($obj->x_wc_webhook_topic == "product.updated"  || $obj->x_wc_webhook_topic == "product.created" ){
-                dispatch(new OmsProductWebhook($empId));
+                dispatch(new OmsProductWebHook($empId));
+                
             } else 
                 if ($obj->x_wc_webhook_topic == "order.created"  || $obj->x_wc_webhook_topic == "order.updated") {
                     dispatch(new OmsOrderWebhook());

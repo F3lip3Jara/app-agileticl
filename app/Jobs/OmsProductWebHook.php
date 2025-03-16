@@ -50,9 +50,14 @@ class OmsProductWebHook implements ShouldQueue
                 // Lógica específica para productos
                 if (isJson($obj->json)) {
                     $json = json_decode($obj->json);
+                 
         
                 if($json->type=='variable'){
-                    $id = $json->id;
+                    $id          = $json->id;
+                    $name        = $json->name;
+                    $slug        = $json->slug;
+                    $descripcion = $json->description;
+
                     // Construir la URL base
                     $baseUrl = 'https://app.ecommerce.agileti.cl/wp-json/wc/v3/products/'.$id.'/variations/';   
                     
@@ -65,7 +70,7 @@ class OmsProductWebHook implements ShouldQueue
                     if ($response->successful()) {
                         $data = $response->json();
                         foreach($data as $item){
-                            $omsServiceProducto->manejarProducto($item, $this->empId);
+                            $omsServiceProducto->manejarProducto($item, $this->empId , $name, $slug , $descripcion , 'V');
 
                         } 
                         $affected = WebhookOms::where('omshId', $obj->omshId)->update([
@@ -81,7 +86,12 @@ class OmsProductWebHook implements ShouldQueue
 
                     
                 }else{
-                    $omsServiceProducto->manejarProducto($json, $this->empId);
+                    $omsServiceProducto->manejarProducto($json, $this->empId , $name , $slug , $descripcion , 'S');
+
+                    $affected = WebhookOms::where('omshId', $obj->omshId)->update([
+                        'web_estado' => 'S'
+                    ]);
+
                     Log::info("Producto procesado ".$obj->omshId );
                     continue;
                 }

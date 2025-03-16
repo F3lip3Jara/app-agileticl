@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('reiniciar'     , [UserController::class,'reiniciar']);
     Route::post('deshabilitar'  , [UserController::class,'deshabilitar']);
     Route::post('habilitar'     , [UserController::class,'habilitar']);
-    
+    Route::post('cambiarPassword', [UserController::class,'cambiarPassword']);
 
     //Menu
     Route::get('usuarioMenu'    , [MenuController::class, 'index'] );    

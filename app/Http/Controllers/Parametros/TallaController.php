@@ -45,8 +45,8 @@ class TallaController extends Controller
         $empId       = $request['empId'];
 
         $affected = Talla::create([
-            'tallaCod' => $request->colCod,
-            'tall' => $request->colDes,
+            'tallaCod' => $request->tallaCod,
+            'tallaDes' => $request->tallaDes,
             'empId'  => $empId
         ]);
 
