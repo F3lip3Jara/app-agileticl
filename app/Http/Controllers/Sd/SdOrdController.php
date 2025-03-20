@@ -100,7 +100,7 @@ class SdOrdController extends Controller
              ]);
 
              if (isset($affected)) {
-                     $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
                      dispatch($job); 
                      $job = new SdOrdenJobTemp($empId);         
                      dispatch($job);             
@@ -151,7 +151,7 @@ class SdOrdController extends Controller
         
             
                 if (isset($affected)) {
-                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
                     dispatch($job);
                     $job = new StockMov($empId, $idUser, $name, $centroId, $almId);
                     dispatch($job);         
@@ -220,7 +220,7 @@ class SdOrdController extends Controller
             );
 
             if ($affected > 0) {
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes']);
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
                 dispatch($job);  
                 $job = new SdCierreTraslado($empId, $iblpns);
                 dispatch($job);      

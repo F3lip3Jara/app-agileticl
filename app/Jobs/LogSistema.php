@@ -22,8 +22,9 @@ class LogSistema implements ShouldQueue
     private $name;
     private $empId;
     private $etaDesDes;
+    private $etaTip;
 
-    public function __construct( $etaId ,$etaDesId, $name , $empId, $etaDesDes )
+    public function __construct( $etaId ,$etaDesId, $name , $empId, $etaDesDes, $etaTip )
     {
        
         $this->etaId      = $etaId;
@@ -31,7 +32,7 @@ class LogSistema implements ShouldQueue
         $this->name       = $name;
         $this->empId      = $empId;
         $this->etaDesDes  = $etaDesDes;
-
+        $this->etaTip     = $etaTip;
     }
 
     /**
@@ -51,7 +52,9 @@ class LogSistema implements ShouldQueue
             'lgDes'      => $this->etaDesDes,
             'lgDes1'     => $lgDes1,
             'lgTip'      => 1,
-            'lgId'       => 1
+            'lgId'       => 1,
+            'lgDes2'     => $this->etaTip
+
         ]);
     
     }

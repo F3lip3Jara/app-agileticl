@@ -164,6 +164,6 @@ use Illuminate\Support\Facades\Route;
      Route::post('insTalla'       , [TallaController::class,'ins']);
      Route::post('delTalla'       , [TallaController::class,'del']);
      Route::post('updTalla'       , [TallaController::class,'update']);
-     Route::get('valTalla'       , [TallaController::class,'valColCod']);
+     Route::get('valTalla'        , [TallaController::class,'valColCod']);
 
 ?>

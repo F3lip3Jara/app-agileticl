@@ -86,7 +86,7 @@ class UserController extends Controller
                   $name     = $user->name;
                   $empId    = $user->empId; 
                  // $encrypted =bcrypt($resources);
-                  $job = new LogSistema($etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO');
+                  $job = new LogSistema($etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO' , 'success');
                   dispatch($job);
                   event(new MensajeEvent('Hola desde el servidor'));
                   
@@ -176,7 +176,7 @@ class UserController extends Controller
                   $name     = $user->name;
                   $empId    = $user->empId; 
 
-                  $job = new LogSistema($etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO PDA');
+                  $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
                   dispatch($job);
                   event(new MensajeEvent('Hola desde el servidor'));
                   return response()->json($resources, 200);
@@ -353,7 +353,7 @@ class UserController extends Controller
 
                 ]);
 
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $nameI , $emp , $request->log['0']['accDes']);
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
                  dispatch($job);                
                 $resources = array(
                     array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -409,7 +409,7 @@ class UserController extends Controller
             'emploAvatar' => $usuario->emploAvatar,
         ]);
     
-        $job = new LogSistema($request->log['0']['optId'], $request->log['0']['accId'], $request->name, $request->empId, $request->log['0']['accDes']);
+        $job = new LogSistema($request->log['0']['optId'], $request->log['0']['accId'], $request->name, $request->empId, $request->log['0']['accDes'] , $request->log['0']['accTip']);
         dispatch($job);    
         $resources = array(
             array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -489,8 +489,8 @@ class UserController extends Controller
         ]);
 
         if ($valida == 1) {                        
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'].'('.$xname.')');
-                dispatch($job);                
+             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
+               dispatch($job);                
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
@@ -531,7 +531,7 @@ class UserController extends Controller
 
 
         if ($valida == 1) {                        
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'].'('.$xname.')');
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
             dispatch($job);                
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -570,7 +570,8 @@ class UserController extends Controller
         ]);
 
         if ($valida == 1) {                        
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'].'('.$xname.')');
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
+
                 dispatch($job);                
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])

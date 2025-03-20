@@ -15,12 +15,12 @@ class subOpcionesController extends Controller
 {
     public function index(Request $request){
         $empId = $request['empId'];
-        $modulo = json_decode($request['modulo']);       
+        $modulo = json_decode($request['modulo']);  
         return SubModulo::select('*')->where('empId', $empId)->where('molId', $modulo->molId)->get();
     }
 
     public function sinAsig(Request $request){
-        
+
         $empId  = $request['empId'];     
         $modulo = json_decode($request['modulo']);          
         
@@ -101,15 +101,15 @@ class subOpcionesController extends Controller
         }
 
         if( isset( $affected)){
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                 $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
                 dispatch($job); 
                 $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
         );
         return response()->json($resources, 200);
       
+     }
     }
-  }
 
   public function del(Request $request){
     $empId  = $request['empId'];     
@@ -131,29 +131,27 @@ class subOpcionesController extends Controller
                     'empId' => $empId
                  ]);
 
-                $affected2 = SubModuloOpt::where('molId', $molId)
-                                        ->where('optId', $optId)
-                                        ->where('empId', $empId)
-                                        ->where('molsId', $molsId)
-                                        ->delete(); 
+              
                 }
     
-          
+         $affected2 = SubModuloOpt::where('empId', $empId)
+        ->where('molsId', $molsId)
+        ->delete(); 
+
         $affected = SubModulo::where('molsId', $molsId)
                     ->where('empId', $empId)
                     ->delete();
 
 
         if (isset($affected)) {
-            
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
-            dispatch($job); 
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
+            dispatch($job);            
             $resources = array(
                 array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
-            );
-            return response()->json($resources, 200); 
-        
+            ); 
+            return response()->json($resources, 200);
         }
+
         }catch(Exception $ex){
             $resources = array(
                 array("error" => "1", 'mensaje' => "El Sub módulo no se puede eliminar",
