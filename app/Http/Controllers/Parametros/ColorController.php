@@ -16,15 +16,14 @@ class ColorController extends Controller
         return Color::select('*')->get();
     }
 
-    public function update(Request $request)
-    {   
+    public function update(Request $request)    {   
         $name        = $request['name'];
         $empId       = $request['empId'];
+        $data        = $request->all();
 
-        $affected = Color::where('colId', $request->colId)->update(
-            [
-                'colCod' => $request->colCod,
-                'colDes' => $request->colDes
+        $affected = Color::where('colId', $data['colId'])->update([
+            'colCod' => $data['colCod'],
+            'colDes' => $data['colDes'],
             ]
         );
 
@@ -42,14 +41,20 @@ class ColorController extends Controller
 
     public function ins(Request $request)
     {
-        $name        = $request['name'];
-        $empId       = $request['empId'];
+       // $name        = $request->name;
+       // $empId       = $request->empId;
 
+        $data  = $request->all();
+        $name        = $data['name'];
+        $empId       = $data['empId'];
+
+   
         $affected = Color::create([
-            'colCod' => $request->colCod,
-            'colDes' => $request->colDes,
-            'empId'  => $empId
+            'colCod' => $data['colCod'],
+            'colDes' => $data['colDes'],
+            'empId'  => $data['empId']
         ]);
+
 
         if (isset($affected)) {
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
@@ -111,5 +116,25 @@ class ColorController extends Controller
         }
 
         return response()->json($count, 200);
+    }
+
+    public function colorInfo(){
+
+        $data = request()->all();
+        $colCod = $data['colCod'];
+
+        $response = [];
+
+        $json = file_get_contents(__DIR__ . '/colorjson.json');
+        $data = json_decode($json);
+        $colorFound = collect($data)->firstWhere('hex', $colCod);
+        if($colorFound){
+            $response = $colorFound;
+            return response()->json($response , 200);
+        }else{
+            return response()->json($response , 200);
+        }
+
+  
     }
 }

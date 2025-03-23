@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sd;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Sd\Centro;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CentroController extends Controller
@@ -18,18 +19,26 @@ class CentroController extends Controller
     {   
         $name        = $request['name'];
         $empId       = $request['empId'];
+   
 
-      
-
+     
         $affected = Centro::where('centroId', $request->centroId)
         ->where('empId', $empId)
         ->update(
             [
-                
-                'cenDes'   => $request->cenDes,
-                'cenDir'   => $request->cenDir,
-                'cenCap'   => 0,
-                'cenPlace' =>json_encode($request->cenPlace) 
+                'cenDes'             => $request->cenDes,
+                'cenDir'             => $request->cenDir,           
+                'cenCap'             => $request->cenCap,         
+                'cenContacto'        => $request->cenContacto,
+                'centEmail'          => $request->centEmail,
+                'cenHoraApertura'    => $request->cenHoraApertura,
+                'cenHoraCierre'      => $request->cenHoraCierre,
+                'cenStockLimitWeb'   => $request->cenStockLimitWeb,
+                'cenStockLimiteRepo' => $request->cenStockLimiteRepo, 
+                'cenTelefono'        => $request->cenTelefono,
+                'cenLat'             => $request->cenLat,
+                'cenLong'            => $request->cenLong,      
+                'cenPlace'           => json_encode($request->cenDiasLaborales)
             ]
         );
 
@@ -50,12 +59,23 @@ class CentroController extends Controller
         $name        = $request['name'];
         $empId       = $request['empId'];
 
-        $affected = Centro::create([
-            'empId'    => $empId,
-            'cenDes'   => $request->cenDes,
-            'cenDir'   => $request->cenDir,
-            'cenCap'   => 0,
-            'cenPlace' =>json_encode($request->cenPlace) 
+        $horaApertura = Carbon::parse($request->cenHoraApertura)->format('Y-m-d H:i:s');
+        $horaCierre = Carbon::parse($request->cenHoraCierre)->format('Y-m-d H:i:s');  
+        $affected = Centro::create([        
+            'empId'          => $request->empId,
+            'cenDes'         => $request->cenDes,
+            'cenDir'         => $request->cenDir,           
+            'cenCap'         => $request->cenCap,         
+            'cenContacto'    => $request->cenContacto,
+            'centEmail'      => $request->centEmail,
+            'cenHoraApertura' => $horaApertura,
+            'cenHoraCierre'    => $horaCierre,
+            'cenStockLimitWeb' => $request->cenStockLimitWeb,
+            'cenStockLimiteRepo'=> $request->cenStockLimiteRepo, 
+            'cenTelefono'    => $request->cenTelefono,
+            'cenLat'         => $request->cenLat,
+            'cenLong'        => $request->cenLong,      
+            'cenPlace' => json_encode($request->cenDiasLaborales)
         ]);
 
         if (isset($affected)) {

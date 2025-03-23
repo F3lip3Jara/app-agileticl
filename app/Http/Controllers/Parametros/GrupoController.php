@@ -19,11 +19,12 @@ class GrupoController extends Controller
     {
         $name        = $request['name'];
         $empId       = $request['empId'];
+        $data        = $request->all();
 
-        $affected = Grupo::where('grpId', $request->grpId)->update(
+        $affected = Grupo::where('grpId', $data['grpId'])->update(
             [
-                'grpCod' => $request->grpCod,
-                'grpDes' => $request->grpDes
+                'grpCod' => $data['grpCod'],
+                'grpDes' => $data['grpDes']
 
             ]
         );
@@ -44,10 +45,11 @@ class GrupoController extends Controller
     {
         $name        = $request['name'];
         $empId       = $request['empId'];
+        $data        = $request->all();
         
         $affected = Grupo::create([
-            'grpCod' => $request->grpCod,
-            'grpDes' => $request->grpDes,
+            'grpCod' => $data['grpCod'],
+            'grpDes' => $data['grpDes'],
             'empId'  => $empId
         ]);
 

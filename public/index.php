@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 date_default_timezone_set('America/Santiago');
 define('LARAVEL_START', microtime(true));
 set_time_limit(240);
-mb_internal_encoding('UTF-8');
+//mb_internal_encoding('UTF-8');
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: *");
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');

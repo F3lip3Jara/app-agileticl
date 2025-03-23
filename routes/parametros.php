@@ -88,6 +88,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('delColor'       , [ColorController::class,'del']);
     Route::post('updColor'       , [ColorController::class,'update']);
     Route::get('valColCod'       , [ColorController::class,'valColCod']);
+    Route::get('colorInfo'       , [ColorController::class,'colorInfo']);
     //Unidad
     Route::get('trabUnidad'      , [UnidadMedidaController::class,'index']);
     Route::post('insUnidad'      , [UnidadMedidaController::class,'ins']);

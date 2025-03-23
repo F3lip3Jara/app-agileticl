@@ -35,16 +35,17 @@ class UserController extends Controller
             $crf      = '';
             $empNom   = '';
             $empApe   = '';
-
-        if (Auth::attempt(['name' => $email, 'password' => $password], $remember)) {
+            
+            
+        if (Auth::attempt(['name' => $email, 'password' => $password])) {
             $token = Str::random(60);
             $user  = Auth::user();
-            
-            if ($user->activado == 'A') {
+            $activo = trim($user->activado);
+            if ($activo == 'A') {
                 $idUser = $user->id;
                 User::where('id', $idUser)
                     ->update(['token' => $token]);             
-                
+                 
                 $crf = csrf_token();
                 $imgx = Empleado::select('emploAvatar', 'emploNom' , 'emploApe')->where('id', $idUser)->get();
 
@@ -63,7 +64,7 @@ class UserController extends Controller
                 $imgEmp         =  $xempresa[0]['empImg'];
                 $controller     =  new MenuController;
                 $menu           =  $controller->index($user->empId , $user->rolId);   
-                
+              
                 $resources =
                     array(
                         'id'       => $user->id,
@@ -89,7 +90,7 @@ class UserController extends Controller
                   $job = new LogSistema($etaId , $etaDesId , $name , $empId , 'LOGEO DE USUARIO' , 'success');
                   dispatch($job);
                   event(new MensajeEvent('Hola desde el servidor'));
-                  
+                
                   return response()->json($resources, 200);
             } else {
                 $resources = array(
@@ -431,16 +432,21 @@ class UserController extends Controller
     {
         try {
             $data = request()->all();
+            return $data;
+            $usuario = json_decode(base64_decode($data['usuario']));
+            $imgName  =  $usuario->imgName;
+            $name     =  $usuario->name;
+            $emploNom = $usuario->empName;
+            $emploApe = $usuario->empApe;
+            $id = User::where('name', $name)->get();
            
-            foreach ($data as $itemx) {
-                $imgName =  $itemx['imgName'];
-                $id      =  $itemx['idUser'];
-            }
-
+            return $id;
             $valida = Empleado::where('id', $id)->update([
-                'emploAvatar' => $imgName
+                'emploAvatar' => $imgName,
+                'emploNom'    => $emploNom,
+                'emploApe'    => $emploApe
             ]);
-            return $valida;
+        
             if ($valida == 1) {
                 $resources = array(
                     array(
@@ -456,7 +462,7 @@ class UserController extends Controller
                         'type' => 'danger'
                     )
                 );
-                return response()->json($resources, 200);
+                return response()->json($resources, 500);
             }
         } catch (Exception $ex) {
             return $ex;
@@ -609,5 +615,4 @@ class UserController extends Controller
 
        
     }
-
 }

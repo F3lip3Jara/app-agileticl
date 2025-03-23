@@ -87,8 +87,8 @@ return new class extends Migration
             $table->timestamps();
 
             // Relaciones
-            $table->foreign('cliId')->references('cliId')->on('parm_clientes')->onDelete('cascade');
-            $table->foreign('empId')->references('empId')->on('parm_empresa')->onDelete('cascade');
+           // $table->foreign('cliId')->references('cliId')->on('parm_clientes')->onDelete('cascade');
+           // $table->foreign('empId')->references('empId')->on('parm_empresa')->onDelete('cascade');
         });
 
         // Tabla Lineas de Ordenes

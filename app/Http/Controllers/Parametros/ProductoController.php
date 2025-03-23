@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Parametros;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogSistema;
 use App\Models\Parametros\Producto;
+use App\Models\Parametros\Moneda;
 use App\Models\viewProductos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -41,37 +42,58 @@ class ProductoController extends Controller
     public function update(Request $request)
     {
         $name        = $request['name'];
-        $empId       = $request['empId'];
+        $empId       = $request['empId'];   
+        $data        = $request->all();
+        $codigo_externo = $data['id_ext'];
+        $url = $data['url'];
+        if($codigo_externo == null){
+            $codigo_externo = 0;
+        }
+        if($url == null){
+            $url = '';
+        }
+       
+        $monId = Moneda::where('monCod', $data['moneda'])->first()->monId;
 
-        $affected = Producto::where('prdId', $request->prdId)
+        $affected = Producto::where('prdId', $data['id'])
         ->where('empId', $empId)
         ->update([
-            
-            'prdDes'   => $request->prdDes,
-            'prdObs'   => $request->prdObs,           
-            'prdTip'   => $request->prdTip,
-            'prdCost'  => $request->prdCost,
-            'prdNet'   => $request->prdNet,
-            'prdBrut'  => $request->prdBrut,
-            'prdInv'   => $request->prdInv,
-            'prdPes'   => $request->prdPes,
-            'prdMin'   => $request->prdMin,
-            'monId'    => $request->monId,
-            'grpId'    => $request->grpId,
-            'grpsId'   => $request->grpsId,
-            'unId'     => $request->unId,
-            'colId'    => $request->colId,
-          
+            'prdEan'   => $data['cod_barra'],
+            'prdCod'   => $data['cod_pareo'],
+            'prdDes'   => $data['descripcion'],
+            'prdObs'   => $data['observaciones'],
+            'prdRap'   => substr($data['cod_pareo'], 0, 6),
+            'prdTip'   => $data['tipo']['code'],
+            'prdCost'  => $data['costo'],
+            'prdNet'   => $data['neto'],
+            'prdBrut'  => $data['bruto'],
+            'prdInv'   => $data['inventariable'],  
+            'prdPes'   => $data['peso'],
+            'prdMin'   => $data['minimo'],
+            'monId'    => $monId,
+            'grpId'    => $data['grupo']['id'],
+            'grpsId'   => $data['sub_grupo']['id'],
+            'unId'     => $data['medida']['id'],
+            'colId'    => $data['color']['id'],
+            'empId'    => $empId,
+            'prdIdExt' => $codigo_externo,
+            'prdUrl'   => $url,           
+            'tallaId'  => $data['talla']['id'],
+            'prdAncho' => $data['ancho'],
+            'prdLargo' => $data['largo'],
+            'prdAlto'  => $data['alto'],
+            'prdPeso'  => $data['peso'],
+            'prdVolumen' => $data['volumen']
         ]);
-        if (isset($affected)) {
+        if( isset( $affected)){
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
-            dispatch($job);            
+            dispatch($job); 
             $resources = array(
-            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
             return response()->json($resources, 200);
-        } else {
-            return response()->json('error', 204);
+        }else{
+            return response()->json('error' , 204);
         }
     }
 
@@ -80,37 +102,57 @@ class ProductoController extends Controller
 
         $name        = $request['name'];
         $empId       = $request['empId'];   
+        $data        = $request->all();
+        $codigo_externo = $data['id_ext'];
+        $url = $data['url'];
+        if($codigo_externo == null){
+            $codigo_externo = 0;
+        }
+        if($url == null){
+            $url = '';
+        }
+       
+        $monId = Moneda::where('monCod', $data['moneda'])->first()->monId;
+
 
         $affected = Producto::create([
-            'prdEan'   => $request->prdEan,
-            'prdCod'   => $request->prdCod,
-            'prdDes'   => $request->prdDes,
-            'prdObs'   => $request->prdObs,
-            'prdRap'   => substr($request->prdCod, 0, 6),
-            'prdTip'   => $request->prdTip,
-            'prdCost'  => $request->prdCost,
-            'prdNet'   => $request->prdNet,
-            'prdBrut'  => $request->prdBrut,
-            'prdInv'   => $request->prdInv,
-            'prdPes'   => $request->prdPes,
-            'prdMin'   => $request->prdMin,
-            'monId'    => $request->monId,
-            'grpId'    => $request->grpId,
-            'grpsId'   => $request->grpsId,
-            'unId'     => $request->unId,
-            'colId'    => $request->colId,
-            'empId'    => $empId
+            'prdEan'   => $data['cod_barra'],
+            'prdCod'   => $data['cod_pareo'],
+            'prdDes'   => $data['descripcion'],
+            'prdObs'   => $data['observaciones'],
+            'prdRap'   => substr($data['cod_pareo'], 0, 6),
+            'prdTip'   => $data['tipo']['code'],
+            'prdCost'  => $data['costo'],
+            'prdNet'   => $data['neto'],
+            'prdBrut'  => $data['bruto'],
+            'prdInv'   => $data['inventariable'],  
+            'prdPes'   => $data['peso'],
+            'prdMin'   => $data['minimo'],
+            'monId'    => $monId,
+            'grpId'    => $data['grupo']['id'],
+            'grpsId'   => $data['sub_grupo']['id'],
+            'unId'     => $data['medida']['id'],
+            'colId'    => $data['color']['id'],
+            'empId'    => $empId,
+            'prdIdExt' => $codigo_externo,
+            'prdUrl'   => $url,           
+            'tallaId'  => $data['talla']['id'],
+            'prdAncho' => $data['ancho'],
+            'prdLargo' => $data['largo'],
+            'prdAlto'  => $data['alto'],
+            'prdPeso'  => $data['peso'],
+            'prdVolumen' => $data['volumen']
         ]);
 
-        if (isset($affected)) {
+        if( isset( $affected)){
             $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accDes'], $request->log['0']['accTip']);
-            dispatch($job);            
+            dispatch($job); 
             $resources = array(
-            array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
+                array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
             );
             return response()->json($resources, 200);
-        } else {
-            return response()->json('error', 204);
+        }else{
+            return response()->json('error' , 204);
         }
     }
 

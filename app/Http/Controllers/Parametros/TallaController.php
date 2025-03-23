@@ -19,11 +19,11 @@ class TallaController extends Controller
     {   
         $name        = $request['name'];
         $empId       = $request['empId'];
-
-        $affected = Talla::where('tallaId', $request->tallaId)->update(
+        $data        = $request->all();
+        $affected = Talla::where('tallaId', $data['tallaId'])->update(
             [
-                'tallCod' => $request->colCod,
-                'TallaDes' => $request->colDes
+                'tallaCod' => $data['tallaCod'],
+                'tallaDes' => $data['tallaDes'],
             ]
         );
 
@@ -43,10 +43,10 @@ class TallaController extends Controller
     {
         $name        = $request['name'];
         $empId       = $request['empId'];
-
+        $data        = $request->all();
         $affected = Talla::create([
-            'tallaCod' => $request->tallaCod,
-            'tallaDes' => $request->tallaDes,
+            'tallaCod' => $data['tallaCod'],
+            'tallaDes' => $data['tallaDes'],
             'empId'  => $empId
         ]);
 

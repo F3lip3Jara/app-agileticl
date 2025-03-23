@@ -35,7 +35,12 @@ class Producto extends Model
         'prdIdExt',
         'prdUrl',
         'prdMig',
-        'tallaId'
+        'tallaId',
+        'prdAncho',
+        'prdLargo',
+        'prdAlto',
+        'prdPeso',
+        'prdVolumen'
     ];
     public function getCreatedAtAttribute($value){
         return Carbon::createFromTimestamp(strtotime($value))

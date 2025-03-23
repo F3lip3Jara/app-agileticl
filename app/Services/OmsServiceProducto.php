@@ -71,11 +71,11 @@ class OmsServiceProducto
                         'web_estado' => 'S'
                 ]);*/
                 if (isset($affected)) {
-                    $job = new LogSistema( 36 , 41 , 'root', 1 , "ACTUALIZACIÓN  DE PRODUCTO");
+                    $job = new LogSistema( 36 , 41 , 'root', 1 , "ACTUALIZACIÓN  DE PRODUCTO", 'success');
                     dispatch($job);            
                    
                 } else {
-                    $job = new LogSistema( 36 , 40 , 'root', 1 , "ERROR ACTUALIZACIÓN DE PRODUCTO");
+                    $job = new LogSistema( 36 , 40 , 'root', 1 , "ERROR ACTUALIZACIÓN DE PRODUCTO" , 'danger');
                     dispatch($job);        
                 }
             }
@@ -113,11 +113,11 @@ class OmsServiceProducto
             ]);*/
     
              if (isset($affected)) {
-                $job = new LogSistema( 36 , 41 , 'root', 1 , "INGRESO DE PRODUCTO");
+                $job = new LogSistema( 36 , 41 , 'root', 1 , "INGRESO DE PRODUCTO" , 'success');
                 dispatch($job);            
                
             } else {
-                $job = new LogSistema( 36 , 40 , 'root', 1 , "ERROR INGRESO DE PRODUCTO");
+                $job = new LogSistema( 36 , 40 , 'root', 1 , "ERROR INGRESO DE PRODUCTO" , 'danger');
                 dispatch($job);        
             }
          }  

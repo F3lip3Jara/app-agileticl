@@ -29,10 +29,11 @@ class SubGrupoController extends Controller
     public function update(Request $request)
     {
         $name        = $request['name'];
-        $empId       = $request['empId'];       
-        $affected = SubGrupo::where('grpsId', $request->grpsId)->update([
-            'grpsCod' => $request->grpsCod,
-            'grpsDes' => $request->grpsDes
+        $empId       = $request['empId'];               
+        $data        = $request->all();
+        $affected = SubGrupo::where('grpsId', $data['grpsId'])->update([
+            'grpsCod' => $data['grpsCod'],
+            'grpsDes' => $data['grpsDes']
         ]);
 
         if ($affected > 0) {
@@ -51,12 +52,13 @@ class SubGrupoController extends Controller
     {
         $name        = $request['name'];
         $empId       = $request['empId'];     
+        $data        = $request->all();
 
         $affected = SubGrupo::create([
-            'grpId'   => $request->grpId,
+            'grpId'   => $data['grpId'],
             'empId'   => $empId,
-            'grpsCod' => $request->grpsCod,
-            'grpsDes' => $request->grpsDes
+            'grpsCod' => $data['grpsCod'],
+            'grpsDes' => $data['grpsDes']
         ]);
 
         if (isset($affected)) {

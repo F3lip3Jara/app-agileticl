@@ -64,7 +64,7 @@ class RolesModuloController extends Controller
         }
 
         if (isset($affected)) {
-            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+            $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes'],$request->log['0']['accType']);
                     dispatch($job); 
             $resources = array(
                       array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -120,7 +120,7 @@ class RolesModuloController extends Controller
                 }
                 
                 if (isset($affected)) {
-                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                    $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes'],$request->log['0']['accType']);
                     dispatch($job); 
                     $resources = array(
                         array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -159,7 +159,7 @@ class RolesModuloController extends Controller
                     }
             
                     if (isset($affected)) {
-                        $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                        $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes'],$request->log['0']['accType']);
                         dispatch($job); 
                         $resources = array(
                             array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
@@ -197,7 +197,7 @@ class RolesModuloController extends Controller
 
             if (isset($affected2)) {
                 
-                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes']);
+                $job = new LogSistema( $request->log['0']['optId'] , $request->log['0']['accId'] , $name , $empId , $request->log['0']['accetaDes'],$request->log['0']['accType']);
                 dispatch($job); 
                 $resources = array(
                     array("error" => '0', 'mensaje' => $request->log['0']['accMessage'], 'type' => $request->log['0']['accType'])
